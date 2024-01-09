@@ -12,6 +12,6 @@ package subskill.subskill.api;
 		String WRONG_DATE_FORMAT = "Wrong date format, must be YYYY-MM-dd";
 		String MISSING_PERSON_EMAIL = "Missing email address";
 		String WRONG_EMAIL_FORMAT = "Wrong email format";
-		
+		 
 	}
 
