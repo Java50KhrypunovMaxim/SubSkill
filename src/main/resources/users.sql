@@ -7,4 +7,6 @@ CREATE TABLE users (
                       nickname VARCHAR(30),
                       status VARCHAR(20),
                       imageUrl VARCHAR(255)
+
 );
+ALTER TABLE users ADD COLUMN role VARCHAR(15);

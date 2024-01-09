@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Data
 @AllArgsConstructor
@@ -24,9 +25,15 @@ public class Users {
     private String email;
     @Column(name = "nickname",nullable = false,unique = true)
     private String nickname;
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("ONLINE")
     @Column(name = "status")
-    private String status;
+    private Status status;
     @Column(name = "imageUrl")
     private String imageUrl;
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("USER")
+    @Column(name = "role", nullable = false)
+    private Roles role;
 
 }
