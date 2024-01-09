@@ -1,7 +1,6 @@
 package subskill.subskill.api;
 
 	public interface ValidationConstants {
-		
 		long MIN_PERSON_ID_VALUE = 100000l;
 		long MAX_PERSON_ID_VALUE = 999999l;
 		String WRONG_MIN_PERSON_ID_VALUE = "Person ID must be greater or equal " + MIN_PERSON_ID_VALUE;
@@ -12,6 +11,5 @@ package subskill.subskill.api;
 		String WRONG_DATE_FORMAT = "Wrong date format, must be YYYY-MM-dd";
 		String MISSING_PERSON_EMAIL = "Missing email address";
 		String WRONG_EMAIL_FORMAT = "Wrong email format";
-		 
 	}
 
