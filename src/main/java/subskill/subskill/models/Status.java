@@ -1,4 +1,4 @@
-package subskill.subskill.models;
+package subskill.subskill.models.enums;
 
 public enum Status {
     ONLINE,OFFLINE
