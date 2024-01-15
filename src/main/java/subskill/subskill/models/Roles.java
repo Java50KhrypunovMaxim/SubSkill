@@ -1,4 +1,4 @@
-package subskill.subskill.models.enums;
+package subskill.subskill.models;
 
 public enum Roles {
     USER,ADMIN
