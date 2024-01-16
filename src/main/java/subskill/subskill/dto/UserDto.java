@@ -21,7 +21,7 @@ import lombok.Getter;
 import subskill.subskill.models.Roles;
 import subskill.subskill.models.Status;
 
-@Getter
+
 public record UserDto (
 	@NotEmpty (message=MISSING_PERSON_USERNAME_MESSAGE)
 	String username,

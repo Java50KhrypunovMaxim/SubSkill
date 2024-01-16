@@ -19,7 +19,7 @@ import subskill.subskill.dto.AdminDto;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "admins")
+@Table(name = "admin")
 @Entity
 public class Admin {
 	    @Id
