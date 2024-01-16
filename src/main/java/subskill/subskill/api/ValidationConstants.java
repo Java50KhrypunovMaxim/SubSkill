@@ -1,7 +1,6 @@
 package subskill.subskill.api;
 
 	public interface ValidationConstants {
-		
 		long MIN_PERSON_ID_VALUE = 100000l;
 		long MAX_PERSON_ID_VALUE = 999999l;
 		String WRONG_MIN_PERSON_ID_VALUE = "Person ID must be greater or equal " + MIN_PERSON_ID_VALUE;
@@ -21,6 +20,5 @@ package subskill.subskill.api;
 		String MISSING_IMAGEURL_MESSAGE =  "Missing image URL";
 		String MISSING_ROLE_MESSAGE = "Missing role of user";
 		String MISSING_NICKNAME_MESSAGE = "Missing nickname of user";
-		 
 	}
 

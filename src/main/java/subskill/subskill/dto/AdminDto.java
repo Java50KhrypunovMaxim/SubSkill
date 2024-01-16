@@ -1,4 +1,5 @@
 package subskill.subskill.dto;
+
 import jakarta.validation.constraints.*;
 import static subskill.subskill.api.ValidationConstants.*;
 
@@ -46,5 +47,4 @@ public record AdminDto(
 		AdminDto other = (AdminDto) obj;
 		return Objects.equals(email, other.email);
 	}
-	
 }

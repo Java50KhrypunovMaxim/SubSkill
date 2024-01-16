@@ -4,7 +4,6 @@ import static subskill.subskill.api.ValidationConstants.EMAIL_REGEXP;
 import static subskill.subskill.api.ValidationConstants.MISSING_PERSON_EMAIL;
 import static subskill.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
 
-
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -95,5 +94,4 @@ public class UsersController {
         log.debug("List of admins have been received");
         return usersService.allAdmins();
     }
-	
 }

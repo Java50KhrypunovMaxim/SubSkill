@@ -26,7 +26,7 @@ public class UsersServiceImplementation implements UsersService{
 	}
 
 	@Override
-	public UserDto changeUserPassword(String email) {
+	public UserDto changePassword(UserDto userDto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -61,5 +61,4 @@ public class UsersServiceImplementation implements UsersService{
 		return null;
 	}
 
-	
 }

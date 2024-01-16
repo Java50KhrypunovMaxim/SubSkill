@@ -64,5 +64,5 @@ public record UserDto (
 		UserDto  other = (UserDto ) obj;
 		return Objects.equals(email, other.email);
 	}
-	
+
 }
