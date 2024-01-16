@@ -61,7 +61,7 @@ public record UserDto (
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdminDto other = (AdminDto) obj;
+		UserDto  other = (UserDto ) obj;
 		return Objects.equals(email, other.email);
 	}
 	

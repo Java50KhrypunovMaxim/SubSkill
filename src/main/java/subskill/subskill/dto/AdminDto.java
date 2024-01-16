@@ -5,7 +5,7 @@ import static subskill.subskill.api.ValidationConstants.*;
 import java.util.Objects;
 
 import subskill.subskill.models.Status;
-import telran.cars.dto.CarDto;
+
 
 public record AdminDto(
 		
