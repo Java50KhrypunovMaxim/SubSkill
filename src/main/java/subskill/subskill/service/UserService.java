@@ -5,10 +5,11 @@ import java.util.List;
 import subskill.subskill.dto.AdminDto;
 import subskill.subskill.dto.UserDto;
 import subskill.subskill.models.Admins;
-import subskill.subskill.models.Users;
+import subskill.subskill.models.User;
 
 
-public interface UsersService {
+
+public interface UserService {
 	UserDto registerUser(UserDto userDto);
 	AdminDto registerAdmin(AdminDto adminDto);
 	UserDto updateUser(UserDto userDto);
@@ -20,6 +21,9 @@ public interface UsersService {
 
 	AdminDto convertToAdminDto(Admins admins);
 
-	UserDto convertToUserDto(Users user);
+	UserDto convertToUserDto(User user);
+
+
+
 }
 

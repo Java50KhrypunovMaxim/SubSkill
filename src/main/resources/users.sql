@@ -5,7 +5,17 @@ CREATE TABLE users (
                        email VARCHAR(50),
                        nickname VARCHAR(30),
                        status ENUM('ONLINE', 'OFFLINE'),
-                       imageUrl VARCHAR(255),
+                       image_Url VARCHAR(255),
+                       role ENUM('USER', 'ADMIN')
+);
+CREATE TABLE admins (
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       username VARCHAR(30),
+                       password VARCHAR(100),
+                       email VARCHAR(50),
+                       nickname VARCHAR(30),
+                       status ENUM('ONLINE', 'OFFLINE'),
+                       image_Url VARCHAR(255),
                        role ENUM('USER', 'ADMIN')
 );
 CREATE TABLE technologies (

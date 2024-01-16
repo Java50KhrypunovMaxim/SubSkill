@@ -10,7 +10,8 @@ import subskill.subskill.exception.NoUserInRepositoryException;
 import subskill.subskill.exception.NotFoundException;
 import subskill.subskill.exception.UserExistingEmailExeption;
 import subskill.subskill.models.Admins;
-import subskill.subskill.models.Users;
+
+import subskill.subskill.models.User;
 import subskill.subskill.repository.AdminRepository;
 import subskill.subskill.repository.UserRepository;
 
@@ -18,22 +19,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsersServiceImplementation implements UsersService, ValidationConstants {
+public class UserServiceImplementation implements UserService, ValidationConstants {
 
 	private final UserRepository userRepository;
 	private final AdminRepository adminRepository;
 
 	@Autowired
-	public UsersServiceImplementation(UserRepository userRepository, AdminRepository adminRepository) {
+	public UserServiceImplementation(UserRepository userRepository, AdminRepository adminRepository) {
 		this.userRepository = userRepository;
 		this.adminRepository = adminRepository;
 	}
 
 	@Override
 	public UserDto registerUser(UserDto userDto) throws UserExistingEmailExeption {
-		Users newUser = new Users();
+		User newUser = new User();
 		BeanUtils.copyProperties(userDto, newUser);
-		Users savedUser = userRepository.save(newUser);
+		User savedUser = userRepository.save(newUser);
 		return convertToUserDto(savedUser);
 	}
 
@@ -53,10 +54,10 @@ public class UsersServiceImplementation implements UsersService, ValidationConst
 		if (userDto == null || userDto.getEmail() == null) {
 			throw new IllegalArgumentException(INVALID_INPUT_DATA);
 		}
-		Users existingUser = userRepository.findByEmail(userDto.getEmail())
+		User existingUser = userRepository.findByEmail(userDto.getEmail())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		BeanUtils.copyProperties(userDto, existingUser, "id", "email");
-		Users updatedUser = userRepository.save(existingUser);
+		User updatedUser = userRepository.save(existingUser);
 		return convertToUserDto(updatedUser);
 	}
 
@@ -66,10 +67,10 @@ public class UsersServiceImplementation implements UsersService, ValidationConst
 			throw new IllegalArgumentException(INVALID_INPUT_DATA);
 		}
 
-		Users existingUser = userRepository.findByEmail(userDto.getEmail())
+		User existingUser = userRepository.findByEmail(userDto.getEmail())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		existingUser.setPassword(newPassword);
-		Users updatedUser;
+		User updatedUser;
 		try {
 			updatedUser = userRepository.save(existingUser);
 		} catch (Exception e) {
@@ -93,7 +94,7 @@ public class UsersServiceImplementation implements UsersService, ValidationConst
 
 	@Override
 	public List<String> allUsers() {
-		return userRepository.findAll().stream().map(Users::getEmail).collect(Collectors.toList());
+		return userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList());
 	}
 
 	@Override
@@ -103,15 +104,26 @@ public class UsersServiceImplementation implements UsersService, ValidationConst
 
 	@Override
 	public AdminDto convertToAdminDto(Admins admins) {
-		AdminDto adminDto = new AdminDto();
-		BeanUtils.copyProperties(admins, adminDto);
-		return adminDto;
+		return new AdminDto(
+				admins.getUsername(),
+				admins.getPassword(),
+				admins.getEmail(),
+				admins.getStatus(),
+				admins.getImageUrl(),
+				admins.getRole()
+		);
 	}
 
-	@Override
-	public UserDto convertToUserDto(Users user) {
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(user, userDto);
-		return userDto;
+		@Override
+	public UserDto convertToUserDto(User user) {
+		return new UserDto(
+				user.getUsername(),
+				user.getPassword(),
+				user.getEmail(),
+				user.getNickname(),
+				user.getStatus(),
+				user.getImageUrl(),
+				user.getRole()
+		);
 	}
 }
