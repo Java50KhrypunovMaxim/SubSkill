@@ -32,7 +32,13 @@ public class UsersServiceImplementation implements UsersService{
 	}
 
 	@Override
-	public UserDto deletePerson(String email) {
+	public AdminDto changeAdminPassword(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserDto deleteUser(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -55,7 +61,4 @@ public class UsersServiceImplementation implements UsersService{
 		return null;
 	}
 
-	
-	}
-
-
+}

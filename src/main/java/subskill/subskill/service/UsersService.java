@@ -10,10 +10,10 @@ public interface UsersService {
 	UserDto registerUser(UserDto userDto);
 	AdminDto registerAdmin(AdminDto adminDto);
 	UserDto updateUser(UserDto userDto);
+	AdminDto changeAdminPassword (String email);
+	UserDto deleteUser(String email);
 	UserDto changePassword (UserDto userDto);
-	UserDto deletePerson(String email);
 	AdminDto deleteAdmin(String email);
 	List<String> allUsers();
 	List<String> allAdmins();
 	}
-
