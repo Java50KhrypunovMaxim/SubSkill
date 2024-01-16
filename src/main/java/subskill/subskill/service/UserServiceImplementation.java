@@ -9,7 +9,8 @@ import subskill.subskill.dto.UserDto;
 import subskill.subskill.exception.NoUserInRepositoryException;
 import subskill.subskill.exception.NotFoundException;
 import subskill.subskill.exception.UserExistingEmailExeption;
-import subskill.subskill.models.Admins;
+import subskill.subskill.models.Admin;
+
 
 import subskill.subskill.models.User;
 import subskill.subskill.repository.AdminRepository;
@@ -40,9 +41,9 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
 	@Override
 	public AdminDto registerAdmin(AdminDto adminDto) throws UserExistingEmailExeption {
-		Admins newAdmin = new Admins();
+		Admin newAdmin = new Admin();
 		BeanUtils.copyProperties(adminDto, newAdmin);
-		Admins savedAdmin = adminRepository.save(newAdmin);
+		Admin savedAdmin = adminRepository.save(newAdmin);
 		return convertToAdminDto(savedAdmin);
 
 	}
@@ -51,10 +52,10 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 	@Override
 	public UserDto updateUser(UserDto userDto) throws NotFoundException {
 
-		if (userDto == null || userDto.getEmail() == null) {
+		if (userDto == null || userDto.email() == null) {
 			throw new IllegalArgumentException(INVALID_INPUT_DATA);
 		}
-		User existingUser = userRepository.findByEmail(userDto.getEmail())
+		User existingUser = userRepository.findByEmail(userDto.email())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		BeanUtils.copyProperties(userDto, existingUser, "id", "email");
 		User updatedUser = userRepository.save(existingUser);
@@ -67,7 +68,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 			throw new IllegalArgumentException(INVALID_INPUT_DATA);
 		}
 
-		User existingUser = userRepository.findByEmail(userDto.getEmail())
+		User existingUser = userRepository.findByEmail(userDto.email())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		existingUser.setPassword(newPassword);
 		User updatedUser;
@@ -99,18 +100,18 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
 	@Override
 	public List<String> allAdmins() {
-		return adminRepository.findAll().stream().map(Admins::getEmail).collect(Collectors.toList());
+		return adminRepository.findAll().stream().map(Admin::getEmail).collect(Collectors.toList());
 	}
 
 	@Override
-	public AdminDto convertToAdminDto(Admins admins) {
+	public AdminDto convertToAdminDto(Admin admin) {
 		return new AdminDto(
-				admins.getUsername(),
-				admins.getPassword(),
-				admins.getEmail(),
-				admins.getStatus(),
-				admins.getImageUrl(),
-				admins.getRole()
+				admin.getUsername(),
+				admin.getPassword(),
+				admin.getEmail(),
+				admin.getStatus(),
+				admin.getImageUrl(),
+				admin.getRole()
 		);
 	}
 
