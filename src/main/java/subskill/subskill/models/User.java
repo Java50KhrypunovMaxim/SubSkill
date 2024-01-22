@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import subskill.subskill.dto.UserDto;
 
-
 import org.hibernate.annotations.ColumnDefault;
 
 @Data
@@ -27,7 +26,6 @@ public class User {
     private String email;
     @Column(name = "nickname",nullable = false,unique = true)
     private String nickname;
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "boolean default true")
     private boolean online;
     @Column(name = "image_Url")

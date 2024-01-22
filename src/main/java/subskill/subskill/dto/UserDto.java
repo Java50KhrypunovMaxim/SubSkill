@@ -13,14 +13,10 @@ import static subskill.subskill.api.ValidationConstants.WRONG_PASSWORD_CREATION_
 
 import java.util.Objects;
 
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
 import subskill.subskill.models.Roles;
-import subskill.subskill.models.Status;
-
 
 public record UserDto (
 	@NotEmpty (message=MISSING_PERSON_USERNAME_MESSAGE)
@@ -38,7 +34,7 @@ public record UserDto (
 	String nickname,
 	
 	@NotNull (message=MISSING_STATUS_MESSAGE)
-	Status status,
+	boolean online,
 	
 	@NotEmpty (message=MISSING_IMAGEURL_MESSAGE)
 	String imageUrl,
