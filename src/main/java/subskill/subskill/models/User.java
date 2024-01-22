@@ -28,9 +28,8 @@ public class User {
     @Column(name = "nickname",nullable = false,unique = true)
     private String nickname;
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("ONLINE")
-    @Column(name = "status")
-    private Status status;
+    @Column(name = "status", columnDefinition = "boolean default true")
+    private boolean online;
     @Column(name = "image_Url")
     private String imageUrl;
     @Enumerated(EnumType.STRING)
@@ -45,7 +44,7 @@ public class User {
         user.password = userDto.password();
         user.email = userDto.email();
         user.nickname = userDto.nickname();
-        user.status = userDto.status();
+        user.online = true;
         user.imageUrl = userDto.imageUrl();
         user.role= userDto.role();
         return user;
@@ -53,7 +52,7 @@ public class User {
 
 	public UserDto build (User user) {
 		return new UserDto(user.username, user.password, user.email, user.nickname,
-				user.status, user.imageUrl, user.role);
+                user.online, user.imageUrl, user.role);
 	}
 
 }
