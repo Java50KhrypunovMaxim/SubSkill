@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface AdminRepository extends JpaRepository<Admins,Long> {
     Optional<Admins> findById(Long id);
-    Optional<Admins> findByEmail(String email);
+    Optional<Admins> findByArticleName(String articleName);
 }

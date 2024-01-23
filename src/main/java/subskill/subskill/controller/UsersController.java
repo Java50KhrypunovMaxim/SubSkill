@@ -1,6 +1,6 @@
 package subskill.subskill.controller;
 
-import static subskill.subskill.api.ValidationConstants.EMAIL_REGEXP;
+import static subskill.subskill.api.ValidationConstants.*;
 import static subskill.subskill.api.ValidationConstants.MISSING_PERSON_EMAIL;
 import static subskill.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
 
@@ -24,7 +24,7 @@ import subskill.subskill.dto.UserDto;
 import subskill.subskill.service.UserService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 @Slf4j 
 
@@ -32,62 +32,36 @@ public class UsersController {
 	
 	final UserService usersService;
 	
-	@PostMapping("users")
+	@PostMapping()
 	UserDto registerUser(@RequestBody @Valid UserDto userDto) {
 		log.debug("registerUser: received user data: {}", userDto);
 		return usersService.registerUser(userDto);
 	}
 	
-	@PostMapping("admins")
-	AdminDto registerAdmin(@RequestBody @Valid AdminDto adminDto) {
-	log.debug("registerAdmin: received admin data: {}", adminDto);
-	return usersService.registerAdmin(adminDto);
-	}
-	
-	@PutMapping("user")
+	@PutMapping("update/{email}")
 	UserDto updateUser(@RequestBody @Valid UserDto userDto) {
 		log.debug("update user: received new information about user: {}", userDto);
 		return usersService.updateUser(userDto);
 	}
 	
-	@PutMapping("user/password/{email}")
-	UserDto changeUserPassword (@NotEmpty (message=MISSING_PERSON_EMAIL)
-	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
-		log.debug("The password has been changed {}", email);
-		return usersService.changeUserPassword(email);
+	@PutMapping("change-password/{userDto}/{newPassword}")
+	UserDto changeUserPassword (@NotEmpty (message=MISSING_PASSWORD_MESSAGE)
+	@Pattern(regexp = PASSWORD_REGEXP, message=WRONG_PASSWORD_CREATION_MESSAGE) UserDto userDto, String newPassword) {
+		log.debug("The password has been changed {}", newPassword);
+		return usersService.changePassword(userDto,newPassword);
 	}
 	
-	@PutMapping("admin/password/{email}")
-	AdminDto changeAdminPassword (@NotEmpty (message=MISSING_PERSON_EMAIL)
-	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
-		log.debug("The password has been changed {}", email);
-		return usersService.changeAdminPassword(email);
-	}
-	
-	
-	@DeleteMapping("user/{email}")
+	@DeleteMapping("/{email}")
 	UserDto deleteUser(@NotEmpty (message=MISSING_PERSON_EMAIL)
 	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
 		log.debug("delete user: user with email {}", email);
-		return usersService.deleteUser(email);
+		return usersService.deletePerson(email);
 	}
 	
-	@DeleteMapping("admin/{email}")
-	AdminDto deleteAdmin(@NotEmpty (message=MISSING_PERSON_EMAIL)
-	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
-		log.debug("delete admin: admin with email {}", email);
-		return usersService.deleteAdmin(email);
-	}
-	
-	@GetMapping ("listOfUsers")
+	@GetMapping ("/all")
 	List<String> listOfUsers() {
         log.debug("List of users have been received");
         return usersService.allUsers();
     }
 	
-	@GetMapping ("listOfAdmins")
-	List<String> listOfAdmins() {
-        log.debug("List of admins have been received");
-        return usersService.allAdmins();
-    }
 }

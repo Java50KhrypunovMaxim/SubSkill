@@ -39,15 +39,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 		return convertToUserDto(savedUser);
 	}
 
-	@Override
-	public AdminDto registerAdmin(AdminDto adminDto) throws UserExistingEmailExeption {
-		Admin newAdmin = new Admin();
-		BeanUtils.copyProperties(adminDto, newAdmin);
-		Admin savedAdmin = adminRepository.save(newAdmin);
-		return convertToAdminDto(savedAdmin);
-
-	}
-
 
 	@Override
 	public UserDto updateUser(UserDto userDto) throws NotFoundException {
@@ -82,38 +73,18 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 	}
 
 	@Override
+
 	public UserDto deletePerson(String email) {
 		userRepository.findByEmail(email).ifPresent(userRepository::delete);
 		return null;
 	}
 
-	@Override
-	public AdminDto deleteAdmin(String email) {
-		adminRepository.findByEmail(email).ifPresent(adminRepository::delete);
-		return null;
-	}
 
 	@Override
 	public List<String> allUsers() {
 		return userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList());
 	}
 
-	@Override
-	public List<String> allAdmins() {
-		return adminRepository.findAll().stream().map(Admin::getEmail).collect(Collectors.toList());
-	}
-
-	@Override
-	public AdminDto convertToAdminDto(Admin admin) {
-		return new AdminDto(
-				admin.getUsername(),
-				admin.getPassword(),
-				admin.getEmail(),
-				admin.getStatus(),
-				admin.getImageUrl(),
-				admin.getRole()
-		);
-	}
 
 		@Override
 	public UserDto convertToUserDto(User user) {
