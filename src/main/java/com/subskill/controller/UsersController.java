@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.subskill.dto.UserDto;
-import com.subskill.userService.UserService;
+import com.subskill.service.UserService;
 
 @RestController
 @RequestMapping("api/v1/users")

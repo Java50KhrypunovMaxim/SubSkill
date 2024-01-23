@@ -1,4 +1,4 @@
-package com.subskill.microSkillService;
+package com.subskill.service;
 
 import com.subskill.models.Article;
 import com.subskill.models.MicroSkill;
