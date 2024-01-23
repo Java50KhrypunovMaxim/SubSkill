@@ -1,4 +1,4 @@
-package com.subskill.userService;
+package com.subskill.service;
 
 import java.util.List;
 

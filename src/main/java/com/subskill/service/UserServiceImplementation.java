@@ -1,4 +1,4 @@
-package com.subskill.userService;
+package com.subskill.service;
 
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
