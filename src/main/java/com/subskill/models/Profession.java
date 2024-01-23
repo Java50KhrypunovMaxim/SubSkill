@@ -30,5 +30,5 @@ public class Profession {
     private List<Technology> technologies;
 
     @OneToMany(mappedBy = "profession")
-    private List<MicroSkill> microSkills;
+    private List<MicroSkill<A>> microSkills;
 }

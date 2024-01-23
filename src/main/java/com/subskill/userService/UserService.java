@@ -1,4 +1,4 @@
-package com.subskill.service;
+package com.subskill.userService;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import com.subskill.models.User;
 public interface UserService {
 	UserDto registerUser(UserDto userDto);
 	UserDto updateUser(UserDto userDto);
-	UserDto changePassword (UserDto userDto, String newPassword);
+	UserDto changePassword (UserDto userDto,String mail);
 	UserDto deleteUser(String email);
 	List<String> allUsers();
-	List<String> allAdmins();
+
 	UserDto convertToUserDto(User user);
 }
 
