@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,8 +33,7 @@ import com.subskill.dto.ArticleDto;
 	    @Column(name = "textOfArticle",nullable = false)
 	    private String textOfArticle;
 	    
-	    @ManyToOne
-	    @JoinColumn(name = "idOfSkills", nullable = false)
+	    @Column(name = "idOfSkills", nullable = false)
 	    private long idOfSkills;
 	    
 	    

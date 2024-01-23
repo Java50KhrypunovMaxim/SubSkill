@@ -38,7 +38,7 @@ public class ArticleServiceImplementation implements ArticleService {
     @Override
     @Transactional
     public ArticleDto updateArticle(ArticleDto articleDto) {
-        Article article = articleRepository.findByName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
+        Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
         article.setTextOfArticle(articleDto.textOfArticle());
         article.setArticleName(articleDto.articleName());
         log.debug("Article {} has been update", articleDto);
