@@ -17,7 +17,7 @@ import com.subskill.dto.UserDto;
 import com.subskill.userService.UserService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 @Slf4j 
 
