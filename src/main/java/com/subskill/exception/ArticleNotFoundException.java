@@ -1,6 +1,6 @@
 package com.subskill.exception;
 
-import subskill.subskill.api.ServiceExceptionMessages;
+import  com.subskill.api.ServiceExceptionMessages;
 
 @SuppressWarnings("serial")
 public class ArticleNotFoundException extends NotFoundException {
