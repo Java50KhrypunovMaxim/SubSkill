@@ -6,13 +6,7 @@ import static com.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,7 +17,7 @@ import com.subskill.dto.UserDto;
 import com.subskill.service.UserService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 @Slf4j 
 
@@ -42,14 +36,15 @@ public class UsersController {
 		log.debug("update user: received new information about user: {}", userDto);
 		return usersService.updateUser(userDto);
 	}
-	
-//	@PutMapping("user/password/{email}")
-//	UserDto changeUserPassword (@NotEmpty (message=MISSING_PERSON_EMAIL)
-//	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
-//		log.debug("The password has been changed {}", email);
-//		return usersService.changePassword(email);
-//	}
-	
+
+	@PutMapping("user/password/{email}")
+	UserDto changeUserPassword (@NotEmpty (message=MISSING_PERSON_EMAIL)
+								@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email,
+								@RequestBody @Valid UserDto userDto) {
+		log.debug("The password has been changed {}", email);
+		return usersService.changePassword(userDto,email);
+	}
+
 	@DeleteMapping("user/{email}")
 	UserDto deleteUser(@NotEmpty (message=MISSING_PERSON_EMAIL)
 	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
@@ -63,9 +58,5 @@ public class UsersController {
         return usersService.allUsers();
     }
 	
-	@GetMapping ("listOfAdmins")
-	List<String> listOfAdmins() {
-        log.debug("List of admins have been received");
-        return usersService.allAdmins();
-    }
+
 }

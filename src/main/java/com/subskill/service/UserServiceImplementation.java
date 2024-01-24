@@ -4,6 +4,7 @@ import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
 import com.subskill.repository.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import com.subskill.dto.UserDto;
 import com.subskill.models.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,22 +50,28 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 	}
 
 	@Override
-	public UserDto changePassword(UserDto userDto, String newPassword) throws NoUserInRepositoryException, NotFoundException {
-		if (userDto == null || newPassword == null) {
+	public UserDto changePassword(UserDto userDto,String email ) throws NoUserInRepositoryException, NotFoundException {
+		if (StringUtils.isBlank(email) || StringUtils.isBlank(userDto.password())) {
 			throw new IllegalArgumentException(INVALID_INPUT_DATA);
 		}
 
-		User existingUser = userRepository.findByEmail(userDto.email())
-				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
-		existingUser.setPassword(newPassword);
-		User updatedUser;
-		try {
-			updatedUser = userRepository.save(existingUser);
-		} catch (Exception e) {
-			throw new NoUserInRepositoryException("Error changing password: " + e.getMessage());
-		}
+		Optional<User> optionalUser = userRepository.findByEmail(email);
 
-		return convertToUserDto(updatedUser);
+		if (optionalUser.isPresent()) {
+			User existingUser = optionalUser.get();
+			existingUser.setPassword(userDto.password());
+
+			User updatedUser;
+			try {
+				updatedUser = userRepository.save(existingUser);
+			} catch (Exception e) {
+				throw new NoUserInRepositoryException("Error changing password: " + e.getMessage());
+			}
+
+			return convertToUserDto(updatedUser);
+		} else {
+			throw new NotFoundException(USER_NOT_FOUND);
+		}
 	}
 
 	@Override
@@ -77,10 +85,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 		return userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList());
 	}
 
-	@Override
-	public List<String> allAdmins() {
-		return null;
-	}
+
 
 	@Override
 	public UserDto convertToUserDto(User user) {
