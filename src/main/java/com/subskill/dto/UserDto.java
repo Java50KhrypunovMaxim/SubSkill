@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+
+
 public record UserDto (
 	@NotEmpty (message= ValidationConstants.MISSING_PERSON_USERNAME_MESSAGE)
 	String username,

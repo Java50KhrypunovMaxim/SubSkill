@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,8 +22,9 @@ public class Technology {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "technologies")
-    private List<Profession> professions;
+    @ManyToOne
+    @JoinColumn(name = "profession_id")
+    private Profession profession;
 
     @OneToMany(mappedBy = "technology")
     private List<MicroSkill> microSkills;

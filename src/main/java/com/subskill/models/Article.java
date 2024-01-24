@@ -32,16 +32,17 @@ import com.subskill.dto.ArticleDto;
 	    
 	    @Column(name = "textOfArticle",nullable = false)
 	    private String textOfArticle;
-	    
-	    @Column(name = "idOfSkills", nullable = false)
-	    private long idOfSkills;
-	    
-	    
-	    public static Article of(ArticleDto articleDto) {
+		@ManyToOne
+		@JoinColumn(name = "micro_skill_id")
+		private MicroSkill idOfSkills;
+
+
+
+		public static Article of(ArticleDto articleDto) {
 	    	Article article = new Article();
 	    	article.articleName = articleDto.articleName();
 	    	article.textOfArticle = articleDto.textOfArticle();
-	    	article.idOfSkills=articleDto.idOfSkills();
+			article.idOfSkills = articleDto.idOfSkills();
 	        return article;
 	    }
 
