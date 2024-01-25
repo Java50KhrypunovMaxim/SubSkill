@@ -3,7 +3,6 @@ package com.subskill.service;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
-import com.subskill.models.Article;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.MicroSkillRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +23,7 @@ public class MicroSkillServiceImplementation  implements MicroSkillService{
 
     @Override
     public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
-        if (microSkillRepository.existByMicroSkillName(microSkillDto.microSkillname())) {
+        if (microSkillRepository.existsByName(microSkillDto.microSkillname())) {
             throw new IllegalMicroSkillStateException();
         }
       MicroSkill newMicroSkill = MicroSkill.of(microSkillDto);
@@ -36,7 +34,7 @@ public class MicroSkillServiceImplementation  implements MicroSkillService{
 
     @Override
     public MicroSkillDto updateMicroskill(MicroSkillDto microSkillDto) {
-        MicroSkill microSkill = microSkillRepository.findByMicroSkillName(microSkillDto.microSkillname()).orElseThrow(MicroSkillNotFoundException::new);
+        MicroSkill microSkill = microSkillRepository.findByName(microSkillDto.microSkillname()).orElseThrow(MicroSkillNotFoundException::new);
         microSkill.setName(microSkillDto.microSkillname());
         microSkill.setPhoto(microSkillDto.microSkillphoto());
         microSkill.setRating(microSkillDto.microSkillrating());

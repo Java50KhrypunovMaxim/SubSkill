@@ -9,10 +9,10 @@ import java.util.Optional;
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill,Long> {
     Optional<MicroSkill> findById(Long id);
-    Optional<MicroSkill> findByMicroSkillName(String name);
-    List<MicroSkill> findByMicroSkillViews(Long views);
 
-    boolean existByMicroSkillName(String microSkillName);
+    Optional<MicroSkill> findByName(String name);
 
+    List<MicroSkill> findByViews(Long views);
 
+    boolean existsByName(String microSkillName);
 }
