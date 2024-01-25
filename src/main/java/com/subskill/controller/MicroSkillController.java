@@ -36,5 +36,9 @@ public class MicroSkillController {
     List<Double> microSkillRanking(){
         return microSkillService.findByRanking();
     }
+    @GetMapping("/{id}/views")
+    long getMicroSkillViews(@PathVariable long id) {
+        return microSkillService.getViewsCount(id);
+    }
 
 }
