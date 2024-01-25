@@ -48,9 +48,13 @@ public class User {
         return user;
     }
 
-	public UserDto build (User user) {
-		return new UserDto(user.username, user.password, user.email, user.nickname,
-                user.online, user.imageUrl, user.role);
+	public UserDto build () {
+		return new UserDto(username, password, email, nickname,
+                online, imageUrl, role);
 	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
+
