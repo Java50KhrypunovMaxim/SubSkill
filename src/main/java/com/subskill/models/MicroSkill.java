@@ -1,9 +1,13 @@
 package com.subskill.models;
 
+import com.subskill.dto.MicroSkillDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,16 +18,35 @@ public class MicroSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "photo")
+    private String photo;
+
+
+    @Column(name = "rating")
+    private double rating;
+
+    @Column(name = "views")
+    private long views;
     @ManyToOne
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
-    @ManyToOne
-    @JoinColumn(name = "profession_id")
-    private Profession profession;
+    @OneToMany(mappedBy = "microSkill")
+    private List<Article> articles;
+    public static MicroSkill of(MicroSkillDto microSkillDto) {
+        MicroSkill microSkill = new MicroSkill();
+        microSkill.name = microSkillDto.microSkillname();
+        microSkill.photo = microSkillDto.microSkillphoto();
+        microSkill.rating = microSkillDto.microSkillrating();
+        microSkill.technology = microSkillDto.technologyId();
+        return microSkill;
+    }
+
+
 }

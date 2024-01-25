@@ -1,18 +1,14 @@
 package com.subskill.service;
 
+import com.subskill.api.ValidationConstants;
+import com.subskill.dto.UserDto;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
+import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
-import io.micrometer.common.util.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.subskill.api.ValidationConstants;
-import com.subskill.dto.UserDto;
-
-
-import com.subskill.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,73 +26,50 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
 	@Override
 	public UserDto registerUser(UserDto userDto) throws UserExistingEmailExeption {
-		User newUser = new User();
-		BeanUtils.copyProperties(userDto, newUser);
+	 Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
+    if (existingUserOptional.isPresent()) {
+        throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");    }
+		User newUser = User.of(userDto);
 		User savedUser = userRepository.save(newUser);
-		return convertToUserDto(savedUser);
+		return  savedUser.build(newUser) ;
 	}
 
 	@Override
 	public UserDto updateUser(UserDto userDto) throws NotFoundException {
-
 		if (userDto == null || userDto.email() == null) {
 			throw new IllegalArgumentException(INVALID_INPUT_DATA);
 		}
 		User existingUser = userRepository.findByEmail(userDto.email())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
-		BeanUtils.copyProperties(userDto, existingUser, "id", "email");
 		User updatedUser = userRepository.save(existingUser);
-		return convertToUserDto(updatedUser);
+		return updatedUser.build(existingUser);
 	}
 
 	@Override
-	public UserDto changePassword(UserDto userDto,String email ) throws NoUserInRepositoryException, NotFoundException {
-		if (StringUtils.isBlank(email) || StringUtils.isBlank(userDto.password())) {
-			throw new IllegalArgumentException(INVALID_INPUT_DATA);
-		}
-
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-
-		if (optionalUser.isPresent()) {
-			User existingUser = optionalUser.get();
-			existingUser.setPassword(userDto.password());
-
-			User updatedUser;
-			try {
-				updatedUser = userRepository.save(existingUser);
-			} catch (Exception e) {
-				throw new NoUserInRepositoryException("Error changing password: " + e.getMessage());
-			}
-
-			return convertToUserDto(updatedUser);
-		} else {
-			throw new NotFoundException(USER_NOT_FOUND);
+	public UserDto changePassword(UserDto userDto, String email) throws NoUserInRepositoryException, NotFoundException {
+		User existingUser = userRepository.findByEmail(email)
+				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+		existingUser.setPassword(userDto.password());
+		try {
+			userRepository.save(existingUser);
+			return userDto;
+		} catch (Exception e) {
+			throw new NoUserInRepositoryException("Error changing password: " + e.getMessage());
 		}
 	}
 
 	@Override
-	public UserDto deleteUser(String email) {
+	public void deleteUser(String email) {
 		userRepository.findByEmail(email).ifPresent(userRepository::delete);
-		return null;
 	}
 
 	@Override
 	public List<String> allUsers() {
-		return userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList());
+		List<User> users = userRepository.findAll();
+		return users.stream().map(User::getEmail).collect(Collectors.toList());
 	}
 
 
 
-	@Override
-	public UserDto convertToUserDto(User user) {
-		return new UserDto(
-				user.getUsername(),
-				user.getPassword(),
-				user.getEmail(),
-				user.getNickname(),
-				user.isOnline(),
-				user.getImageUrl(),
-				user.getRole()
-		);
-	}
+
 }

@@ -62,6 +62,7 @@ public class ArticleServiceImplementation implements ArticleService {
                 .map(Article::getArticleName)
                 .collect(Collectors.toList());
         log.debug("All articles {}", articleNames);
+
         return articleNames;
     }
 

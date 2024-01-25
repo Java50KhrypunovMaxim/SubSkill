@@ -26,5 +26,9 @@ public interface ValidationConstants {
     String MISSING_TEXT_OF_ARTICLE_MESSAGE = "Missing text of article";
     String MISSING_ID_OF_SKILLS = "Missing id of skills";
     String MISSING_ID_OF_ARTICLE = "Missing id of article";
+    String MISSING_MICROSKILL_NAME_MESSAGE = "Missing name of microskill";
+    String MISSING_MICROSKILL_RATING_MESSAGE = "Missing rating in microsskill";
+    String MISSING_MICROSKILLS_PHOTO_MESSAGE = "Missing photo in microskill";
+    String TECHNOLOGY_ID_MISSING = "Missing technology id";
 }
 
