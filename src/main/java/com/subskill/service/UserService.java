@@ -1,9 +1,8 @@
 package com.subskill.service;
 
-import java.util.List;
-
 import com.subskill.dto.UserDto;
-import com.subskill.models.User;
+
+import java.util.List;
 
 public interface UserService {
 	UserDto registerUser(UserDto userDto);
@@ -12,6 +11,6 @@ public interface UserService {
 	UserDto deleteUser(String email);
 	List<String> allUsers();
 
-	UserDto convertToUserDto(User user);
+
 }
 

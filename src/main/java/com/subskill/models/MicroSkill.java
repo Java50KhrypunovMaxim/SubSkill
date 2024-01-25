@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +25,6 @@ public class MicroSkill {
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
-    @ManyToOne
-    @JoinColumn(name = "profession_id")
-    private Profession profession;
+    @OneToMany(mappedBy = "microSkill")
+    private List<Article> articles;
 }
