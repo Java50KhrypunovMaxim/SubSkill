@@ -27,7 +27,7 @@ public class User {
     @Column(name = "nickname",nullable = false,unique = true)
     private String nickname;
     @Column(name = "status", columnDefinition = "boolean default true")
-    private boolean online;
+    private Boolean online;
     @Column(name = "image_Url")
     private String imageUrl;
     @Enumerated(EnumType.STRING)

@@ -59,9 +59,8 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 	}
 
 	@Override
-	public UserDto deleteUser(String email) {
+	public void deleteUser(String email) {
 		userRepository.findByEmail(email).ifPresent(userRepository::delete);
-		return null;
 	}
 
 	@Override

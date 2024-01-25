@@ -29,6 +29,5 @@ public class Profession {
             inverseJoinColumns = @JoinColumn(name = "technology_id"))
     private List<Technology> technologies;
 
-    @OneToMany(mappedBy = "profession")
-    private List<MicroSkill> microSkills;
+
 }

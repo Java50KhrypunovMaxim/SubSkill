@@ -1,38 +1,69 @@
 package com.subskill.service;
 
+import com.subskill.dto.ArticleDto;
+import com.subskill.dto.MicroSkillDto;
+import com.subskill.exception.ArticleNotFoundException;
+import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.models.Article;
 import com.subskill.models.MicroSkill;
+import com.subskill.repository.MicroSkillRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import com.subskill.exception.MicroSkillNotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class MicroSkillServiceImplementation  implements MicroSkillService{
+    MicroSkillRepository microSkillRepository;
+
+
+
+
     @Override
-    public List<Article> getAllArticle() {
-        return null;
+    public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
+        if (microSkillRepository.existByMicroSkillName(microSkillDto.microSkillname())) {
+            throw new IllegalMicroSkillStateException();
+        }
+      MicroSkill newMicroSkill = MicroSkill.of(microSkillDto);
+        microSkillRepository.save(newMicroSkill);
+        log.debug("MicroSkill card {} has been saved", microSkillDto);
+        return microSkillDto;
     }
 
     @Override
-    public MicroSkill getArticle() {
-        return null;
+    public MicroSkillDto updateMicroskill(MicroSkillDto microSkillDto) {
+        MicroSkill microSkill = microSkillRepository.findByMicroSkillName(microSkillDto.microSkillname()).orElseThrow(MicroSkillNotFoundException::new);
+        microSkill.setName(microSkillDto.microSkillname());
+        microSkill.setPhoto(microSkillDto.microSkillphoto());
+        microSkill.setRating(microSkillDto.microSkillrating());
+        microSkillRepository.save(microSkill);
+        log.debug("MicroSkill {} has been updated", microSkillDto);
+        return microSkillDto;
     }
 
-    @Override
-    public MicroSkill getMicroSkillId() {
-        return null;
-    }
+
 
     @Override
-    public MicroSkill createMicroSkill() {
-        return null;
+    public void deleteMicroSkill(Long id) {
+        MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+        microSkillRepository.delete(microSkill);
+        log.debug("Microskill with ID {} has been deleted", id);
+    }
+    @Override
+    public List<Double> findByRanking() {
+        List<MicroSkill> microSkills = microSkillRepository.findAll();
+        List<Double> rating = microSkills.stream()
+                .map(MicroSkill::getRating)
+                .collect(Collectors.toList());
+        log.debug("All rating {}", rating);
+
+        return rating;
     }
 
-    @Override
-    public MicroSkill deleteMicroSkill() {
-        return null;
-    }
 
-    @Override
-    public MicroSkill findByTechnology() {
-        return null;
-    }
 }
