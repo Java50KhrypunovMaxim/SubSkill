@@ -1,5 +1,10 @@
 package com.subskill.models;
 
+import com.subskill.dto.ArticleDto;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,32 +25,31 @@ import com.subskill.dto.ArticleDto;
 @Entity
 public class Article {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false, unique = true)
+	private long id;
 
 	@Column(name = "articleName", nullable = false)
-    private String articleName;
+	private String articleName;
 
 	@Column(name = "textOfArticle", nullable = false)
-    private String textOfArticle;
+	private String textOfArticle;
 
-    @ManyToOne
-    @JoinColumn(name = "micro_skill_id")
-    private MicroSkill microSkill;
+	@ManyToOne
+	@JoinColumn(name = "micro_skill_id")
+	private MicroSkill microSkill;
 
-    public static Article of(ArticleDto articleDto) {
-        Article article = new Article();
-        article.articleName = articleDto.articleName();
-        article.textOfArticle = articleDto.textOfArticle();
-        article.microSkill = articleDto.idOfSkills();
-        return article;
-    }
+	public static Article of(ArticleDto articleDto) {
+		Article article = new Article();
+		article.articleName = articleDto.articleName();
+		article.textOfArticle = articleDto.textOfArticle();
+		article.microSkill = articleDto.idOfSkills();
+		return article;
+	}
 
-    public ArticleDto build() {
-        return new ArticleDto(articleName, textOfArticle, microSkill);
-    }
+	public ArticleDto build() {
+		return new ArticleDto(articleName, textOfArticle, microSkill);
+	}
 
 }
-

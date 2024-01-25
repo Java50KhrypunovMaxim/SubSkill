@@ -45,13 +45,13 @@ public class UsersController {
 		return usersService.changePassword(userDto,email);
 	}
 
-	@DeleteMapping("user/{email}")
-	UserDto deleteUser(@NotEmpty (message=MISSING_PERSON_EMAIL)
-	@Pattern(regexp = EMAIL_REGEXP, message=WRONG_EMAIL_FORMAT) String email) {
+	@DeleteMapping("user")
+	void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
+					@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email) {
 		log.debug("delete user: user with email {}", email);
-		return usersService.deleteUser(email);
+		usersService.deleteUser(email);
 	}
-	
+
 	@GetMapping ("listOfUsers")
 	List<String> listOfUsers() {
         log.debug("List of users have been received");
