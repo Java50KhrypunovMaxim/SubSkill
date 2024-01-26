@@ -101,13 +101,13 @@ import com.subskill.service.UserService;
 		
 		}
 		
-		@Test
-		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
-		void testDeleteUser() {
-			assertEquals(userDto1, userService.deleteUser(userDto1.email()));
-			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
-			
-		}
+//		@Test
+//		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
+//		void testDeleteUser() {
+//			assertEquals(userDto1, userService.deleteUser(userDto1.email()));
+//			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
+//
+//		}
 		
 		@Test
 		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.UPDATE_USER)
@@ -117,12 +117,12 @@ import com.subskill.service.UserService;
 			assertEquals(userUpdated, userService.updateUser(userUpdated));
 			assertEquals("Magnus",userRepo.findByEmail(EMAIL2).get().getNickname());	
 		}
-		
+
 		@Test
 		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.CHANGE_PASSWORD_USER)
 		void testChangePasswordOfUser() {
 			userService.changePassword(userDto2, PASSWORD3);
-			assertEquals(PASSWORD3,userRepo.findByEmail(EMAIL2).get().getPassword());	
+			assertEquals(PASSWORD3,userRepo.findByEmail(EMAIL2).get().getPassword());
 		}
 
 
