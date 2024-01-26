@@ -19,16 +19,10 @@ import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
 
 
-
-
-
-
-
-
 	@SpringBootTest
 	@Sql(scripts = {"classpath:users.sql"})
 	class SubSkillUserServiceTest {
-		private static final String SERVICE_TEST = "Service Test: ";
+		private static final String USER_SERVICE_TEST = "User Service Test: ";
 		//User names
 		private static final String USERNAME1 = "MAX";
 		private static final String USERNAME2 = "Artur";
@@ -84,7 +78,7 @@ import com.subskill.service.UserService;
 		
 
 		@Test
-		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.SHOW_ALL_USER)
+		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.SHOW_ALL_USER)
 		void testShowAllUsers() {
 			assertEquals(ALLUSERS, userService.allUsers());
 		}
@@ -92,7 +86,7 @@ import com.subskill.service.UserService;
 		
 		
 		@Test
-		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.REGISTR_USER)
+		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.REGISTR_USER)
 		void testRegistrUser() {
 			assertEquals(userDto1, userService.registerUser(userDto1));
 			assertThrowsExactly(IllegalUsersStateException.class,() -> userService.registerUser(userDto1));
@@ -101,6 +95,7 @@ import com.subskill.service.UserService;
 		
 		}
 		
+<<<<<<< HEAD
 //		@Test
 //		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
 //		void testDeleteUser() {
@@ -108,9 +103,18 @@ import com.subskill.service.UserService;
 //			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
 //
 //		}
+=======
+		@Test
+		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
+		void testDeleteUser() {
+			assertEquals(userDto1, userService.deleteUser(userDto1.email()));
+			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
+			
+		}
+>>>>>>> 83c05f296efe749a6b09e37357a8b0e0fbc96630
 		
 		@Test
-		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.UPDATE_USER)
+		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.UPDATE_USER)
 		void testUpdateUser() {
 			userService.registerUser(userDto2);
 			UserDto userUpdated = new UserDto(USERNAME2, PASSWORD2, EMAIL2, "Magnus", true, IMAGEURL2, Roles.ADMIN);
@@ -119,7 +123,7 @@ import com.subskill.service.UserService;
 		}
 
 		@Test
-		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.CHANGE_PASSWORD_USER)
+		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.CHANGE_PASSWORD_USER)
 		void testChangePasswordOfUser() {
 			userService.changePassword(userDto2, PASSWORD3);
 			assertEquals(PASSWORD3,userRepo.findByEmail(EMAIL2).get().getPassword());

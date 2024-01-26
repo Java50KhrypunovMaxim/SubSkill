@@ -68,9 +68,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations-jakarta</artifactId>
 			<version>2.2.15</version>
+=======
+			<groupId>telran.cars</groupId>
+			<artifactId>owners-cars</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+>>>>>>> 83c05f296efe749a6b09e37357a8b0e0fbc96630
 		</dependency>
 	</dependencies>
 
