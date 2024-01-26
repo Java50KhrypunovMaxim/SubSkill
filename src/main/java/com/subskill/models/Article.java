@@ -27,13 +27,13 @@ import com.subskill.dto.ArticleDto;
 	    @Column(name = "id",nullable = false,unique = true)
 	    private long id;
 	    
-	    @Column(name = "articleName",nullable = false)
+	    @Column(name = "article_name",nullable = false)
 	    private String articleName;
 	    
-	    @Column(name = "textOfArticle",nullable = false)
+	    @Column(name = "text_of_article",nullable = false)
 	    private String textOfArticle;
 	    
-	    @Column(name = "idOfSkills", nullable = false)
+	    @Column(name = "id_of_skills", nullable = false)
 	    private long idOfSkills;
 	    
 	    
@@ -55,6 +55,10 @@ import com.subskill.dto.ArticleDto;
 		
 		public void setArticleName(String articleName) {
 			this.articleName = articleName;
+		}
+		
+		public void setidOfSkills(long idOfSkills) {
+			this.idOfSkills = idOfSkills;
 		}
 
 }

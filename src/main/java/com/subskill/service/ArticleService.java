@@ -7,7 +7,7 @@ import com.subskill.dto.ArticleDto;
 public interface ArticleService {
 	ArticleDto addArticle(ArticleDto articleDto);
 	ArticleDto updateArticle(ArticleDto articleDto);
-	ArticleDto deleteArticle(Long id);
+	ArticleDto deleteArticle(String articleName);
 	List<String> allArticles();
 
 }

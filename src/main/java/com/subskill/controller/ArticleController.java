@@ -16,8 +16,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.subskill.dto.ArticleDto;
 import com.subskill.service.ArticleService;
+import static com.subskill.api.ValidationConstants.*;
 
-import static com.subskill.api.ValidationConstants.MISSING_ID_OF_ARTICLE;
+
 
 @RestController
 @RequestMapping("api/v1/articles")
@@ -25,6 +26,7 @@ import static com.subskill.api.ValidationConstants.MISSING_ID_OF_ARTICLE;
 @Slf4j 
 
 public class ArticleController {
+
 	final ArticleService articlesService;
 	
 	@PostMapping()
@@ -39,10 +41,10 @@ public class ArticleController {
 		return  articlesService.updateArticle(articleDto);
 	}
 	
-	@DeleteMapping("/{id}")
-	ArticleDto deleteArticle(@NotEmpty (message=MISSING_ID_OF_ARTICLE) long id) {
-		log.debug("delete user: user with email {}", id);
-		return articlesService.deleteArticle(id);
+	@DeleteMapping("/{nameArticle}")
+	ArticleDto deleteArticle(@NotEmpty (message=MISSING_NAME_OF_ARTICLE) String nameArticle) {
+		log.debug("delete article: article with name {}", nameArticle);
+		return articlesService.deleteArticle(nameArticle);
 	}
 	
 	@GetMapping ("/all")
