@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import static com.subskill.api.ValidationConstants.*;
 
 
-public record EditMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
+public record ProductMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                                 String microSkillname,
                                 @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
                                 Double microSkillrating,

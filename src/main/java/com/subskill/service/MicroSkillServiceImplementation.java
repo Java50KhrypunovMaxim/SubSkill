@@ -1,8 +1,9 @@
 package com.subskill.service;
 
-import com.subskill.dto.EditMicroSkillDto;
+
 import com.subskill.dto.EditMicroSkillMapper;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
@@ -39,13 +40,13 @@ public class MicroSkillServiceImplementation  implements MicroSkillService{
     }
 
     @Override
-    public EditMicroSkillDto updateMicroskill(EditMicroSkillDto editMicroSkillDto) {
-        MicroSkill existingMicroSkill = microSkillRepository.findByName(editMicroSkillDto.microSkillname())
+    public ProductMicroSkillDto updateMicroskill(ProductMicroSkillDto productMicroSkillDto) {
+        MicroSkill existingMicroSkill = microSkillRepository.findByName(productMicroSkillDto.microSkillname())
                 .orElseThrow(MicroSkillNotFoundException::new);
-        MicroSkill updatedMicroSkill = editMicroSkillMapper.microSkillToEditDto(existingMicroSkill, editMicroSkillDto);
+        MicroSkill updatedMicroSkill = editMicroSkillMapper.microSkillToEditDto(existingMicroSkill, productMicroSkillDto);
         microSkillRepository.save(updatedMicroSkill);
-        EditMicroSkillDto updatedMicroSkillDto = editMicroSkillMapper.microSkillToDto(updatedMicroSkill);
-        log.debug("MicroSkill {} has been updated", editMicroSkillDto);
+        ProductMicroSkillDto updatedMicroSkillDto = editMicroSkillMapper.microSkillToDto(updatedMicroSkill);
+        log.debug("MicroSkill {} has been updated", productMicroSkillDto);
         return updatedMicroSkillDto;
     }
 
@@ -78,6 +79,7 @@ public class MicroSkillServiceImplementation  implements MicroSkillService{
     public long getViewsCount(long id) {
         MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
         return microSkill.getViews();
+
     }
 
 
