@@ -2,11 +2,8 @@ package com.subskill.service;
 
 import com.subskill.api.ValidationConstants;
 import com.subskill.dto.UserDto;
-import com.subskill.exception.ArticleNotFoundException;
-import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
-import com.subskill.models.Article;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 	}
 
 	@Override
-	public UserDto registerUser(UserDto userDto) throws UserExistingEmailExeption {
+	public UserDto registerUser(UserDto userDto)  {
 	 Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
     if (existingUserOptional.isPresent()) {
         throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");    }
@@ -50,11 +47,10 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
 	@Override
 	public UserDto changePassword(UserDto userDto, String email)  {
-		Optional<User> optionalExistingUser = userRepository.findByEmail(email);
-		User existingUser = optionalExistingUser.orElseThrow(NoUserInRepositoryException::new);
-		existingUser.setPassword(userDto.password());
-		User updatedUser = userRepository.save(existingUser);
-		return updatedUser.build();
+		User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
+		optionalExistingUser.setPassword(userDto.password());
+		userRepository.save(optionalExistingUser);
+		return optionalExistingUser.build();
 	}
 	@Override
 	public void deleteUser(String email) {

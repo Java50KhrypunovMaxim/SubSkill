@@ -12,20 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.dto.ArticleDto;
-import com.subskill.dto.UserDto;
 import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.IllegalArticleStateException;
-import com.subskill.exception.IllegalUsersStateException;
-import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.models.Article;
-import com.subskill.models.Roles;
-import com.subskill.models.User;
 import com.subskill.repository.ArticleRepository;
-import com.subskill.repository.UserRepository;
 import com.subskill.service.ArticleService;
-import com.subskill.service.UserService;
 
-	@SpringBootTest
+@SpringBootTest
 	@Sql(scripts = {"classpath:users.sql"})
 	class SubskillArticleServiceTest {
 		
