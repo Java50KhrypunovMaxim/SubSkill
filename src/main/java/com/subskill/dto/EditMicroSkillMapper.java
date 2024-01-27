@@ -17,7 +17,7 @@ public interface EditMicroSkillMapper {
     @Mapping(source = "microSkillLevel", target = "level")
     @Mapping(source = "microSkillTags", target = "tags")
     @Mapping(source = "microSkillLearningtime", target = "learningTime")
-    MicroSkill microSkillToEditDto(MicroSkill existingMicroSkill, EditMicroSkillDto editMicroSkillDto);
+    MicroSkill microSkillToEditDto(MicroSkill microSkill, EditMicroSkillDto editMicroSkillDto);
 
 
     EditMicroSkillDto microSkillToDto(MicroSkill microSkill);
