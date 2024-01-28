@@ -12,8 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.dto.UserDto;
 import com.subskill.exception.IllegalUsersStateException;
-import com.subskill.exception.NoUserInRepositoryException;
-import com.subskill.models.Roles;
+import com.subskill.enums.Roles;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
@@ -62,6 +61,7 @@ import com.subskill.service.UserService;
 		//User DTO
 		UserDto userDto1 = new UserDto(USERNAME1, PASSWORD1, EMAIL4, NICKNAME1, true, IMAGEURLl, Roles.USER);
 		UserDto userDto2 = new UserDto(USERNAME2, PASSWORD2, EMAIL2, NICKNAME2, true, IMAGEURL2, Roles.USER);
+
 		UserDto userDtoUpdate = new UserDto(USERNAME2, PASSWORD2, EMAIL2, "Magnus", true, IMAGEURL2, Roles.ADMIN);
 		
 		public static final List<String> ALLUSERS = Arrays.asList(
@@ -95,23 +95,16 @@ import com.subskill.service.UserService;
 		
 		}
 		
-<<<<<<< HEAD
+
+
 //		@Test
-//		@DisplayName(SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
+//		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
 //		void testDeleteUser() {
 //			assertEquals(userDto1, userService.deleteUser(userDto1.email()));
 //			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
 //
 //		}
-=======
-		@Test
-		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
-		void testDeleteUser() {
-			assertEquals(userDto1, userService.deleteUser(userDto1.email()));
-			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
-			
-		}
->>>>>>> 83c05f296efe749a6b09e37357a8b0e0fbc96630
+
 		
 		@Test
 		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.UPDATE_USER)

@@ -1,6 +1,7 @@
 package com.subskill.models;
 
 import com.subskill.dto.UserDto;
+import com.subskill.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
