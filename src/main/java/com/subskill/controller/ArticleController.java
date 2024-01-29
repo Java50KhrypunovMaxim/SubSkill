@@ -24,7 +24,6 @@ import static com.subskill.api.ValidationConstants.*;
 @RequestMapping("api/v1/articles")
 @RequiredArgsConstructor
 @Slf4j 
-
 public class ArticleController {
 
 	final ArticleService articlesService;
