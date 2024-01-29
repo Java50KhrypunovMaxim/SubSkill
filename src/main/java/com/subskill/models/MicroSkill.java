@@ -4,7 +4,6 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,33 +31,39 @@ public class MicroSkill {
 
     @Column(name = "creationDate")
     private LocalDate creationDate;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "learningtime")
-    private String learningtime;
+    private String learningTime;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "tags")
     private Tags tags;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "level")
     private Level level;
-
-
 
     @Column(name = "rating")
     private double rating;
 
     @Column(name = "views")
     private int views;
+
     @ManyToOne
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
     @OneToMany(mappedBy = "microSkill")
     private List<Article> articles;
+
     public static MicroSkill of(MicroSkillDto microSkillDto) {
         MicroSkill microSkill = new MicroSkill();
-        microSkill.name = microSkillDto.microSkillname();
-        microSkill.photo = microSkillDto.microSkillphoto();
-        microSkill.rating = microSkillDto.microSkillrating();
+        microSkill.name = microSkillDto.microSkillName();
+        microSkill.photo = microSkillDto.microSkillPhoto();
+        microSkill.rating = microSkillDto.microSkillRating();
         microSkill.technology = microSkillDto.technologyId();
         return microSkill;
     }
