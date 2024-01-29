@@ -41,17 +41,18 @@ public class ArticleServiceImplementation implements ArticleService {
         Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
         article.setTextOfArticle(articleDto.textOfArticle());
         article.setArticleName(articleDto.articleName());
+        article.setMicroSkill(articleDto.idOfSkills());
         log.debug("Article {} has been update", articleDto);
         return articleDto;
     }
 
     @Override
     @Transactional
-    public ArticleDto deleteArticle(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
+    public ArticleDto deleteArticle(String articleName) {
+        Article article = articleRepository.findByArticleName(articleName).orElseThrow(ArticleNotFoundException::new);
         ArticleDto res = article.build();
-        articleRepository.deleteById(id);
-        log.debug("article ID {} has been deleted", id);
+        articleRepository.deleteById(article.getId());
+        log.debug("article ID {} has been deleted", articleName);
         return res;
     }
 

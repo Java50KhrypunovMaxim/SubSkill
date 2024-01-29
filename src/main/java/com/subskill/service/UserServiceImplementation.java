@@ -2,7 +2,6 @@ package com.subskill.service;
 
 import com.subskill.api.ValidationConstants;
 import com.subskill.dto.UserDto;
-import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
 import com.subskill.models.User;
@@ -25,13 +24,13 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 	}
 
 	@Override
-	public UserDto registerUser(UserDto userDto) throws UserExistingEmailExeption {
+	public UserDto registerUser(UserDto userDto)  {
 	 Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
     if (existingUserOptional.isPresent()) {
         throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");    }
 		User newUser = User.of(userDto);
-		User savedUser = userRepository.save(newUser);
-		return  savedUser.build(newUser) ;
+		userRepository.save(newUser);
+		return newUser.build();
 	}
 
 	@Override
@@ -42,22 +41,17 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 		User existingUser = userRepository.findByEmail(userDto.email())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 		User updatedUser = userRepository.save(existingUser);
-		return updatedUser.build(existingUser);
+
+		return updatedUser.build();
 	}
 
 	@Override
-	public UserDto changePassword(UserDto userDto, String email) throws NoUserInRepositoryException, NotFoundException {
-		User existingUser = userRepository.findByEmail(email)
-				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
-		existingUser.setPassword(userDto.password());
-		try {
-			userRepository.save(existingUser);
-			return userDto;
-		} catch (Exception e) {
-			throw new NoUserInRepositoryException("Error changing password: " + e.getMessage());
-		}
+	public UserDto changePassword(UserDto userDto, String email)  {
+		User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
+		optionalExistingUser.setPassword(userDto.password());
+		userRepository.save(optionalExistingUser);
+		return optionalExistingUser.build();
 	}
-
 	@Override
 	public void deleteUser(String email) {
 		userRepository.findByEmail(email).ifPresent(userRepository::delete);
