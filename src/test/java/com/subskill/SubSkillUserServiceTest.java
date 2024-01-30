@@ -57,8 +57,6 @@ import com.subskill.service.UserService;
 
 				
 		/*******************************************************************************/
-		
-	
 		//User DTO
 		UserDto userDto1 = new UserDto(USERNAME1, PASSWORD1, EMAIL4, NICKNAME1, true, IMAGEURLl, Roles.USER);
 		UserDto userDto2 = new UserDto(USERNAME2, PASSWORD2, EMAIL2, NICKNAME2, true, IMAGEURL2, Roles.USER);

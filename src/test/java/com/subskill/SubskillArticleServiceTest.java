@@ -49,7 +49,6 @@ import com.subskill.service.UserService;
 		private static final long IdSkills3 = 8901;
 		/****************************************************************************/
 		
-	
 		//Article DTO
 		ArticleDto ArticleDto1 = new ArticleDto (ARTICLENAME1,TEXT1,IdSkills1);
 		ArticleDto ArticleDto2 = new ArticleDto (ARTICLENAME2,TEXT2,IdSkills2);
@@ -66,7 +65,6 @@ import com.subskill.service.UserService;
 		ArticleService articleService;
 		/***************************************************************************************/
 		
-
 		@Test
 		@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.SHOW_ALL_ARTICLES)
 		void testShowAllUsers() {
@@ -74,7 +72,6 @@ import com.subskill.service.UserService;
 		}
 		
 		@Test
-		
 		@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.ADD_ARTICLE)
 		void testdeArticle() {
 			assertEquals(ArticleDto1, articleService.addArticle(ArticleDto1));
@@ -82,7 +79,6 @@ import com.subskill.service.UserService;
 			Article article = articleRepo.findByArticleName(ArticleDto1.articleName()).orElse(null);
 			assertEquals(ArticleDto1, article.build());
 		}
-		
 		
 		@Test
 		@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_ARTICLE)
