@@ -34,7 +34,7 @@ public class ArticleController {
 		return articlesService.addArticle(articleDto);
 	}
 	
-	@PutMapping("update/{email}")
+	@PutMapping("update/{nameArticle}")
 	ArticleDto updateArticle(@RequestBody @Valid ArticleDto articleDto
 	) {
 		log.debug("update article: received new information about article: {}", articleDto);

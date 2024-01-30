@@ -25,19 +25,19 @@ public class UsersController {
 	
 	final UserService usersService;
 	
-	@PostMapping("users")
+	@PostMapping()
 	UserDto registerUser(@RequestBody @Valid UserDto userDto) {
 		log.debug("registerUser: received user data: {}", userDto);
 		return usersService.registerUser(userDto);
 	}
 	
-	@PutMapping("user")
+	@PutMapping("/update/{email}")
 	UserDto updateUser(@RequestBody @Valid UserDto userDto) {
 		log.debug("update user: received new information about user: {}", userDto);
 		return usersService.updateUser(userDto);
 	}
 
-	@PutMapping("user/password/{email}")
+	@PutMapping("/password/{email}")
 	UserDto changeUserPassword(@NotEmpty(message = MISSING_PERSON_EMAIL)
 	                           @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email,
 	                           String password,
@@ -46,7 +46,7 @@ public class UsersController {
 	    return usersService.changePassword(email, password);
 	}
 
-	@DeleteMapping("user")
+	@DeleteMapping("delete/{email}")
 	void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
 					@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email) {
 		log.debug("delete user: user with email {}", email);
