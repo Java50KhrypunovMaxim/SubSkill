@@ -41,7 +41,7 @@ public class ArticleServiceImplementation implements ArticleService {
         Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
         article.setTextOfArticle(articleDto.textOfArticle());
         article.setArticleName(articleDto.articleName());
-        article.setidOfSkills(articleDto.idOfSkills());
+        article.setMicroSkill(articleDto.idOfSkills());
         log.debug("Article {} has been update", articleDto);
         return articleDto;
     }
@@ -63,6 +63,7 @@ public class ArticleServiceImplementation implements ArticleService {
                 .map(Article::getArticleName)
                 .collect(Collectors.toList());
         log.debug("All articles {}", articleNames);
+
         return articleNames;
     }
 

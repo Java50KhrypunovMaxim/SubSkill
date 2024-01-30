@@ -1,6 +1,7 @@
 package com.subskill.models;
 
 import com.subskill.dto.UserDto;
+import com.subskill.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class User {
     @Column(name = "nickname",nullable = false,unique = true)
     private String nickname;
     @Column(name = "status", columnDefinition = "boolean default true")
-    private boolean online;
+    private Boolean online;
     @Column(name = "image_Url")
     private String imageUrl;
     @Enumerated(EnumType.STRING)

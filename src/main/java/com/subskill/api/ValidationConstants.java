@@ -17,7 +17,7 @@ public interface ValidationConstants {
     String MISSING_PASSWORD_MESSAGE = "Missing password";
     String WRONG_PASSWORD_CREATION_MESSAGE = "The password must consist of at least 6 characters. Contain a number and one capital letter";
     String MISSING_STATUS_MESSAGE = "Missing status of user";
-    String MISSING_IMAGEURL_MESSAGE =  "Missing image URL";
+    String MISSING_IMAGEURL_MESSAGE = "Missing image URL";
     String MISSING_ROLE_MESSAGE = "Missing role of user";
     String MISSING_NICKNAME_MESSAGE = "Missing nickname of user";
     String INVALID_INPUT_DATA = "Invalid input data";
@@ -25,6 +25,17 @@ public interface ValidationConstants {
     String MISSING_ARTICLE_NAME_MESSAGE = "Missing name of article";
     String MISSING_TEXT_OF_ARTICLE_MESSAGE = "Missing text of article";
     String MISSING_ID_OF_SKILLS = "Missing id of skills";
+    String MISSING_ID_OF_ARTICLE = "Missing id of article";
+    String MISSING_MICROSKILL_NAME_MESSAGE = "Missing name of microskill";
+    String MISSING_MICROSKILL_RATING_MESSAGE = "Missing rating in microsskill";
+    String MISSING_MICROSKILLS_PHOTO_MESSAGE = "Missing photo in microskill";
+    String TECHNOLOGY_ID_MISSING = "Missing technology id";
+    String MISSING_MICROSKILL_DESCRIPTION_MESSAGE = "Missing destription message";
+    String MISSING_MICROSKILL_LEVEL_MESSAGE = "Missing Level message";
+    String MISSING_MICROSKILL_TAGS_MESSAGE = "Missing tag message";
+    String MISSING_MICROSKILL_LEARNINGTIME_MESSAGE = "Missing learning time message";
+
     String MISSING_NAME_OF_ARTICLE = "Missing name of article";
+
 }
 

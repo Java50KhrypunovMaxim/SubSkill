@@ -3,6 +3,8 @@ package com.subskill.dto;
 import static com.subskill.api.ValidationConstants.*;
 
 import java.util.Objects;
+
+import com.subskill.models.MicroSkill;
 import jakarta.validation.constraints.NotEmpty;
 
 public record ArticleDto (
@@ -11,9 +13,9 @@ public record ArticleDto (
 		
 		@NotEmpty (message= MISSING_TEXT_OF_ARTICLE_MESSAGE)
 		String textOfArticle,
-		
-		@NotEmpty (message=MISSING_ID_OF_SKILLS)
-		long idOfSkills)
+
+		@NotEmpty(message = MISSING_ID_OF_SKILLS)
+		MicroSkill idOfSkills)
 	
 	{
 		@Override
