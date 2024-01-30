@@ -12,6 +12,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.dto.UserDto;
 import com.subskill.exception.IllegalUsersStateException;
+import com.subskill.exception.NoUserInRepositoryException;
+import com.subskill.exception.UserExistingEmailExeption;
 import com.subskill.enums.Roles;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
@@ -25,20 +27,19 @@ import com.subskill.service.UserService;
 		//User names
 		private static final String USERNAME1 = "MAX";
 		private static final String USERNAME2 = "Artur";
-		private static final String USERNAME3 = "Miho";
+		private static final String USERNAME3= "David";
 	
 		/**************************************************************/
 		//User nicknames
 		private static final String NICKNAME1 = "Rambo";
 		private static final String NICKNAME2 = "Leo";
-		private static final String NICKNAME3 = "Vandam";
+		private static final String NICKNAME3 = "Monkey";
 	
 		/*********************************************************************/
 
 		//Email's
 		private static final String EMAIL1 = "user1@telran.com";
 		private static final  String EMAIL2 = "name1@tel-ran.co.il";
-		private static final String EMAIL3 = "name3@gmail.com";
 		private static final String EMAIL4 = "Max@gmail.com";
 		/****************************************************************************/
 		
@@ -59,7 +60,7 @@ import com.subskill.service.UserService;
 		//User DTO
 		UserDto userDto1 = new UserDto(USERNAME1, PASSWORD1, EMAIL4, NICKNAME1, true, IMAGEURLl, Roles.USER);
 		UserDto userDto2 = new UserDto(USERNAME2, PASSWORD2, EMAIL2, NICKNAME2, true, IMAGEURL2, Roles.USER);
-
+		UserDto userDto3 = new UserDto(USERNAME3, PASSWORD3, EMAIL1, NICKNAME3, true, IMAGEURL3, Roles.USER);
 		UserDto userDtoUpdate = new UserDto(USERNAME2, PASSWORD2, EMAIL2, "Magnus", true, IMAGEURL2, Roles.ADMIN);
 		
 		public static final List<String> ALLUSERS = Arrays.asList(
@@ -87,21 +88,19 @@ import com.subskill.service.UserService;
 		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.REGISTR_USER)
 		void testRegistrUser() {
 			assertEquals(userDto1, userService.registerUser(userDto1));
-			assertThrowsExactly(IllegalUsersStateException.class,() -> userService.registerUser(userDto1));
+			assertThrowsExactly(UserExistingEmailExeption.class,() -> userService.registerUser(userDto1));
 			User user = userRepo.findByEmail(userDto1.email()).orElse(null);
 			assertEquals(userDto1, user.build());
-		
+		 
 		}
 		
-
-
-//		@Test
-//		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
-//		void testDeleteUser() {
-//			assertEquals(userDto1, userService.deleteUser(userDto1.email()));
-//			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto1.email()));
-//
-//		}
+	@Test
+		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_USER)
+		void testDeleteUser() {
+			userService.registerUser(userDto2);
+			userService.deleteUser(userDto2.email());
+			assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto2.email()));
+	   }
 
 		
 		@Test
@@ -116,8 +115,9 @@ import com.subskill.service.UserService;
 		@Test
 		@DisplayName(USER_SERVICE_TEST + SubSkilleTestNameUserService.CHANGE_PASSWORD_USER)
 		void testChangePasswordOfUser() {
-			userService.changePassword(userDto2, PASSWORD3);
-			assertEquals(PASSWORD3,userRepo.findByEmail(EMAIL2).get().getPassword());
+			userService.registerUser(userDto3);
+			userService.changePassword(EMAIL1, "Max1989");
+			assertEquals("Max1989",userRepo.findByEmail(EMAIL1).get().getPassword());
 		}
 
 

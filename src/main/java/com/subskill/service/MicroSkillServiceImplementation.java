@@ -9,7 +9,7 @@ import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.MicroSkillRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,8 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final EditMicroSkillMapper editMicroSkillMapper;
 
-    @Autowired
+    
+    
     public MicroSkillServiceImplementation(MicroSkillRepository microSkillRepository, EditMicroSkillMapper editMicroSkillMapper) {
         this.microSkillRepository = microSkillRepository;
         this.editMicroSkillMapper = editMicroSkillMapper;

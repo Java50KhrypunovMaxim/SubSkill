@@ -27,7 +27,7 @@ public class Article {
     private String textOfArticle;
 
     @ManyToOne
-    @JoinColumn(name = "micro_skill_id")
+    @JoinColumn(name = "micro_skill")
     private MicroSkill microSkill;
 
     public static Article of(ArticleDto articleDto) {

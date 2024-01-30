@@ -1,12 +1,20 @@
 package com.subskill.service;
 
 import com.subskill.api.ValidationConstants;
+import com.subskill.dto.ArticleDto;
 import com.subskill.dto.UserDto;
+import com.subskill.exception.ArticleNotFoundException;
+import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
+import com.subskill.models.Article;
 import com.subskill.models.User;
+import com.subskill.repository.ArticleRepository;
 import com.subskill.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +22,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class UserServiceImplementation implements UserService, ValidationConstants {
 
 	private final UserRepository userRepository;
-
-	@Autowired
-	public UserServiceImplementation(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
 	@Override
 	public UserDto registerUser(UserDto userDto)  {
@@ -30,6 +35,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");    }
 		User newUser = User.of(userDto);
 		userRepository.save(newUser);
+		log.debug("user with email {d} has been registered", newUser.getEmail() );
 		return newUser.build();
 	}
 
@@ -40,27 +46,36 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 		}
 		User existingUser = userRepository.findByEmail(userDto.email())
 				.orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
-		User updatedUser = userRepository.save(existingUser);
-
-		return updatedUser.build();
+		deleteUser(existingUser.getEmail());
+		UserDto updatedUser = registerUser(userDto);
+		log.debug("user with email {d} has been updated", updatedUser.email() );
+		return updatedUser;
 	}
 
 	@Override
-	public UserDto changePassword(UserDto userDto, String email)  {
+	public UserDto changePassword(String email, String NewPasspord)  {
 		User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
-		optionalExistingUser.setPassword(userDto.password());
+		optionalExistingUser.setPassword(NewPasspord);
 		userRepository.save(optionalExistingUser);
+		log.debug("Password in email {d} has been changed", optionalExistingUser.getEmail());
 		return optionalExistingUser.build();
 	}
+	
+	
 	@Override
 	public void deleteUser(String email) {
-		userRepository.findByEmail(email).ifPresent(userRepository::delete);
+		User user = userRepository.findByEmail(email).orElseThrow(NoUserInRepositoryException::new);
+		userRepository.deleteById(user.getId());
+        log.debug("user with email {d} has been deleted", user.getEmail());
 	}
 
+	
 	@Override
 	public List<String> allUsers() {
 		List<User> users = userRepository.findAll();
+		log.debug("Showing all users that alreagy registred of site");
 		return users.stream().map(User::getEmail).collect(Collectors.toList());
+		
 	}
 
 

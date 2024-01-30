@@ -38,11 +38,12 @@ public class UsersController {
 	}
 
 	@PutMapping("user/password/{email}")
-	UserDto changeUserPassword (@NotEmpty (message=MISSING_PERSON_EMAIL)
-								@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email,
-								@RequestBody @Valid UserDto userDto) {
-		log.debug("The password has been changed {}", email);
-		return usersService.changePassword(userDto,email);
+	UserDto changeUserPassword(@NotEmpty(message = MISSING_PERSON_EMAIL)
+	                           @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email,
+	                           String password,
+	                           @RequestBody @Valid UserDto userDto) {
+	    log.debug("The password has been changed {}", email);
+	    return usersService.changePassword(email, password);
 	}
 
 	@DeleteMapping("user")
