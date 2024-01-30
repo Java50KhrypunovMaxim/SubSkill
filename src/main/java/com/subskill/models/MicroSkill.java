@@ -64,7 +64,8 @@ public class MicroSkill {
         microSkill.name = microSkillDto.microSkillName();
         microSkill.photo = microSkillDto.microSkillPhoto();
         microSkill.rating = microSkillDto.microSkillRating();
-        microSkill.technology = microSkillDto.technologyId();
+        
+       // microSkill.technology = microSkillDto.technologyId(); заглушка
         return microSkill;
     }
 

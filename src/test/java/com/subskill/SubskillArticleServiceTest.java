@@ -2,6 +2,7 @@ package com.subskill;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,15 +14,31 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.dto.ArticleDto;
+import com.subskill.dto.MicroSkillDto;
+import com.subskill.enums.Level;
+import com.subskill.enums.Tags;
 import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.IllegalArticleStateException;
+import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.Article;
 import com.subskill.repository.ArticleRepository;
+import com.subskill.repository.MicroSkillRepository;
 import com.subskill.service.ArticleService;
+import com.subskill.service.MicroSkillService;
 
 @SpringBootTest
 @Sql(scripts = {"classpath:users.sql"})
 class SubskillArticleServiceTest {
+	//Repo's
+		@Autowired
+		ArticleRepository articleRepo;
+		@Autowired
+		MicroSkillRepository microSkillRepo;
+		//Service bean
+		@Autowired
+		ArticleService articleService;
+		@Autowired
+		MicroSkillService microSkillsService;
 
 	private static final String ARTICLE_SERVICE_TEST = "Article Service Test: ";
 	//Article names
@@ -41,26 +58,14 @@ class SubskillArticleServiceTest {
 	private static final long IdSkills1 = 1234;
 	private static final long IdSkills2 = 4567;
 	private static final long IdSkills3 = 8901;
+	
+	
 	/****************************************************************************/
 
+	public static final List<String> ALLAARTICLES = Arrays.asList();
 
-	//Article DTO
-	ArticleDto ArticleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, new MicroSkill());
-	ArticleDto ArticleDto2 = new ArticleDto(ARTICLENAME2, TEXT2, new MicroSkill());
-	ArticleDto ArticleDto3 = new ArticleDto(ARTICLENAME3, TEXT3, new MicroSkill());
-
-	public static final List<String> ALLAARTICLES = Arrays.asList(
-			"Article1", "Article2", "Article3", "Article4", "Article5");
-
-	//Repo's
-	@Autowired
-	ArticleRepository articleRepo;
-	//Service bean
-	@Autowired
-	ArticleService articleService;
 
 	/***************************************************************************************/
-
 
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.SHOW_ALL_ARTICLES)
@@ -70,27 +75,32 @@ class SubskillArticleServiceTest {
 
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.ADD_ARTICLE)
-	void testdeArticle() {
+	void testAddArticle() {
+		MicroSkillDto microSkillDto1 = new MicroSkillDto("Java Basics", 4.66, "java_basics.jpg");
+		ArticleDto ArticleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, MicroSkill.of(microSkillDto1));
 		assertEquals(ArticleDto1, articleService.addArticle(ArticleDto1));
 		assertThrowsExactly(IllegalArticleStateException.class, () -> articleService.addArticle(ArticleDto1));
 		Article article = articleRepo.findByArticleName(ArticleDto1.articleName()).orElse(null);
 		assertEquals(ArticleDto1, article.build());
 	}
 
-
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.DELETE_ARTICLE)
 	void testDeleteArticle() {
-		ArticleDto articleFromBase = new ArticleDto("Article1", "Text of Article 11", new MicroSkill());
-		assertEquals(articleFromBase, articleService.deleteArticle("Article1"));
-		assertThrowsExactly(ArticleNotFoundException.class, () -> articleService.deleteArticle("Article1"));
+		MicroSkillDto microSkillDto2 = new MicroSkillDto("Spring Framework", 4.8, "spring_framework.jpg");
+		ArticleDto ArticleDto2 = new ArticleDto(ARTICLENAME2, TEXT2, MicroSkill.of(microSkillDto2));
+		articleService.addArticle(ArticleDto2);
+		articleService.deleteArticle("Article2");
+		assertThrowsExactly(ArticleNotFoundException.class, () -> articleService.deleteArticle("Article2"));
 	}
 
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.UPDATE_ARTICLE)
 	void testUpdateArticle() {
-		articleService.addArticle(ArticleDto2);
-		ArticleDto articleDtoUpdate = new ArticleDto(ARTICLENAME2, TEXT3, new MicroSkill());
+		MicroSkillDto microSkillDto3 = new MicroSkillDto("Database Design", 4.3, "database_design.jpg");
+		ArticleDto ArticleDto3 = new ArticleDto(ARTICLENAME3, TEXT3, MicroSkill.of(microSkillDto3));
+		articleService.addArticle(ArticleDto3);
+		ArticleDto articleDtoUpdate = new ArticleDto(ARTICLENAME2, TEXT3, MicroSkill.of(microSkillDto3));
 		assertEquals(articleDtoUpdate, articleService.updateArticle(articleDtoUpdate));
 		assertEquals(TEXT3, articleRepo.findByArticleName(ARTICLENAME2).get().getTextOfArticle());
 	}

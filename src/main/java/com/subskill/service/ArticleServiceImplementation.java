@@ -48,12 +48,12 @@ public class ArticleServiceImplementation implements ArticleService {
 
     @Override
     @Transactional
-    public ArticleDto deleteArticle(String articleName) {
+    public void deleteArticle(String articleName) {
         Article article = articleRepository.findByArticleName(articleName).orElseThrow(ArticleNotFoundException::new);
         ArticleDto res = article.build();
         articleRepository.deleteById(article.getId());
-        log.debug("article ID {} has been deleted", articleName);
-        return res;
+        log.debug("article with name {} has been deleted", res.articleName());
+
     }
 
     @Override

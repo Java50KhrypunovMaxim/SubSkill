@@ -16,9 +16,9 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
                             Double microSkillRating,
                             @NotEmpty(message = MISSING_MICROSKILLS_PHOTO_MESSAGE)
-                            String microSkillPhoto,
-                            @NotEmpty(message = TECHNOLOGY_ID_MISSING)
-                            Technology technologyId
+                            String microSkillPhoto
+                   //         @NotEmpty(message = TECHNOLOGY_ID_MISSING)
+                       //     Technology technologyId заглушка
 ) {
 
     @Override

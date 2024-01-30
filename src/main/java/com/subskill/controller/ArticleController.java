@@ -42,9 +42,9 @@ public class ArticleController {
 	}
 	
 	@DeleteMapping("/{nameArticle}")
-	ArticleDto deleteArticle(@NotEmpty (message=MISSING_NAME_OF_ARTICLE) String nameArticle) {
+	void deleteArticle(@NotEmpty (message=MISSING_NAME_OF_ARTICLE) String nameArticle) {
 		log.debug("delete article: article with name {}", nameArticle);
-		return articlesService.deleteArticle(nameArticle);
+		articlesService.deleteArticle(nameArticle);
 	}
 	
 	@GetMapping ("/all")
