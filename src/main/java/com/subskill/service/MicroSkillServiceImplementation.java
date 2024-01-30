@@ -8,6 +8,7 @@ import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.MicroSkillRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
@@ -17,16 +18,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final EditMicroSkillMapper editMicroSkillMapper;
-
-    
-    
-    public MicroSkillServiceImplementation(MicroSkillRepository microSkillRepository, EditMicroSkillMapper editMicroSkillMapper) {
-        this.microSkillRepository = microSkillRepository;
-        this.editMicroSkillMapper = editMicroSkillMapper;
-    }
 
     @Override
     public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {

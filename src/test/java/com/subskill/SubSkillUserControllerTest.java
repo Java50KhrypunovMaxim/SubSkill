@@ -2,6 +2,9 @@ package com.subskill;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 
 import static org.mockito.Mockito.doNothing;
@@ -14,9 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,9 +30,8 @@ import com.subskill.dto.UserDto;
 import com.subskill.enums.Roles;
 import com.subskill.service.UserService;
 
+@ExtendWith(MockitoExtension.class)
 @WebMvcTest(UsersController.class)
-@ComponentScan(basePackages = "com.subskill")
-
 class SubSkillUserControllerTest {
 		
 		@MockBean 
@@ -93,7 +93,7 @@ class SubSkillUserControllerTest {
 		void testUpdateUser() throws Exception{
 			when(userService.updateUser(userDtoUpdated)).thenReturn(userDtoUpdated);
 			String jsonUserDtoUpdated = mapper.writeValueAsString(userDtoUpdated);
-			String actualJSON = mockMvc.perform(put("http://localhost:8080api/v1/articles/update/" + userDtoUpdated.email()).contentType(MediaType.APPLICATION_JSON)
+			String actualJSON = mockMvc.perform(put("http://localhost:8080/api/v1/articles/update/" + userDtoUpdated.email()).contentType(MediaType.APPLICATION_JSON)
 					.content(jsonUserDtoUpdated)).andExpect(status().isOk()).andReturn().getResponse()
 			.getContentAsString();
 			assertEquals(jsonUserDtoUpdated, actualJSON );
@@ -102,7 +102,7 @@ class SubSkillUserControllerTest {
 		@Test
 		void testDeleteUser() throws Exception {
 			doNothing().when(userService).deleteUser(EMAIL1);
-			mockMvc.perform(delete("http://localhost:8080api/v1/articles/delete" + EMAIL1).param("email", EMAIL1)
+			mockMvc.perform(delete("http://localhost:8080/api/v1/articles/delete" + EMAIL1).param("email", EMAIL1)
 					.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 		}
 		@Test

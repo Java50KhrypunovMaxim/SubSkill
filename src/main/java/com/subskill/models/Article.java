@@ -25,7 +25,7 @@ public class Article {
     @Column(name = "textOfArticle", nullable = false)
     private String textOfArticle;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "micro_skill", nullable = false)
     private MicroSkill microSkill;
 

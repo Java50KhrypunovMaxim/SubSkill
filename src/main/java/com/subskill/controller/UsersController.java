@@ -20,10 +20,9 @@ import com.subskill.service.UserService;
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 @Slf4j 
-
 public class UsersController {
-	
-	final UserService usersService;
+
+	private final UserService usersService;
 	
 	@PostMapping()
 	UserDto registerUser(@RequestBody @Valid UserDto userDto) {

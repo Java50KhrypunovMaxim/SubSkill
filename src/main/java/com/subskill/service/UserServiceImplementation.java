@@ -1,18 +1,14 @@
 package com.subskill.service;
 
 import com.subskill.api.ValidationConstants;
-import com.subskill.dto.ArticleDto;
 import com.subskill.dto.UserDto;
-import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
-import com.subskill.models.Article;
 import com.subskill.models.User;
-import com.subskill.repository.ArticleRepository;
 import com.subskill.repository.UserRepository;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class UserServiceImplementation implements UserService, ValidationConstants {
 

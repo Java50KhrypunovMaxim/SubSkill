@@ -26,7 +26,7 @@ import static com.subskill.api.ValidationConstants.*;
 @Slf4j 
 public class ArticleController {
 
-	final ArticleService articlesService;
+	private final ArticleService articlesService;
 	
 	@PostMapping()
 	ArticleDto registerUser(@RequestBody @Valid ArticleDto articleDto) {

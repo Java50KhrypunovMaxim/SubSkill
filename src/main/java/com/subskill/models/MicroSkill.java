@@ -56,7 +56,7 @@ public class MicroSkill {
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
-    @OneToMany(mappedBy = "microSkill")
+    @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
 
     public static MicroSkill of(MicroSkillDto microSkillDto) {
