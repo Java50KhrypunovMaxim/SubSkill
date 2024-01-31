@@ -34,6 +34,7 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_LEVEL_MESSAGE = "Missing Level message";
     String MISSING_MICROSKILL_TAGS_MESSAGE = "Missing tag message";
     String MISSING_MICROSKILL_LEARNINGTIME_MESSAGE = "Missing learning time message";
+    String MISSING_MICROSKILL_VIEWS_MESSAGE = "Missing views  message";
 
     String MISSING_NAME_OF_ARTICLE = "Missing name of article";
 

@@ -4,10 +4,11 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,11 +35,14 @@ public class MicroSkill {
     private LocalDate creationDate;
     @Column(name = "description")
     private String description;
-    @Column(name = "learningtime")
-    private String learningtime;
-    @Column(name = "tags")
+
+    @Column(name = "learningTime")
+    private String learningTime;
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("TBA")
     private Tags tags;
-    @Column(name = "level")
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("BASIC")
     private Level level;
 
 
