@@ -77,6 +77,7 @@ class SubskillArticleServiceTest {
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkilleTestNameUserService.ADD_ARTICLE)
 	void testAddArticle() {
 		MicroSkillDto microSkillDto1 = new MicroSkillDto("Java Basics", 4.66, "java_basics.jpg");
+		microSkillsService.addMicroskill(microSkillDto1);
 		ArticleDto ArticleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, MicroSkill.of(microSkillDto1));
 		assertEquals(ArticleDto1, articleService.addArticle(ArticleDto1));
 		assertThrowsExactly(IllegalArticleStateException.class, () -> articleService.addArticle(ArticleDto1));
