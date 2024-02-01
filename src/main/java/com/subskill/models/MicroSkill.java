@@ -56,7 +56,7 @@ public class MicroSkill {
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
-    @OneToMany(mappedBy = "microSkill")
+    @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
 
     public static MicroSkill of(MicroSkillDto microSkillDto) {
@@ -64,7 +64,8 @@ public class MicroSkill {
         microSkill.name = microSkillDto.microSkillName();
         microSkill.photo = microSkillDto.microSkillPhoto();
         microSkill.rating = microSkillDto.microSkillRating();
-        microSkill.technology = microSkillDto.technologyId();
+        
+       // microSkill.technology = microSkillDto.technologyId(); заглушка
         return microSkill;
     }
 

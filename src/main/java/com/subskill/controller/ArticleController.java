@@ -2,13 +2,7 @@ package com.subskill.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,7 +20,7 @@ import static com.subskill.api.ValidationConstants.*;
 @Slf4j 
 public class ArticleController {
 
-	final ArticleService articlesService;
+	private final ArticleService articlesService;
 	
 	@PostMapping()
 	ArticleDto registerUser(@RequestBody @Valid ArticleDto articleDto) {
@@ -34,7 +28,7 @@ public class ArticleController {
 		return articlesService.addArticle(articleDto);
 	}
 	
-	@PutMapping("update/{email}")
+	@PutMapping("update/{nameArticle}")
 	ArticleDto updateArticle(@RequestBody @Valid ArticleDto articleDto
 	) {
 		log.debug("update article: received new information about article: {}", articleDto);
@@ -42,9 +36,9 @@ public class ArticleController {
 	}
 	
 	@DeleteMapping("/{nameArticle}")
-	ArticleDto deleteArticle(@NotEmpty (message=MISSING_NAME_OF_ARTICLE) String nameArticle) {
+	void deleteArticle(@PathVariable @NotEmpty(message = MISSING_NAME_OF_ARTICLE) String nameArticle) {
 		log.debug("delete article: article with name {}", nameArticle);
-		return articlesService.deleteArticle(nameArticle);
+		articlesService.deleteArticle(nameArticle);
 	}
 	
 	@GetMapping ("/all")

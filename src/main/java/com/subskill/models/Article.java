@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "articles")
 @Entity
-
 public class Article {
 
     @Id
@@ -26,8 +25,8 @@ public class Article {
     @Column(name = "textOfArticle", nullable = false)
     private String textOfArticle;
 
-    @ManyToOne
-    @JoinColumn(name = "micro_skill_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "micro_skill", nullable = false)
     private MicroSkill microSkill;
 
     public static Article of(ArticleDto articleDto) {

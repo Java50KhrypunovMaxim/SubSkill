@@ -20,43 +20,39 @@ import com.subskill.service.UserService;
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 @Slf4j 
-
 public class UsersController {
+
+	private final UserService usersService;
 	
-	final UserService usersService;
-	
-	@PostMapping("users")
+	@PostMapping()
 	UserDto registerUser(@RequestBody @Valid UserDto userDto) {
 		log.debug("registerUser: received user data: {}", userDto);
 		return usersService.registerUser(userDto);
 	}
 	
-	@PutMapping("user")
+	@PutMapping("/update/{email}")
 	UserDto updateUser(@RequestBody @Valid UserDto userDto) {
 		log.debug("update user: received new information about user: {}", userDto);
 		return usersService.updateUser(userDto);
 	}
 
-	@PutMapping("user/password/{email}")
-	UserDto changeUserPassword (@NotEmpty (message=MISSING_PERSON_EMAIL)
-								@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email,
-								@RequestBody @Valid UserDto userDto) {
-		log.debug("The password has been changed {}", email);
-		return usersService.changePassword(userDto,email);
+	@PutMapping("/password/{email}")
+	UserDto changeUserPassword(@RequestBody @Valid UserDto userDto) {
+		log.debug("The password has been changed {}", userDto.email());
+		return usersService.changePassword(userDto.email(), userDto.password());
 	}
 
-	@DeleteMapping("user")
+	@DeleteMapping("delete/{email}")
 	void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
 					@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email) {
 		log.debug("delete user: user with email {}", email);
 		usersService.deleteUser(email);
 	}
 
-	@GetMapping ("listOfUsers")
+	@GetMapping()
 	List<String> listOfUsers() {
         log.debug("List of users have been received");
         return usersService.allUsers();
     }
-	
 
 }

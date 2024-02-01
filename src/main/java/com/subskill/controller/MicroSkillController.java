@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MicroSkillController {
-    MicroSkillService microSkillService;
+    private final MicroSkillService microSkillService;
 
     @Operation(
             summary = "Controller for adding Microskilll",
