@@ -37,12 +37,9 @@ public class UsersController {
 	}
 
 	@PutMapping("/password/{email}")
-	UserDto changeUserPassword(@NotEmpty(message = MISSING_PERSON_EMAIL)
-	                           @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email,
-	                           String password,
-	                           @RequestBody @Valid UserDto userDto) {
-	    log.debug("The password has been changed {}", email);
-	    return usersService.changePassword(email, password);
+	UserDto changeUserPassword(@RequestBody @Valid UserDto userDto) {
+		log.debug("The password has been changed {}", userDto.email());
+		return usersService.changePassword(userDto.email(), userDto.password());
 	}
 
 	@DeleteMapping("delete/{email}")
@@ -52,11 +49,10 @@ public class UsersController {
 		usersService.deleteUser(email);
 	}
 
-	@GetMapping ("listOfUsers")
+	@GetMapping()
 	List<String> listOfUsers() {
         log.debug("List of users have been received");
         return usersService.allUsers();
     }
-	
 
 }
