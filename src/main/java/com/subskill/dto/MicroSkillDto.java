@@ -12,7 +12,7 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String microSkillName,
                             @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
                             Double microSkillRating,
-                            @NotEmpty(message = MISSING_MICROSKILLS_PHOTO_MESSAGE)
+                            @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
                             String microSkillPhoto,
                             @NotEmpty
                             List<ArticleDto> articles

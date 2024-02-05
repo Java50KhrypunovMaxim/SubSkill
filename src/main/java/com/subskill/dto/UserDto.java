@@ -28,7 +28,7 @@ public record UserDto (
 	@NotNull (message= MISSING_STATUS_MESSAGE)
 	Boolean online,
 	
-	@NotEmpty (message= MISSING_IMAGEURL_MESSAGE)
+	@NotEmpty (message= MISSING_IMAGE_URL_MESSAGE)
 	String imageUrl,
 	
 	@NotNull (message= MISSING_ROLE_MESSAGE)

@@ -7,4 +7,6 @@ public interface ServiceExceptionMessages {
 	String MICROSKILL_NOT_FOUND = "MicroSkill not found";
 	String MICROSKILL_ALREADY_EXISTS = "MicroSkill already exists";
 	String USER_NOT_FOUND = "User not found";
+	String TECHNOLOGY_NOT_FOUND = "Technology not found";
+	
 }

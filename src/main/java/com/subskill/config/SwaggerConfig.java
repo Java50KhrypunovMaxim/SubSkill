@@ -9,4 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(info = @Info(title = "SubSkill API", version = "v1"))
 public class SwaggerConfig {
 
+
 }

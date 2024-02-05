@@ -23,7 +23,7 @@ public class ArticleController {
 	private final ArticleService articlesService;
 	
 	@PostMapping()
-	ArticleDto registerUser(@RequestBody @Valid ArticleDto articleDto) {
+	ArticleDto addArticle(@RequestBody @Valid ArticleDto articleDto) {
 		log.debug("register article: received article data: {}", articleDto);
 		return articlesService.addArticle(articleDto);
 	}

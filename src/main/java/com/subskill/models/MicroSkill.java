@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -64,11 +65,10 @@ public class MicroSkill {
         microSkill.name = microSkillDto.microSkillName();
         microSkill.photo = microSkillDto.microSkillPhoto();
         microSkill.rating = microSkillDto.microSkillRating();
-        
-       // microSkill.technology = microSkillDto.technologyId(); заглушка
+
+        // microSkill.technology = microSkillDto.technologyId(); заглушка
         return microSkill;
     }
-
 
 
 }
