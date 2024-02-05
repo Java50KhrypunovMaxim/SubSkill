@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import com.subskill.models.Profession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,8 @@ public class SubSkillTechologyControllerTest {
         MicroSkillDto microSkillDto2 = new MicroSkillDto("Database Backend", 13.3, "database_backend.jpg", List.of());
         micSkillService.addMicroskill(microSkillDto1);
         micSkillService.addMicroskill(microSkillDto2);
-        Technology techology_1 = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, microSkillRepository.findByViews(76766l));
-        Technology techology_2 = new Technology(TECHNOLOGY_ID_2, TECHNOLOGY_NAME_2, microSkillRepository.findByViews(71231l));
+        Technology techology_1 = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766l));
+        Technology techology_2 = new Technology(TECHNOLOGY_ID_2, TECHNOLOGY_NAME_2, new Profession(), microSkillRepository.findByViews(71231l));
         technologyRepository.save(techology_1);
         technologyRepository.save(techology_2);
     }
@@ -80,7 +81,7 @@ public class SubSkillTechologyControllerTest {
 
     @Test
     void testGetTechnologyById() throws Exception {
-        Technology expectedTechology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, microSkillRepository.findByViews(76766l));
+        Technology expectedTechology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766l));
         String jsonExpected = mapper.writeValueAsString(expectedTechology);
         when(technologeService.getByID(TECHNOLOGY_ID_1)).thenReturn(expectedTechology);
         String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1))
@@ -94,7 +95,7 @@ public class SubSkillTechologyControllerTest {
 
     @Test
     void testGetTechnologyByName() throws Exception {
-        Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, microSkillRepository.findByViews(76766L));
+        Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766L));
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologeService.getByName(TECHNOLOGY_NAME_1)).thenReturn(expectedTechnology);
         String actualJSON = mockMvc.perform(get("/api/v1/technology/name/" + TECHNOLOGY_NAME_1).contentType(MediaType.APPLICATION_JSON))
