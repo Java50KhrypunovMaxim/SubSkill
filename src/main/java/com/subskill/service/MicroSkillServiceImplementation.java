@@ -7,18 +7,17 @@ import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
+import com.subskill.models.Technology;
 import com.subskill.repository.MicroSkillRepository;
-
-import org.springframework.data.domain.Page;
+import com.subskill.repository.TechnologyRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 import java.util.Optional;
-
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +26,7 @@ import java.util.stream.Collectors;
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final EditMicroSkillMapper editMicroSkillMapper;
+    private final TechnologyRepository technologyRepository;
 
     @Override
     public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
@@ -94,13 +94,20 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                     return skill;
                 });
     }
+
     @Override
-    public Page<MicroSkill> findMicroSkillByPage(Pageable paging) {
+    public List<Technology> findByProfessionName(String name) {
+        log.debug("MicroSkills technology by name : {}",name);
+        return technologyRepository.findByProfessionName(name);
+    }
+
+    @Override
+    public Page<MicroSkill> findMicroSkillByPage(Pageable paging, String rating) {
         Page<MicroSkill> microskillPage;
-            microskillPage = microSkillRepository.findAll(paging);
+        microskillPage = microSkillRepository.findAll(paging, rating);
 
         log.debug("MicroSkills description by page: {}", paging);
-        return  microskillPage;
+        return microskillPage;
     }
 
 }

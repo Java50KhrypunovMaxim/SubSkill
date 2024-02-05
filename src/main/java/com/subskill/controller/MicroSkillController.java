@@ -4,6 +4,8 @@ package com.subskill.controller;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.models.MicroSkill;
+import com.subskill.models.Technology;
+import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.List;
 @Slf4j
 public class MicroSkillController {
     private final MicroSkillService microSkillService;
+    private final TechnologyRepository technologyRepository;
 
 
     @Operation(summary = "Add new MicroSkill card")
@@ -69,12 +73,18 @@ public class MicroSkillController {
         return microSkillService.findAllMicroSkill();
     }
 
+    @GetMapping("/technology")
+    private List<Technology> findByProffesionName(@RequestParam String name) {
+        log.info("We get technology microskill: ");
+        return technologyRepository.findByProfessionName(name);
+    }
 
     @GetMapping("/page")
     public Page<MicroSkill> getAllMicroSkillsByPage(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size) {
-        Pageable paging = PageRequest.of(page, size);
-        return microSkillService.findMicroSkillByPage(paging);
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam String rating) {
+        Pageable paging = PageRequest.of(page, size, Sort.by("rating").ascending());
+        return microSkillService.findMicroSkillByPage(paging, rating);
     }
 }
