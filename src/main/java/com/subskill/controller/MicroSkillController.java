@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +55,7 @@ public class MicroSkillController {
         return microSkillService.getViewsCount(id);
     }
 
+
     @Operation(summary = "Update MicroSkill card")
     @GetMapping("/update")
     ProductMicroSkillDto updateMicroSkill(@RequestBody @Valid ProductMicroSkillDto productMicroSkillDto) {
@@ -66,9 +70,12 @@ public class MicroSkillController {
         return microSkillService.findAllMicroSkill();
     }
 
-    @GetMapping("/{page}")
-    PageMicroSkillDto findAllPageOfMicroSkill(@PathVariable int page,
-                                              @RequestParam(required = false, defaultValue = "6") int size) {
-        return microSkillService.findAllPage(PageRequest.of(page, size));
+
+    @GetMapping("/page")
+    public Page<MicroSkill> getAllMicroSkillsByPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return microSkillService.findMicroSkillByPage(paging);
     }
 }

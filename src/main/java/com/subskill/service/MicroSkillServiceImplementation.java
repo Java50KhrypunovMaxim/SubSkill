@@ -14,11 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import java.util.stream.Collectors;
 
@@ -75,32 +77,33 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 .map(MicroSkill::getRating)
                 .collect(Collectors.toList());
         log.debug("All rating {}", rating);
-
         return rating;
     }
 
     @Override
-    public ProductMicroSkillDto getViewsCount(Long views) {
-        List<MicroSkill> microSkills = microSkillRepository.findByViews(views);
-            MicroSkill microSkill = microSkills.get(0);
-            log.debug("All our views {}", views);
-            return editMicroSkillMapper.microSkillEditDtoViews(microSkill);
+    public long getViewsCount(long id) {
+        MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+        log.debug("All views {}", id);
+        return microSkill.getViews();
+
     }
 
     @Override
-    public PageMicroSkillDto findAllPage(PageRequest pageRequest) {
-        Page<PageMicroSkillDto> pagedData = microSkillRepository.findAllPage(pageRequest);
-        PageMicroSkillDto pageMicroSkillDto = pagedData.getContent().get(0);
-        log.debug("All our page {}", pageRequest);
-        return pageMicroSkillDto;
-
+    public Optional<MicroSkill> findById(Long id) {
+        return microSkillRepository.findById(id)
+                .map(skill -> {
+                    skill.setViews(skill.getViews() + 1);
+                    microSkillRepository.save(skill);
+                    return skill;
+                });
     }
-//    @Override
-//    public ProductMicroSkillDto getViewsCount(String name) {
-//        MicroSkill microSkill = microSkillRepository.findByName(name)
-//                .orElseThrow(MicroSkillNotFoundException::new);
-//
-//        return editMicroSkillMapper.microSkillEditDtoViews(microSkill);
-//    }
+    @Override
+    public Page<MicroSkill> findMicroSkillByPage(Pageable paging) {
+        Page<MicroSkill> microskillPage;
+            microskillPage = microSkillRepository.findAll(paging);
+
+        log.debug("MicroSkills description by page: {}", paging);
+        return  microskillPage;
+    }
 
 }

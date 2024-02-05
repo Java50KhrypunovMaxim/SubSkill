@@ -27,6 +27,7 @@ public interface EditMicroSkillMapper {
 
     MicroSkill microSkillToEditDto(ProductMicroSkillDto microSkillDto, @MappingTarget MicroSkill microSkill);
 
+
     ProductMicroSkillDto microSkillToDto(MicroSkill microSkill);
 }
 

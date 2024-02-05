@@ -54,6 +54,7 @@ public class MicroSkill {
     @Column(name = "views")
     private int views;
 
+
     @ManyToOne
     @JoinColumn(name = "technology_id")
     private Technology technology;
@@ -66,11 +67,10 @@ public class MicroSkill {
         microSkill.name = microSkillDto.microSkillName();
         microSkill.photo = microSkillDto.microSkillPhoto();
         microSkill.rating = microSkillDto.microSkillRating();
-        
-       // microSkill.technology = microSkillDto.technologyId(); заглушка
+
+        // microSkill.technology = microSkillDto.technologyId(); заглушка
         return microSkill;
     }
-
 
 
 }

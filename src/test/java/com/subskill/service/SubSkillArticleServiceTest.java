@@ -64,13 +64,6 @@ class SubSkillArticleServiceTest {
 		deleteArticleAndMicroSkill(ARTICLENAME1);
 	}
 
-	public MicroSkill saveMicroSkill(MicroSkillDto microSkillDto) {
-		MicroSkill microSkill = MicroSkill.of(microSkillDto);
-		microSkillRepo.save(microSkill);
-		return microSkill;
-	}
-
-
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.DELETE_ARTICLE)
 	void testDeleteArticle() {
