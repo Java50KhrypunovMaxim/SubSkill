@@ -14,7 +14,7 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             Double microSkillRating,
                             @NotEmpty(message = MISSING_MICROSKILLS_PHOTO_MESSAGE)
                             String microSkillPhoto,
-                            @NotEmpty
+                           @NotEmpty
                             List<ArticleDto> articles
                             //         @NotEmpty(message = TECHNOLOGY_ID_MISSING)
                             //     Technology technologyId заглушка
