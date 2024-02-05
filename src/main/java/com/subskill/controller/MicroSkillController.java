@@ -22,12 +22,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class MicroSkillController {
-    MicroSkillService microSkillService;
+    private final MicroSkillService microSkillService;
 
-    @Operation(
-            summary = "Controller for adding Microskilll",
-            description = "We add new MicroSkill card",
-            tags = {"add", "get"})
+
+    @Operation(summary = "Add new MicroSkill card")
     @PostMapping("/add")
     @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
     MicroSkillDto addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
@@ -35,34 +33,33 @@ public class MicroSkillController {
         return microSkillService.addMicroskill(microSkillDto);
     }
 
-    @Tag(name = "delete", description = "We delete MicroSkill card with this id MicroSkill")
+    @Operation(summary = "Delete MicroSkill card with this id MicroSkill")
     @DeleteMapping("/{id}")
     void deleteMicroSkill(@PathVariable Long id) {
         log.debug("delete microskill : microskill with id {}", id);
         microSkillService.deleteMicroSkill(id);
     }
 
-    @Tag(name = "ranking", description = "We find ranking of MicroSkill card")
+    @Operation(summary = "Find ranking of MicroSkill card")
     @GetMapping("/ranking")
     List<Double> microSkillRanking() {
         return microSkillService.findByRanking();
     }
 
-    @Tag(name = "views", description = "We find number of views of MicroSkill card")
-    @GetMapping("/id/{views}")
-    ProductMicroSkillDto getMicroSkillViews(@PathVariable long views) {
-        log.debug("Get  microskill views: received new microskill data of views: {}", views);
-        return microSkillService.getViewsCount(views);
+    @Operation(summary = "Find number of views of MicroSkill card")
+    @GetMapping("/{id}/views")
+    long getMicroSkillViews(@PathVariable long id) {
+        return microSkillService.getViewsCount(id);
     }
 
-    @Tag(name = "update", description = "We update MicroSkill card")
-    @PutMapping("/update")
+    @Operation(summary = "Update MicroSkill card")
+    @GetMapping("/update")
     ProductMicroSkillDto updateMicroSkill(@RequestBody @Valid ProductMicroSkillDto productMicroSkillDto) {
         log.debug("update microskill: received new microskill data: {}", productMicroSkillDto);
         return microSkillService.updateMicroskill(productMicroSkillDto);
     }
 
-    @Tag(name = "All", description = "We get all of MicroSkill ")
+    @Operation(summary = "Get all of MicroSkill ")
     @GetMapping("/all")
     List<ProductMicroSkillDto> getItAll() {
         log.info("We get all microskill: received all microskill data: ");

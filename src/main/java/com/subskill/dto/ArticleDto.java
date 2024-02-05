@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.subskill.models.MicroSkill;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public record ArticleDto (
 		@NotEmpty (message=MISSING_ARTICLE_NAME_MESSAGE)
@@ -14,7 +15,7 @@ public record ArticleDto (
 		@NotEmpty (message= MISSING_TEXT_OF_ARTICLE_MESSAGE)
 		String textOfArticle,
 
-		@NotEmpty(message = MISSING_ID_OF_SKILLS)
+		@NotNull(message = MISSING_ID_OF_SKILLS)
 		MicroSkill idOfSkills)
 	
 	{

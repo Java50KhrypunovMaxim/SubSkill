@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService {
 	UserDto registerUser(UserDto userDto);
 	UserDto updateUser(UserDto userDto);
-	UserDto changePassword (UserDto userDto,String mail);
+	UserDto changePassword (String email, String NewPasspord);
 	void deleteUser(String email);
 	List<String> allUsers();
 

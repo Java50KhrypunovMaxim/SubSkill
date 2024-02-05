@@ -7,18 +7,17 @@ import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.IllegalArticleStateException;
 import com.subskill.models.Article;
 import com.subskill.repository.ArticleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.subskill.dto.ArticleDto;
 
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
-
 public class ArticleServiceImplementation implements ArticleService {
 
     private final ArticleRepository articleRepository;
@@ -48,12 +47,12 @@ public class ArticleServiceImplementation implements ArticleService {
 
     @Override
     @Transactional
-    public ArticleDto deleteArticle(String articleName) {
+    public void deleteArticle(String articleName) {
         Article article = articleRepository.findByArticleName(articleName).orElseThrow(ArticleNotFoundException::new);
         ArticleDto res = article.build();
         articleRepository.deleteById(article.getId());
-        log.debug("article ID {} has been deleted", articleName);
-        return res;
+        log.debug("article with name {} has been deleted", res.articleName());
+
     }
 
     @Override

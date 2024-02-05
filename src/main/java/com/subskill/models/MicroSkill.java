@@ -33,37 +33,41 @@ public class MicroSkill {
 
     @Column(name = "creationDate")
     private LocalDate creationDate;
+
     @Column(name = "description")
     private String description;
 
-    @Column(name = "learningTime")
+    @Column(name = "learningtime")
     private String learningTime;
+
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("TBA")
+    @Column(name = "tags")
     private Tags tags;
+
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("BASIC")
+    @Column(name = "level")
     private Level level;
-
-
 
     @Column(name = "rating")
     private double rating;
 
     @Column(name = "views")
     private int views;
+
     @ManyToOne
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
-    @OneToMany(mappedBy = "microSkill")
+    @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
+
     public static MicroSkill of(MicroSkillDto microSkillDto) {
         MicroSkill microSkill = new MicroSkill();
-        microSkill.name = microSkillDto.microSkillname();
-        microSkill.photo = microSkillDto.microSkillphoto();
-        microSkill.rating = microSkillDto.microSkillrating();
-        microSkill.technology = microSkillDto.technologyId();
+        microSkill.name = microSkillDto.microSkillName();
+        microSkill.photo = microSkillDto.microSkillPhoto();
+        microSkill.rating = microSkillDto.microSkillRating();
+        
+       // microSkill.technology = microSkillDto.technologyId(); заглушка
         return microSkill;
     }
 
