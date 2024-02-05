@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import com.subskill.dto.ArticleDto;
-import com.subskill.dto.TechnologyDto;
-
 
 @Data
 @AllArgsConstructor
@@ -32,8 +29,5 @@ public class Technology {
     @OneToMany(mappedBy = "technology")
     private List<MicroSkill> microSkills;
     
-    public static Technology of(TechnologyDto technologyDto) {
-    	Technology technology = new Technology();
-        return null;
-    }
+
 }

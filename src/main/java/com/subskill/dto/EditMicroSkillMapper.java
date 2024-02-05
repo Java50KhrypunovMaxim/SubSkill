@@ -22,6 +22,7 @@ public interface EditMicroSkillMapper {
     @Mapping(source = "microSkillLearningTime", target = "learningTime")
     MicroSkill microSkillToEditDto(ProductMicroSkillDto microSkillDto, @MappingTarget MicroSkill microSkill);
 
+
     ProductMicroSkillDto microSkillToDto(MicroSkill microSkill);
 }
 

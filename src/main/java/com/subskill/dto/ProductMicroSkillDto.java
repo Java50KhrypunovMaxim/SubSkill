@@ -13,7 +13,7 @@ public record ProductMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_M
                                    String microSkillName,
                                 @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
                                    Double microSkillRating,
-                                @NotEmpty(message = MISSING_MICROSKILLS_PHOTO_MESSAGE)
+                                @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
                                    String microSkillPhoto,
                                 @NotEmpty(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
                                 String microSkillDescription,
@@ -21,6 +21,7 @@ public record ProductMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_M
                                 Level microSkillLevel,
                                  @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
                                 Tags microSkillTags,
-                                @NotEmpty(message = MISSING_MICROSKILL_LEARNINGTIME_MESSAGE)
+                                @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
                                    String microSkillLearningTime) {
+
 }
