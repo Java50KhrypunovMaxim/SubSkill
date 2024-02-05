@@ -33,8 +33,8 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_DESCRIPTION_MESSAGE = "Missing destription ";
     String MISSING_MICROSKILL_LEVEL_MESSAGE = "Missing Level message";
     String MISSING_MICROSKILL_TAGS_MESSAGE = "Missing tag message";
-    String MISSING_MICROSKILL_LEARNINGTIME_MESSAGE = "Missing learning time";
-    String MISSING_NAME_OF_TECHNOLOGY_MESSAGE = "Missing name of techology";
+    String MISSING_MICROSKILL_LEARNINGTIME_MESSAGE = "Missing learning time message";
+    String MISSING_MICROSKILL_VIEWS_MESSAGE = "Missing views  message";
     String MISSING_NAME_OF_ARTICLE = "Missing name of article";
     String MISSING_ID_OF_TECHNOLOGY_MESSAGE = "Missing id of technology";
 

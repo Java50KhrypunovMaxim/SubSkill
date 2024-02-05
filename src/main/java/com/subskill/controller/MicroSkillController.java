@@ -2,8 +2,8 @@ package com.subskill.controller;
 
 
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.dto.ProductMicroSkillDto;
-import com.subskill.models.MicroSkill;
 import com.subskill.service.MicroSkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,7 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Tag(name = "Microskill", description = "Technology card with microSkill")
@@ -22,10 +24,11 @@ import java.util.List;
 public class MicroSkillController {
     private final MicroSkillService microSkillService;
 
+
     @Operation(summary = "Add new MicroSkill card")
     @PostMapping("/add")
     @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
-     MicroSkillDto addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto){
+    MicroSkillDto addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
         log.debug("add microskill: received microskill data: {}", microSkillDto);
         return microSkillService.addMicroskill(microSkillDto);
     }
@@ -39,7 +42,7 @@ public class MicroSkillController {
 
     @Operation(summary = "Find ranking of MicroSkill card")
     @GetMapping("/ranking")
-    List<Double> microSkillRanking(){
+    List<Double> microSkillRanking() {
         return microSkillService.findByRanking();
     }
 
@@ -58,8 +61,14 @@ public class MicroSkillController {
 
     @Operation(summary = "Get all of MicroSkill ")
     @GetMapping("/all")
-    List<MicroSkill> getItAll(){
+    List<ProductMicroSkillDto> getItAll() {
+        log.info("We get all microskill: received all microskill data: ");
         return microSkillService.findAllMicroSkill();
     }
 
+    @GetMapping("/{page}")
+    PageMicroSkillDto findAllPageOfMicroSkill(@PathVariable int page,
+                                              @RequestParam(required = false, defaultValue = "6") int size) {
+        return microSkillService.findAllPage(PageRequest.of(page, size));
+    }
 }
