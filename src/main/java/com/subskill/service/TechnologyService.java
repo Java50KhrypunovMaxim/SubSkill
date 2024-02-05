@@ -1,8 +1,13 @@
 package com.subskill.service;
 
-// TODO: Implement the TechnologyService interface with repository methods:
-//  findAllTechnologies
-//  findTechnologyById
-//  findTechnologyByName
+import java.util.List;
+
+import com.subskill.models.Technology;
+
 public interface TechnologyService {
+	List<String> getAllTechnology();
+
+	Technology getByName(String name);
+
+	Technology getByID(long ID);
 }

@@ -30,12 +30,13 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_RATING_MESSAGE = "Missing rating in microsskill";
     String MISSING_MICROSKILLS_PHOTO_MESSAGE = "Missing photo in microskill";
     String TECHNOLOGY_ID_MISSING = "Missing technology id";
-    String MISSING_MICROSKILL_DESCRIPTION_MESSAGE = "Missing destription message";
+    String MISSING_MICROSKILL_DESCRIPTION_MESSAGE = "Missing destription ";
     String MISSING_MICROSKILL_LEVEL_MESSAGE = "Missing Level message";
     String MISSING_MICROSKILL_TAGS_MESSAGE = "Missing tag message";
-    String MISSING_MICROSKILL_LEARNINGTIME_MESSAGE = "Missing learning time message";
-
+    String MISSING_MICROSKILL_LEARNINGTIME_MESSAGE = "Missing learning time";
+    String MISSING_NAME_OF_TECHNOLOGY_MESSAGE = "Missing name of techology";
     String MISSING_NAME_OF_ARTICLE = "Missing name of article";
+    String MISSING_ID_OF_TECHNOLOGY_MESSAGE = "Missing id of technology";
 
 }
 

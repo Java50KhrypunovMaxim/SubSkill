@@ -58,14 +58,14 @@ class SubSkillUserServiceTest {
 
 
 	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameUserService.SHOW_ALL_USER)
+	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_USER)
 	void testShowAllUsers() {
 		List<String> actualUsers = userService.allUsers();
 		assertIterableEquals(ALLUSERS, actualUsers);
 	}
 
 	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameUserService.REGISTER_USER)
+	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.REGISTER_USER)
 	void testRegisterUser() {
 		assertEquals(userDto1, userService.registerUser(userDto1));
 		assertThrowsExactly(UserExistingEmailExeption.class, () -> userService.registerUser(userDto1));
@@ -75,7 +75,7 @@ class SubSkillUserServiceTest {
 	}
 
 	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameUserService.DELETE_USER)
+	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.DELETE_USER)
 	void testDeleteUser() {
 		userService.registerUser(userDto2);
 		userService.deleteUser(userDto2.email());
@@ -83,7 +83,7 @@ class SubSkillUserServiceTest {
 	}
 
 	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameUserService.UPDATE_USER)
+	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.UPDATE_USER)
 	void testUpdateUser() {
 		userService.registerUser(userDto2);
 		UserDto userUpdated = new UserDto(USERNAME2, PASSWORD2, EMAIL2, "Magnus", true, IMAGEURL2, Roles.ADMIN);
@@ -92,7 +92,7 @@ class SubSkillUserServiceTest {
 	}
 
 	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameUserService.CHANGE_PASSWORD_USER)
+	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.CHANGE_PASSWORD_USER)
 	void testChangePasswordOfUser() {
 		userService.registerUser(userDto3);
 		userService.changePassword(EMAIL1, "Max1989");
