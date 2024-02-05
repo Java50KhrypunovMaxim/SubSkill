@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 
 import java.time.LocalDate;
@@ -53,7 +52,6 @@ public class MicroSkill {
 
     @Column(name = "views")
     private int views;
-
 
     @ManyToOne
     @JoinColumn(name = "technology_id")

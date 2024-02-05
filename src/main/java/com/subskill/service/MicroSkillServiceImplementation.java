@@ -3,7 +3,6 @@ package com.subskill.service;
 
 import com.subskill.dto.EditMicroSkillMapper;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
@@ -11,10 +10,8 @@ import com.subskill.models.MicroSkill;
 import com.subskill.repository.MicroSkillRepository;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

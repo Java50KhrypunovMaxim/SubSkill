@@ -2,8 +2,8 @@ package com.subskill.controller;
 
 
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.dto.ProductMicroSkillDto;
+import com.subskill.models.MicroSkill;
 import com.subskill.service.MicroSkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
