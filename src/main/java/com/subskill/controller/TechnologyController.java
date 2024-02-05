@@ -35,8 +35,15 @@ public class TechnologyController {
 	}
 
 	@GetMapping("/all")
-	List<String> listOfArticles() {
+	List<String> listOfTechnology() {
 		log.debug("List of technologies have been received");
 		return technologyService.getAllTechnology();
 	}
+	
+	@GetMapping("/professional/{name}")
+	List<Technology> getByProfessionName (@PathVariable String name) {
+		log.debug("List of technologies by profession name have been received", name);
+		return technologyService.getByProfessionName(name);
+	}
+	
 }
