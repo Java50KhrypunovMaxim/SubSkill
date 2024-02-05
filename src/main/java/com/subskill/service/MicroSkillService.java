@@ -2,10 +2,12 @@ package com.subskill.service;
 
 
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.models.MicroSkill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 
 import java.util.List;

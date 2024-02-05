@@ -10,7 +10,6 @@ import static com.subskill.api.ValidationConstants.*;
 
 
 public record ProductMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
-                                   String microSkillName,
                                 @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
                                    Double microSkillRating,
                                 @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
@@ -23,5 +22,4 @@ public record ProductMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_M
                                 Tags microSkillTags,
                                 @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
                                    String microSkillLearningTime) {
-
 }

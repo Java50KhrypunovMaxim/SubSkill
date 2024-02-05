@@ -46,13 +46,13 @@ class SubSkillArticleServiceTest {
 	private ArticleDto articleDto1;
 
 	@Test
-	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameUserService.SHOW_ALL_ARTICLES)
+	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_ARTICLES)
 	void testShowAllArticles() {
 		assertEquals(ALLARTICLES, articleService.allArticles());
 	}
 
 	@Test
-	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameUserService.ADD_ARTICLE)
+	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.ADD_ARTICLE)
 	void testAddArticle() {
 		MicroSkillDto microSkillDto1 = new MicroSkillDto("Java Basics", 4.66, "java_basics.jpg", List.of());
 		MicroSkill microSkill = MicroSkill.of(microSkillsService.addMicroskill(microSkillDto1));
@@ -65,7 +65,7 @@ class SubSkillArticleServiceTest {
 	}
 
 	@Test
-	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameUserService.DELETE_ARTICLE)
+	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.DELETE_ARTICLE)
 	void testDeleteArticle() {
 		microSkillRepo.save(microSkill);
 		microSkill = microSkillRepo.findById(microSkill.getId()).orElseThrow();
@@ -75,7 +75,7 @@ class SubSkillArticleServiceTest {
 	}
 
 	@Test
-	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameUserService.UPDATE_ARTICLE)
+	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.UPDATE_ARTICLE)
 	void testUpdateArticle() {
 		microSkillRepo.save(microSkill);
 		microSkill = microSkillRepo.findById(microSkill.getId()).orElseThrow();
