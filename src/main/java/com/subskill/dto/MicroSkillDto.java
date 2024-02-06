@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+import com.subskill.models.Technology;
+
 import static com.subskill.api.ValidationConstants.*;
 
 public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
@@ -15,9 +17,9 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
                             String microSkillPhoto,
                             @NotEmpty
-                            List<ArticleDto> articles
-                            //         @NotEmpty(message = TECHNOLOGY_ID_MISSING)
-                            //     Technology technologyId заглушка
+                            List<ArticleDto> articles,
+                            @NotEmpty(message = TECHNOLOGY_ID_MISSING)
+                            Technology technologyId
 ) {
 
     @Override

@@ -29,7 +29,7 @@ public class User {
     private String nickname;
     @Column(name = "status", columnDefinition = "boolean default true")
     private Boolean online;
-    @Column(name = "image_Url")
+    @Column(name = "image_url")
     private String imageUrl;
     @Enumerated(EnumType.STRING)
     @ColumnDefault("USER")

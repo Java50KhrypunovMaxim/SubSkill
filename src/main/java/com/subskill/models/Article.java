@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,14 +18,14 @@ public class Article {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(name = "articleName", nullable = false)
+    @Column(name = "articlename", nullable = false)
     private String articleName;
 
-    @Column(name = "textOfArticle", nullable = false)
+    @Column(name = "textofarticle", nullable = false)
     private String textOfArticle;
-
+    
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "micro_skill", nullable = false)
+    @JoinColumn(name = "microskill", nullable = false)
     private MicroSkill microSkill;
 
     public static Article of(ArticleDto articleDto) {

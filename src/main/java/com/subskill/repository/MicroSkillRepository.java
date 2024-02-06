@@ -17,7 +17,6 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill,Long> {
     Optional<MicroSkill> findById(Long id);
     Page<MicroSkill> findAll(Pageable pageable);
     Optional<MicroSkill> findByName(String name);
-    //    Optional<ProductMicroSkillDto> findByProductMicroSkillName(String microSkillname);
     List<MicroSkill> findByViews(Long views);
     boolean existsByName(String microSkillName);
 }

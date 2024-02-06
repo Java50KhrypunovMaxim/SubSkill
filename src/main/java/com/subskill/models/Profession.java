@@ -17,9 +17,10 @@ public class Profession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToMany
@@ -29,8 +30,4 @@ public class Profession {
             inverseJoinColumns = @JoinColumn(name = "technology_id"))
     private List<Technology> technologies;
 
-	public Profession(String name) {
-	
-		this.name = name;
-	}
 }

@@ -30,7 +30,7 @@ public class MicroSkill {
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "creationDate")
+    @Column(name = "creationdate")
     private LocalDate creationDate;
 
     @Column(name = "description")
@@ -65,8 +65,7 @@ public class MicroSkill {
         microSkill.name = microSkillDto.microSkillName();
         microSkill.photo = microSkillDto.microSkillPhoto();
         microSkill.rating = microSkillDto.microSkillRating();
-
-        // microSkill.technology = microSkillDto.technologyId(); заглушка
+        microSkill.technology = microSkillDto.technologyId(); 
         return microSkill;
     }
 
