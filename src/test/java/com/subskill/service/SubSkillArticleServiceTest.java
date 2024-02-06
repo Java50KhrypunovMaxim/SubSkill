@@ -81,14 +81,14 @@ class SubSkillArticleServiceTest {
 
 		ArticleDto articleDtoUpdate = new ArticleDto(ARTICLENAME2, TEXT1, microSkill);
 		assertEquals(articleDtoUpdate, articleService.updateArticle(articleDtoUpdate));
-		assertEquals(TEXT1, articleRepo.findByarticlename(ARTICLENAME2).get().getTextOfArticle());
+		assertEquals(TEXT1, articleRepo.findByArticleName(ARTICLENAME2).get().getTextOfArticle());
 		deleteArticleAndMicroSkill(ARTICLENAME2);
 	}
 
 
 	private void deleteArticleAndMicroSkill(String... articleNames) {
 		for (String articleName : articleNames) {
-			Article article = articleRepo.findByarticlename(articleName).orElse(null);
+			Article article = articleRepo.findByArticleName(articleName).orElse(null);
 			if (article != null) {
 				MicroSkill microSkill = article.getMicroSkill();
 				articleRepo.delete(article);

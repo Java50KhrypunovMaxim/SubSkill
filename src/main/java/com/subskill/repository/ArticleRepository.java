@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.subskill.models.Article;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article,Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findByid(Long id);
-    Optional<Article> findByarticlename(String articleName);
+    Optional<Article> findByArticleName(String articleName);
     boolean existsByArticleName(String articleName);
 }

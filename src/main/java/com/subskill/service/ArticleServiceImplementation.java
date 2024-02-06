@@ -37,7 +37,7 @@ public class ArticleServiceImplementation implements ArticleService {
     @Override
     @Transactional
     public ArticleDto updateArticle(ArticleDto articleDto) {
-        Article article = articleRepository.findByarticlename(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
+        Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
         article.setTextOfArticle(articleDto.textOfArticle());
         article.setArticleName(articleDto.articleName());
         article.setMicroSkill(articleDto.idOfSkills());
@@ -48,7 +48,7 @@ public class ArticleServiceImplementation implements ArticleService {
     @Override
     @Transactional
     public void deleteArticle(String articleName) {
-        Article article = articleRepository.findByarticlename(articleName).orElseThrow(ArticleNotFoundException::new);
+        Article article = articleRepository.findByArticleName(articleName).orElseThrow(ArticleNotFoundException::new);
         ArticleDto res = article.build();
         articleRepository.deleteById(article.getId());
         log.debug("article with name {} has been deleted", res.articleName());
