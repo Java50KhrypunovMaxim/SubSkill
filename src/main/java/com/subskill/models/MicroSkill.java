@@ -21,7 +21,7 @@ public class MicroSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "microskill_id", nullable = false, unique = true)
     private Long id;
 
     @Column(name = "name")
