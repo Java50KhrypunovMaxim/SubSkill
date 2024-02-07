@@ -19,7 +19,7 @@ import com.subskill.repository.ArticleRepository;
 import com.subskill.repository.MicroSkillRepository;
 
 @SpringBootTest
-@Sql(scripts = {"classpath:users.sql"})
+@Sql(scripts = {"classpath:data_for_the_database.sql"})
 class SubSkillArticleServiceTest {
 	@Autowired
 	ArticleRepository articleRepo;
@@ -54,8 +54,7 @@ class SubSkillArticleServiceTest {
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.ADD_ARTICLE)
 	void testAddArticle() {
-		MicroSkillDto microSkillDto1 = new MicroSkillDto("Java Basics", 4.66, "java_basics.jpg", List.of());
-		MicroSkill microSkill = MicroSkill.of(microSkillsService.addMicroskill(microSkillDto1));
+		
 
 		ArticleDto articleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, microSkill);
 		ArticleDto savedArticleDto = articleService.addArticle(articleDto1);

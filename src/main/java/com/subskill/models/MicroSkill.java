@@ -21,7 +21,7 @@ public class MicroSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "microskill_id", nullable = false, unique = true)
     private Long id;
 
     @Column(name = "name")
@@ -30,7 +30,7 @@ public class MicroSkill {
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "creationDate")
+    @Column(name = "creationdate")
     private LocalDate creationDate;
 
     @Column(name = "description")
@@ -60,12 +60,15 @@ public class MicroSkill {
     @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
 
+    @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     public static MicroSkill of(MicroSkillDto microSkillDto) {
         MicroSkill microSkill = new MicroSkill();
         microSkill.name = microSkillDto.microSkillName();
         microSkill.photo = microSkillDto.microSkillPhoto();
         microSkill.rating = microSkillDto.microSkillRating();
-         microSkill.technology = microSkillDto.technologyId();
+        microSkill.technology = microSkillDto.technologyId(); 
         return microSkill;
     }
 
