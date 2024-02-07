@@ -1,5 +1,6 @@
 package com.subskill.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
@@ -53,10 +54,12 @@ public class MicroSkill {
     @Column(name = "views")
     private int views;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
 
