@@ -1,5 +1,6 @@
 package com.subskill.dto;
 
+import com.subskill.models.Technology;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,9 +16,9 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
                             String microSkillPhoto,
                             @NotEmpty
-                            List<ArticleDto> articles
-                            //         @NotEmpty(message = TECHNOLOGY_ID_MISSING)
-                            //     Technology technologyId заглушка
+                            List<ArticleDto> articles,
+                                     @NotEmpty(message = TECHNOLOGY_ID_MISSING)
+                            Technology technologyId
 ) {
 
     @Override
