@@ -3,6 +3,8 @@ package com.subskill.controller;
 
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.dto.ProductMicroSkillDto;
+import com.subskill.exception.IllegalMicroSkillStateException;
+import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,11 +35,17 @@ public class MicroSkillController {
 
 
     @Operation(summary = "Add new MicroSkill card")
-    @PostMapping("/add")
+
     @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
-    MicroSkillDto addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
+    @PostMapping("/add")
+    public ResponseEntity<MicroSkill> addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
         log.debug("add microskill: received microskill data: {}", microSkillDto);
-        return microSkillService.addMicroskill(microSkillDto);
+        try {
+            MicroSkill savedMicroSkill = microSkillService.addMicroskill(microSkillDto);
+            return ResponseEntity.ok(savedMicroSkill);
+        } catch (IllegalMicroSkillStateException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @Operation(summary = "Delete MicroSkill card with this id MicroSkill")

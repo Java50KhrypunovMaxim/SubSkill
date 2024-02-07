@@ -29,24 +29,24 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     private final TechnologyRepository technologyRepository;
 
     @Override
-    public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
+    public MicroSkill addMicroskill(MicroSkillDto microSkillDto) {
         if (microSkillRepository.existsByName(microSkillDto.microSkillName())) {
             throw new IllegalMicroSkillStateException();
         }
-        MicroSkill newMicroSkill = MicroSkill.of(microSkillDto);
+        MicroSkill newMicroSkill = editMicroSkillMapper.microSkillDtoToMicroSkill(microSkillDto);
         microSkillRepository.save(newMicroSkill);
         log.debug("MicroSkill card {} has been saved", microSkillDto);
-        return microSkillDto;
+        return newMicroSkill;
     }
 
     @Override
     public ProductMicroSkillDto updateMicroskill(ProductMicroSkillDto productMicroSkillDto) {
         MicroSkill existingMicroSkill = microSkillRepository.findByName(productMicroSkillDto.microSkillName())
                 .orElseThrow(MicroSkillNotFoundException::new);
-        MicroSkill updatedMicroSkill = editMicroSkillMapper.microSkillToEditDto(productMicroSkillDto, existingMicroSkill);
-        microSkillRepository.save(updatedMicroSkill);
+        editMicroSkillMapper.updateMicroSkillFromDto(productMicroSkillDto, existingMicroSkill);
+        MicroSkill updatedMicroSkill = microSkillRepository.save(existingMicroSkill);
         ProductMicroSkillDto updatedMicroSkillDto = editMicroSkillMapper.microSkillToDto(updatedMicroSkill);
-        log.debug("MicroSkill {} has been updated", productMicroSkillDto);
+        log.debug("MicroSkill {} has been updated", updatedMicroSkillDto);
         return updatedMicroSkillDto;
     }
 

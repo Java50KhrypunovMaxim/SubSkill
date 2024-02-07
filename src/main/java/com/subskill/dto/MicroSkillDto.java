@@ -1,13 +1,13 @@
 package com.subskill.dto;
 
+import com.subskill.enums.Level;
+import com.subskill.enums.Tags;
 import com.subskill.models.Technology;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Objects;
-
-import com.subskill.models.Technology;
 
 import static com.subskill.api.ValidationConstants.*;
 
@@ -17,9 +17,16 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             Double microSkillRating,
                             @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
                             String microSkillPhoto,
+                            @NotEmpty(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
+                            String microSkillDescription,
+                            @NotEmpty(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
+                            Level microSkillLevel,
+                            @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
+                            Tags microSkillTags,
+                            @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
+                            String microSkillLearningTime,
                             @NotEmpty
                             List<ArticleDto> articles,
-
                             @NotEmpty(message = TECHNOLOGY_ID_MISSING)
                             Technology technologyId
 ) {

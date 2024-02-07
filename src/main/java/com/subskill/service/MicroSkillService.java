@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface MicroSkillService  {
 
-        MicroSkillDto addMicroskill(MicroSkillDto microSkillDto);
+        MicroSkill addMicroskill(MicroSkillDto microSkillDto);
         ProductMicroSkillDto updateMicroskill(ProductMicroSkillDto editMicroSkillDto);
         void deleteMicroSkill(Long id);
 
