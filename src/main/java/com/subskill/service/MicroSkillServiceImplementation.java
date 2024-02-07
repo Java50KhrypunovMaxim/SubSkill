@@ -112,11 +112,8 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     }
     @Override
     public Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name) {
-        Page<MicroSkill> microskillPage;
-        microskillPage = microSkillRepository.findByName(name, paging);
-
         log.debug("find MicroSkills description by page name: {}", paging);
-        return microskillPage;
+        return microSkillRepository.findByName(name, paging);
     }
 
     @Override
@@ -128,5 +125,4 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         return microskillPage;
     }
 
-}
 }
