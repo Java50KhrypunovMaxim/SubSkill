@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,12 +31,17 @@ public class User {
     private String nickname;
     @Column(name = "status", columnDefinition = "boolean default true")
     private Boolean online;
-    @Column(name = "image_Url")
+    @Column(name = "image_url")
     private String imageUrl;
     @Enumerated(EnumType.STRING)
     @ColumnDefault("USER")
     @Column(name = "role", nullable = false)
     private Roles role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+
     
     
     public static User of(UserDto userDto) {

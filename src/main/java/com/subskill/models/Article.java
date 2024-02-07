@@ -3,9 +3,9 @@ package com.subskill.models;
 import com.subskill.dto.ArticleDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @AllArgsConstructor
@@ -19,14 +19,14 @@ public class Article {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(name = "articleName", nullable = false)
+    @Column(name = "articlename", nullable = false)
     private String articleName;
 
-    @Column(name = "textOfArticle", nullable = false)
+    @Column(name = "textofarticle", nullable = false)
     private String textOfArticle;
-
+    
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "micro_skill", nullable = false)
+    @JoinColumn(name = "microskill_id")
     private MicroSkill microSkill;
 
     public static Article of(ArticleDto articleDto) {

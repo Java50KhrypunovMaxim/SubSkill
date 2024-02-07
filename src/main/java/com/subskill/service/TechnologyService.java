@@ -10,4 +10,6 @@ public interface TechnologyService {
 	Technology getByName(String name);
 
 	Technology getByID(long ID);
+	
+	List <Technology> getByProfessionName(String name);
 }

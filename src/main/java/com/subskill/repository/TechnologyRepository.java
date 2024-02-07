@@ -16,5 +16,5 @@ public interface TechnologyRepository extends JpaRepository<Technology, Long> {
 
     Optional<Technology> findByName(String name);
 
-    List<Technology> findByProfessionName(String name);
+    List <Technology> findByProfessionName(String name);
 }

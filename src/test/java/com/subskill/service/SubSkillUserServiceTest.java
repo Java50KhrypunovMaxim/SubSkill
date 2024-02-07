@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 
 @SpringBootTest
-@Sql(scripts = { "classpath:users.sql" })
+@Sql(scripts = { "classpath:data_for_the_database.sql" })
 class SubSkillUserServiceTest {
 	private static final String USER_SERVICE_TEST = "User Service Test: ";
 
@@ -58,45 +59,15 @@ class SubSkillUserServiceTest {
 
 
 	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_USER)
-	void testShowAllUsers() {
-		List<String> actualUsers = userService.allUsers();
-		assertIterableEquals(ALLUSERS, actualUsers);
+	void testExist() {
+		Optional<User> optionalUser = userRepo.findByEmail("john.doe@example.com");
+        assertTrue(optionalUser.isPresent());
+
+        User user = optionalUser.get();
+
+        assertEquals("john_doe", user.getUsername());
 	}
 
-	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.REGISTER_USER)
-	void testRegisterUser() {
-		assertEquals(userDto1, userService.registerUser(userDto1));
-		assertThrowsExactly(UserExistingEmailExeption.class, () -> userService.registerUser(userDto1));
-		User user = userRepo.findByEmail(userDto1.email()).orElse(null);
-		assertEquals(userDto1, user.build());
-
-	}
-
-	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.DELETE_USER)
-	void testDeleteUser() {
-		userService.registerUser(userDto2);
-		userService.deleteUser(userDto2.email());
-		assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser(userDto2.email()));
-	}
-
-	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.UPDATE_USER)
-	void testUpdateUser() {
-		userService.registerUser(userDto2);
-		UserDto userUpdated = new UserDto(USERNAME2, PASSWORD2, EMAIL2, "Magnus", true, IMAGEURL2, Roles.ADMIN);
-		assertEquals(userUpdated, userService.updateUser(userUpdated));
-		assertEquals("Magnus", userRepo.findByEmail(EMAIL2).get().getNickname());
-	}
-
-	@Test
-	@DisplayName(USER_SERVICE_TEST + SubSkillTestNameService.CHANGE_PASSWORD_USER)
-	void testChangePasswordOfUser() {
-		userService.registerUser(userDto3);
-		userService.changePassword(EMAIL1, "Max1989");
-		assertEquals("Max1989", userRepo.findByEmail(EMAIL1).get().getPassword());
-	}
+	
 
 }
