@@ -60,6 +60,9 @@ public class MicroSkill {
     @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
 
+    @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     public static MicroSkill of(MicroSkillDto microSkillDto) {
         MicroSkill microSkill = new MicroSkill();
         microSkill.name = microSkillDto.microSkillName();
