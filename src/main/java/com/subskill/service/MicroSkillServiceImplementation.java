@@ -95,6 +95,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 });
     }
 
+
     @Override
     public List<Technology> findByProfessionName(String name) {
         log.debug("MicroSkills technology by name : {}",name);
@@ -102,12 +103,30 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     }
 
     @Override
-    public Page<MicroSkill> findMicroSkillByPage(Pageable paging, String rating) {
+    public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
         Page<MicroSkill> microskillPage;
-        microskillPage = microSkillRepository.findAll(paging, rating);
+        microskillPage = microSkillRepository.findByRating(rating, paging);
+
+        log.debug("find MicroSkills description by page rating: {}", paging);
+        return microskillPage;
+    }
+    @Override
+    public Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name) {
+        Page<MicroSkill> microskillPage;
+        microskillPage = microSkillRepository.findByName(name, paging);
+
+        log.debug("find MicroSkills description by page name: {}", paging);
+        return microskillPage;
+    }
+
+    @Override
+    public Page<MicroSkill> findMicroSkillByPage(Pageable paging) {
+        Page<MicroSkill> microskillPage;
+        microskillPage = microSkillRepository.findAll(paging);
 
         log.debug("MicroSkills description by page: {}", paging);
         return microskillPage;
     }
 
+}
 }

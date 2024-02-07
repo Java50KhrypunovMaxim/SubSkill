@@ -19,7 +19,9 @@ public interface MicroSkillService  {
         void deleteMicroSkill(Long id);
 
         List<ProductMicroSkillDto> findAllMicroSkill();
-        Page<MicroSkill> findMicroSkillByPage(Pageable paging,String rating);
+        Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging,String rating);
+        Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging,String name);
+        Page<MicroSkill> findMicroSkillByPage(Pageable paging);
         List<Double> findByRanking();
         long getViewsCount(long id);
         Optional<MicroSkill> findById(Long id);

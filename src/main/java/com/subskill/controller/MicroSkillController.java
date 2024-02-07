@@ -66,25 +66,48 @@ public class MicroSkillController {
         return microSkillService.updateMicroskill(productMicroSkillDto);
     }
 
-    @Operation(summary = "Get all of MicroSkill ")
+    @Operation(summary = "Get all MicroSkill with pagination and sorting")
     @GetMapping("/all")
-    List<ProductMicroSkillDto> getItAll() {
-        log.info("We get all microskill: received all microskill data: ");
-        return microSkillService.findAllMicroSkill();
-    }
+    public Page<MicroSkill> getAllMicroSkills(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
 
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable paging = PageRequest.of(page, size, sortDirection, sortBy);
+
+        return microSkillService.findMicroSkillByPage(paging);
+    }
+    @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
     private List<Technology> findByProffesionName(@RequestParam String name) {
         log.info("We get technology microskill: ");
         return technologyRepository.findByProfessionName(name);
     }
-
-    @GetMapping("/page")
-    public Page<MicroSkill> getAllMicroSkillsByPage(
+    @GetMapping("/byRating")
+    public Page<MicroSkill> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            @RequestParam String rating) {
-        Pageable paging = PageRequest.of(page, size, Sort.by("rating").ascending());
-        return microSkillService.findMicroSkillByPage(paging, rating);
+            @RequestParam String rating,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable paging = PageRequest.of(page, size, sortDirection, "rating");
+
+        return microSkillService.findMicroSkillByRatingWithPage(paging, rating);
+    }
+    @Operation(summary = "Get all MicroSkill by name with pagination and sorting")
+    @GetMapping("/byName")
+    public Page<MicroSkill> getAllMicroSkillsByName(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam String name,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable paging = PageRequest.of(page, size, sortDirection, "name");
+
+        return microSkillService.findMicroSkillByNameWithPage(paging, name);
     }
 }

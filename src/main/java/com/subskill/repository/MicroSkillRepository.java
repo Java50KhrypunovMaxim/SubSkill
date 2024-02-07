@@ -11,7 +11,9 @@ import java.util.Optional;
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill,Long> {
     Optional<MicroSkill> findById(Long id);
-    Page<MicroSkill> findAll(Pageable pageable,String rating);
+    Page<MicroSkill> findAll(Pageable pageable);
+    Page<MicroSkill> findByName(String name, Pageable pageable);
+    Page<MicroSkill> findByRating(String rating, Pageable pageable);
     Optional<MicroSkill> findByName(String name);
     //    Optional<ProductMicroSkillDto> findByProductMicroSkillName(String microSkillname);
     List<MicroSkill> findByViews(Long views);
