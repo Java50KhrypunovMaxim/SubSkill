@@ -40,9 +40,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
-
-
-    
     
     public static User of(UserDto userDto) {
         User user = new User();

@@ -40,7 +40,7 @@ public class ArticleServiceImplementation implements ArticleService {
         Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
         article.setTextOfArticle(articleDto.textOfArticle());
         article.setArticleName(articleDto.articleName());
-        article.setMicroSkill(articleDto.idOfSkills());
+        article.setMicroSkill(articleDto.microSkill());
         log.debug("Article {} has been update", articleDto);
         return articleDto;
     }

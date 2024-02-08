@@ -1,5 +1,8 @@
 package com.subskill.api;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
 public interface ValidationConstants {
     long MIN_PERSON_ID_VALUE = 100000l;
     long MAX_PERSON_ID_VALUE = 999999l;
@@ -26,6 +29,7 @@ public interface ValidationConstants {
     String MISSING_TEXT_OF_ARTICLE_MESSAGE = "Missing text of article";
     String MISSING_ID_OF_SKILLS = "Missing id of skills";
     String MISSING_ID_OF_ARTICLE = "Missing id of article";
+    String MISSING_ID_OF_REVIEW = "Missing id of review";
     String MISSING_MICROSKILL_NAME_MESSAGE = "Missing name of microskill";
     String MISSING_MICROSKILL_RATING_MESSAGE = "Missing rating in microsskill";
     String MISSING_MICROSKILL_PHOTO_MESSAGE = "Missing photo in microskill";
@@ -37,6 +41,12 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_VIEWS_MESSAGE = "Missing views  message";
     String MISSING_NAME_OF_ARTICLE = "Missing name of article";
     String MISSING_ID_OF_TECHNOLOGY_MESSAGE = "Missing id of technology";
+    String MISSING_TEXT_REVIEW_MESSAGE = "Missing text of review";
+    String MISSING_RATING_MESSAGE = "Missing rating of review";
+    String MISSING_MICRO_SKILLS_MESSAGE = "Missing micro skill";
+    String MISSING_USER_MESSAGE = "Missing User";
+	String MIN_RARING = "Rating should be at least 1";
+	String MAX_RARING = "Rating should be at most 5";
 
 }
 

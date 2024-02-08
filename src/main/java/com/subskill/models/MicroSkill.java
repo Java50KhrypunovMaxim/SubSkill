@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "micro_skills")
 @Entity
+@Setter
 public class MicroSkill {
 
     @Id
