@@ -11,17 +11,17 @@ import static com.subskill.api.ValidationConstants.*;
 
 public record ProductMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                                    @NotNull(message = MISSING_MICROSKILL_NAME_MESSAGE)
-                                   String microSkillName,
+                                   String name,
                                 @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
-                                   Double microSkillRating,
+                                   Double rating,
                                 @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
-                                   String microSkillPhoto,
+                                   String photo,
                                 @NotEmpty(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
-                                String microSkillDescription,
+                                   String description,
                                  @NotEmpty(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
-                                Level microSkillLevel,
+                                   Level level,
                                  @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
-                                Tags microSkillTags,
+                                   Tags tags,
                                 @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
-                                   String microSkillLearningTime) {
+                                   String learningTime) {
 }

@@ -1,9 +1,9 @@
-package com.subskill.service;
+package com.subskill.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import com.subskill.service.TechnologyService;
 import org.springframework.stereotype.Service;
 
 import com.subskill.exception.TechnologyNotFoundException;
@@ -21,27 +21,21 @@ public class TechnologyServiceImplementation implements TechnologyService {
     private final TechnologyRepository technologyRepository;
 
     @Override
-    public List<String> getAllTechnology() {
-        List<Technology> technology = technologyRepository.findAll();
-        List<String> technologyNames = technology.stream()
-                .map(Technology::getName)
-                .collect(Collectors.toList());
-        log.debug("All technology {}", technologyNames);
-        return technologyNames;
+    public List<Technology> getAllTechnology() {
+        log.debug("All technologies");
+        return technologyRepository.findAll();
     }
 
     @Override
     public Technology getByName(String name) {
-        Technology technology = technologyRepository.findByName(name).
+        return technologyRepository.findByName(name).
         		orElseThrow(TechnologyNotFoundException::new);
-        return technology;
     }
 
     @Override
     public Technology getByID(long ID) {
-        Technology technology = technologyRepository.findById(ID)
+        return technologyRepository.findById(ID)
                 .orElseThrow(TechnologyNotFoundException::new);
-        return technology;
     }
 
     @Override

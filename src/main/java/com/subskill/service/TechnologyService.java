@@ -5,7 +5,7 @@ import java.util.List;
 import com.subskill.models.Technology;
 
 public interface TechnologyService {
-	List<String> getAllTechnology();
+    List<Technology> getAllTechnology();
 
 	Technology getByName(String name);
 

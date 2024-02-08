@@ -6,21 +6,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.dto.UserDto;
-import com.subskill.exception.NoUserInRepositoryException;
-import com.subskill.exception.UserExistingEmailExeption;
 import com.subskill.enums.Roles;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 
 @SpringBootTest
-@Sql(scripts = { "classpath:data_for_the_database.sql" })
+@Sql(scripts = {"classpath:data_for_the_database.sql"})
 class SubSkillUserServiceTest {
 	private static final String USER_SERVICE_TEST = "User Service Test: ";
 
@@ -54,9 +51,9 @@ class SubSkillUserServiceTest {
 
 	@Autowired
 	UserRepository userRepo;
+
 	@Autowired
 	UserService userService;
-
 
 	@Test
 	void testExist() {
@@ -64,10 +61,6 @@ class SubSkillUserServiceTest {
         assertTrue(optionalUser.isPresent());
 
         User user = optionalUser.get();
-
         assertEquals("john_doe", user.getUsername());
 	}
-
-	
-
 }

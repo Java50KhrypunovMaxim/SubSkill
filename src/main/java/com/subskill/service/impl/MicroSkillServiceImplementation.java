@@ -1,4 +1,4 @@
-package com.subskill.service;
+package com.subskill.service.impl;
 
 
 import com.subskill.dto.EditMicroSkillMapper;
@@ -7,9 +7,8 @@ import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
-import com.subskill.models.Technology;
 import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.TechnologyRepository;
+import com.subskill.service.MicroSkillService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,8 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,7 +23,6 @@ import java.util.stream.Collectors;
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final EditMicroSkillMapper editMicroSkillMapper;
-    private final TechnologyRepository technologyRepository;
 
     @Override
     public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
@@ -41,7 +37,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     public ProductMicroSkillDto updateMicroskill(ProductMicroSkillDto productMicroSkillDto) {
-        MicroSkill existingMicroSkill = microSkillRepository.findByName(productMicroSkillDto.microSkillName())
+        MicroSkill existingMicroSkill = microSkillRepository.findByName(productMicroSkillDto.name())
                 .orElseThrow(MicroSkillNotFoundException::new);
         MicroSkill updatedMicroSkill = editMicroSkillMapper.microSkillToEditDto(productMicroSkillDto, existingMicroSkill);
         microSkillRepository.save(updatedMicroSkill);
@@ -62,19 +58,9 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         List<MicroSkill> microSkills = microSkillRepository.findAll();
         List<ProductMicroSkillDto> productMicroSkillDtos = microSkills.stream()
                 .map(editMicroSkillMapper::microSkillToDto)
-                .collect(Collectors.toList());
+                .toList();
         log.debug("All microskills: {}", productMicroSkillDtos);
         return productMicroSkillDtos;
-    }
-
-    @Override
-    public List<Double> findByRanking() {
-        List<MicroSkill> microSkills = microSkillRepository.findAll();
-        List<Double> rating = microSkills.stream()
-                .map(MicroSkill::getRating)
-                .collect(Collectors.toList());
-        log.debug("All rating {}", rating);
-        return rating;
     }
 
     @Override
@@ -82,24 +68,6 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
         log.debug("All views {}", id);
         return microSkill.getViews();
-
-    }
-
-    @Override
-    public Optional<MicroSkill> findById(Long id) {
-        return microSkillRepository.findById(id)
-                .map(skill -> {
-                    skill.setViews(skill.getViews() + 1);
-                    microSkillRepository.save(skill);
-                    return skill;
-                });
-    }
-
-
-    @Override
-    public List<Technology> findByProfessionName(String name) {
-        log.debug("MicroSkills technology by name : {}",name);
-        return technologyRepository.findByProfessionName(name);
     }
 
     @Override
