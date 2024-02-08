@@ -33,7 +33,7 @@ public class Article {
         Article article = new Article();
         article.articleName = articleDto.articleName();
         article.textOfArticle = articleDto.textOfArticle();
-        article.microSkill = articleDto.idOfSkills();
+        article.microSkill = articleDto.microSkill();
         return article;
     }
 

@@ -52,8 +52,6 @@ public class SubSkillTechologyControllerTest {
     private static final long TECHNOLOGY_ID_2 = 876512l;
 
 
-
-
     @Test
     void testGetAllTechnologes() throws Exception {
         List<String> nameOfTechnologyList = Arrays.asList(TECHNOLOGY_NAME_1, TECHNOLOGY_NAME_2);

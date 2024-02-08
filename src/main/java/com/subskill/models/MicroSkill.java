@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "micro_skills")
 @Entity
+@Setter
 public class MicroSkill {
 
     @Id
@@ -70,6 +71,17 @@ public class MicroSkill {
         microSkill.rating = microSkillDto.microSkillRating();
         microSkill.technology = microSkillDto.technologyId(); 
         return microSkill;
+    }
+    
+    public double calculateAverageRating() {
+        if (reviews.isEmpty()) {
+            return 0.0; 
+        }
+        double totalRating = 0.0;
+        for (Review review : reviews) {
+            totalRating += review.getRating();
+        }
+        return totalRating / reviews.size();
     }
 
 

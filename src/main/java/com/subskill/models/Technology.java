@@ -31,4 +31,5 @@ public class Technology {
     @OneToMany(mappedBy = "technology")
     @Column(name = "microSkills", nullable = false)
     private List<MicroSkill> microSkills;
+    
 }
