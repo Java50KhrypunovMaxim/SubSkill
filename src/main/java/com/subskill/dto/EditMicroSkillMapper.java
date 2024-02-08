@@ -13,13 +13,13 @@ public interface EditMicroSkillMapper {
 
     EditMicroSkillMapper INSTANCE = Mappers.getMapper(EditMicroSkillMapper.class);
 
-    @Mapping(source = "microSkillName", target = "name")
-    @Mapping(source = "microSkillRating", target = "rating")
-    @Mapping(source = "microSkillPhoto", target = "photo")
-    @Mapping(source = "microSkillDescription", target = "description")
-    @Mapping(source = "microSkillLevel", target = "level")
-    @Mapping(source = "microSkillTags", target = "tags")
-    @Mapping(source = "microSkillLearningTime", target = "learningTime")
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "rating", target = "rating")
+    @Mapping(source = "photo", target = "photo")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "level", target = "level")
+    @Mapping(source = "tags", target = "tags")
+    @Mapping(source = "learningTime", target = "learningTime")
     MicroSkill microSkillToEditDto(ProductMicroSkillDto microSkillDto, @MappingTarget MicroSkill microSkill);
 
     ProductMicroSkillDto microSkillToDto(MicroSkill microSkill);

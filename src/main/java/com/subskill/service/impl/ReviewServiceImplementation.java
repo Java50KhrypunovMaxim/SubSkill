@@ -1,8 +1,9 @@
-package com.subskill.service;
+package com.subskill.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.subskill.service.ReviewService;
 import org.springframework.stereotype.Service;
 import com.subskill.dto.ReviewDto;
 import com.subskill.exception.ReviewNotFoundException;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class ReviewServiceImplementation implements ReviewService{
+public class ReviewServiceImplementation implements ReviewService {
 
 	private final ReviewRepository reviewRepo;
 	private final MicroSkillRepository microSkillRepo;

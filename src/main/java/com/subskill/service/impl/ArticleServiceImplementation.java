@@ -1,12 +1,12 @@
-package com.subskill.service;
+package com.subskill.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.IllegalArticleStateException;
 import com.subskill.models.Article;
 import com.subskill.repository.ArticleRepository;
+import com.subskill.service.ArticleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,14 +56,14 @@ public class ArticleServiceImplementation implements ArticleService {
     }
 
     @Override
-    public List<String> allArticles() {
+    public List<ArticleDto> allArticles() {
         List<Article> articles = articleRepository.findAll();
-        List<String> articleNames = articles.stream()
-                .map(Article::getArticleName)
-                .collect(Collectors.toList());
-        log.debug("All articles {}", articleNames);
+        List<ArticleDto> articlesDto = articles.stream()
+                .map(Article::build)
+                .toList();
+        log.debug("All articles {}", articlesDto);
 
-        return articleNames;
+        return articlesDto;
     }
 
 

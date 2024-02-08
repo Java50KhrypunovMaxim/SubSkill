@@ -17,30 +17,38 @@ import java.util.List;
 @Table(name = "users")
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false,unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private long id;
-    @Column(name = "username",nullable = false)
+
+    @Column(name = "username", nullable = false)
     private String username;
-    @Column(name = "password",nullable = false)
+
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "email",nullable = false,unique = true)
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "nickname",nullable = false,unique = true)
+
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
+
     @Column(name = "status", columnDefinition = "boolean default true")
     private Boolean online;
+
     @Column(name = "image_url")
     private String imageUrl;
+
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("USER")
+    @ColumnDefault("'USER'")
     @Column(name = "role", nullable = false)
     private Roles role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
-    
+
     public static User of(UserDto userDto) {
         User user = new User();
         user.username = userDto.username();
@@ -49,17 +57,13 @@ public class User {
         user.nickname = userDto.nickname();
         user.online = true;
         user.imageUrl = userDto.imageUrl();
-        user.role= userDto.role();
+        user.role = userDto.role();
         return user;
     }
 
-	public UserDto build () {
-		return new UserDto(username, password, email, nickname,
+    public UserDto build() {
+        return new UserDto(username, password, email, nickname,
                 online, imageUrl, role);
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    }
 }
 
