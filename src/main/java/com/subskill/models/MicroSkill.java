@@ -72,6 +72,17 @@ public class MicroSkill {
         microSkill.technology = microSkillDto.technologyId(); 
         return microSkill;
     }
+    
+    public double calculateAverageRating() {
+        if (reviews.isEmpty()) {
+            return 0.0; 
+        }
+        double totalRating = 0.0;
+        for (Review review : reviews) {
+            totalRating += review.getRating();
+        }
+        return totalRating / reviews.size();
+    }
 
 
 }
