@@ -1,5 +1,6 @@
 package com.subskill.models;
 
+import com.subskill.dto.ProfessionDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,4 +31,8 @@ public class Profession {
             inverseJoinColumns = @JoinColumn(name = "technology_id"))
     private List<Technology> technologies;
 
+
+    public ProfessionDto build() {
+        return new ProfessionDto(id, name);
+    }
 }

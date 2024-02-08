@@ -1,19 +1,8 @@
 package com.subskill.api;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-
 public interface ValidationConstants {
-    long MIN_PERSON_ID_VALUE = 100000l;
-    long MAX_PERSON_ID_VALUE = 999999l;
-    String WRONG_MIN_PERSON_ID_VALUE = "Person ID must be greater or equal " + MIN_PERSON_ID_VALUE;
-    String WRONG_MAX_PERSON_ID_VALUE = "Person ID must be less or equal " + MAX_PERSON_ID_VALUE;
-    String MISSING_PERSON_NAME_MESSAGE = "Missing person name";
-    String MISSING_BIRTH_DATE_MESSAGE = "Missing person's birth date";
-    String BIRTH_DATE_REGEXP = "\\d{4}-\\d{2}-\\d{2}";
     String PASSWORD_REGEXP = "^(?=.*[0-9])(?=.*[A-Z]).{6,15}$";
     String EMAIL_REGEXP = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
-    String WRONG_DATE_FORMAT = "Wrong date format, must be YYYY-MM-dd";
     String MISSING_PERSON_EMAIL = "Missing email address";
     String WRONG_EMAIL_FORMAT = "Wrong email format";
     String MISSING_PERSON_USERNAME_MESSAGE = "Missing person user name";
@@ -28,7 +17,6 @@ public interface ValidationConstants {
     String MISSING_ARTICLE_NAME_MESSAGE = "Missing name of article";
     String MISSING_TEXT_OF_ARTICLE_MESSAGE = "Missing text of article";
     String MISSING_ID_OF_SKILLS = "Missing id of skills";
-    String MISSING_ID_OF_ARTICLE = "Missing id of article";
     String MISSING_ID_OF_REVIEW = "Missing id of review";
     String MISSING_MICROSKILL_NAME_MESSAGE = "Missing name of microskill";
     String MISSING_MICROSKILL_RATING_MESSAGE = "Missing rating in microsskill";
@@ -40,13 +28,13 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_LEARNING_TIME_MESSAGE = "Missing learning time message";
     String MISSING_MICROSKILL_VIEWS_MESSAGE = "Missing views  message";
     String MISSING_NAME_OF_ARTICLE = "Missing name of article";
-    String MISSING_ID_OF_TECHNOLOGY_MESSAGE = "Missing id of technology";
     String MISSING_TEXT_REVIEW_MESSAGE = "Missing text of review";
     String MISSING_RATING_MESSAGE = "Missing rating of review";
     String MISSING_MICRO_SKILLS_MESSAGE = "Missing micro skill";
     String MISSING_USER_MESSAGE = "Missing User";
 	String MIN_RARING = "Rating should be at least 1";
 	String MAX_RARING = "Rating should be at most 5";
-
+    String PROFESSION_NAME_MISSING = "Missing profession name";
+    String PROFESSION_ID_MISSING = "Missing profession id";
 }
 

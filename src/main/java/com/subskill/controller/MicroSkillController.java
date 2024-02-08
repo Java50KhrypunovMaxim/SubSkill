@@ -11,7 +11,6 @@ import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,15 +23,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Microskill", description = "Technology card with microSkill")
 @RestController
 @RequestMapping("api/v1/microskill")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class MicroSkillController {
+
     private final MicroSkillService microSkillService;
     private final TechnologyRepository technologyRepository;
-
 
     @Operation(summary = "Add new MicroSkill card")
 
@@ -55,12 +54,6 @@ public class MicroSkillController {
         microSkillService.deleteMicroSkill(id);
     }
 
-    @Operation(summary = "Find ranking of MicroSkill card")
-    @GetMapping("/ranking")
-    List<Double> microSkillRanking() {
-        return microSkillService.findByRanking();
-    }
-
     @Operation(summary = "Find number of views of MicroSkill card")
     @GetMapping("/{id}/views")
     long getMicroSkillViews(@PathVariable long id) {
@@ -80,7 +73,7 @@ public class MicroSkillController {
     public Page<MicroSkill> getAllMicroSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String direction) {
 
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -88,12 +81,14 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByPage(paging);
     }
+
     @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
-    private List<Technology> findByProffesionName(@RequestParam String name) {
+    private List<Technology> findByProfessionName(@RequestParam String name) {
         log.info("We get technology microskill: ");
         return technologyRepository.findByProfessionName(name);
     }
+
     @GetMapping("/byRating")
     public Page<MicroSkill> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
@@ -106,6 +101,7 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByRatingWithPage(paging, rating);
     }
+
     @Operation(summary = "Get all MicroSkill by name with pagination and sorting")
     @GetMapping("/byName")
     public Page<MicroSkill> getAllMicroSkillsByName(
