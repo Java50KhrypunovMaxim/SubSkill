@@ -20,7 +20,8 @@ import com.subskill.service.UserService;
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
-@Slf4j 
+@Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class UsersController {
 
 	private final UserService usersService;

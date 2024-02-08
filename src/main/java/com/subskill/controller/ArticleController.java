@@ -18,7 +18,8 @@ import static com.subskill.api.ValidationConstants.*;
 @RestController
 @RequestMapping("api/v1/articles")
 @RequiredArgsConstructor
-@Slf4j 
+@Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class ArticleController {
 
 	private final ArticleService articlesService;

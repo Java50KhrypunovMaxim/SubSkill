@@ -26,6 +26,7 @@ import java.util.List;
 @RequestMapping("api/v1/microskill")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class MicroSkillController {
     private final MicroSkillService microSkillService;
     private final TechnologyRepository technologyRepository;

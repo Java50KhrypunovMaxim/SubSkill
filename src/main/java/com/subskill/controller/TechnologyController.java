@@ -3,10 +3,7 @@ package com.subskill.controller;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.subskill.models.Technology;
 import com.subskill.service.TechnologyService;
 
@@ -19,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/v1/technology")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class TechnologyController {
 
 	private final TechnologyService technologyService;
