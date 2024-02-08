@@ -28,6 +28,7 @@ public class ArticleController {
 		log.debug("register article: received article data: {}", articleDto);
 		return articlesService.addArticle(articleDto);
 	}
+	
 	@Operation(summary = "update an Article for MicroSkill")
 	@PutMapping("update/{nameArticle}")
 	ArticleDto updateArticle(@RequestBody @Valid ArticleDto articleDto
