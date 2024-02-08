@@ -10,9 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.subskill.service.MicroSkillService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,17 +47,15 @@ public class SubSkillArticleControllerTest {
     @Autowired
     ObjectMapper mapper;
 
-    private static final String ARTICLENAME1 = "About Java";
-    private static final String ARTICLENAME2 = "About C++";
-    private static final String ARTICLENAME3 = "About Pyton";
+    private static final String ARTICLE_NAME3 = "About Pyton";
 
     private static final String TEXT1 = "Rambo";
     private static final String TEXT3 = "Vandam";
 
     Technology technology = new Technology();
-    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", 4.3, "database_design.jpg", List.of(), technology );
-    ArticleDto ArticleDto1 = new ArticleDto(ARTICLENAME3, TEXT3, MicroSkill.of(microSkillDto1));
-    ArticleDto UpdateArticleDto = new ArticleDto(ARTICLENAME3, TEXT1, MicroSkill.of(microSkillDto1));
+    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", 4.3, "database_design.jpg", List.of(), technology);
+    ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, MicroSkill.of(microSkillDto1));
+    ArticleDto UpdateArticleDto = new ArticleDto(ARTICLE_NAME3, TEXT1, MicroSkill.of(microSkillDto1));
 
     @Test
     void testRegisterArticle() throws Exception {
@@ -84,17 +83,16 @@ public class SubSkillArticleControllerTest {
     void testDeleteArticle() throws Exception {
         when(microSkillService.addMicroskill(any(MicroSkillDto.class))).thenReturn(microSkillDto1);
         when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
-        doNothing().when(articleService).deleteArticle(ARTICLENAME3);
+        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
 
-        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLENAME3, StandardCharsets.UTF_8.toString()))
+        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8.toString()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-
     @Test
     void testGetAllArticle() throws Exception {
-        List<String> articlesList = Arrays.asList(ARTICLENAME2, ARTICLENAME1);
+        List<ArticleDto> articlesList = Collections.singletonList(ArticleDto1);
         when(articleService.allArticles()).thenReturn(articlesList);
 
         String actualJSON = mockMvc.perform(get("http://localhost:8080/api/v1/articles/all")
@@ -104,13 +102,8 @@ public class SubSkillArticleControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        List<String> actualArticlesList = Arrays.asList(mapper.readValue(actualJSON, String[].class));
-
+        List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<List<ArticleDto>>() {
+        });
         assertEquals(articlesList, actualArticlesList);
     }
-
-
 }
-	
-	
-
