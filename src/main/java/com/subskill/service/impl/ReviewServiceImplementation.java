@@ -13,6 +13,7 @@ import com.subskill.repository.MicroSkillRepository;
 import com.subskill.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class ReviewServiceImplementation implements ReviewService {
 	private final MicroSkillRepository microSkillRepo;
 	
 	@Override
+	@Transactional
 	public ReviewDto addReview(ReviewDto reviewDto) {
 		Review review = Review.of(reviewDto);
 		reviewRepo.save(review);
@@ -32,6 +34,7 @@ public class ReviewServiceImplementation implements ReviewService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteReview(Long id) {
 		Review review = reviewRepo.findByid(id).orElseThrow(ReviewNotFoundException::new);
 	    reviewRepo.deleteById(review.getId());

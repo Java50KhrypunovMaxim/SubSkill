@@ -5,15 +5,13 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "micro_skills")
@@ -33,6 +31,7 @@ public class MicroSkill {
     private String photo;
 
     @Column(name = "creationdate")
+    @CreationTimestamp
     private LocalDate creationDate;
 
     @Column(name = "description")
@@ -41,9 +40,11 @@ public class MicroSkill {
     @Column(name = "learningtime")
     private String learningTime;
 
+    @ElementCollection(targetClass = Tags.class)
+    @CollectionTable(name = "micro_skill_tags", joinColumns = @JoinColumn(name = "micro_skill_id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "tags")
-    private Tags tags;
+    @Column(name = "tag")
+    private List<Tags> tags;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "level")
@@ -69,10 +70,13 @@ public class MicroSkill {
 
     public static MicroSkill of(MicroSkillDto microSkillDto) {
         MicroSkill microSkill = new MicroSkill();
-        microSkill.name = microSkillDto.microSkillName();
-        microSkill.photo = microSkillDto.microSkillPhoto();
-        microSkill.rating = microSkillDto.microSkillRating();
-        microSkill.technology = microSkillDto.technologyId(); 
+        microSkill.name = microSkillDto.name();
+        microSkill.photo = microSkillDto.photo();
+        microSkill.creationDate = LocalDate.now();
+        microSkill.description = microSkillDto.description();
+        microSkill.learningTime = microSkillDto.learningTime();
+        microSkill.tags = microSkillDto.tags();
+        microSkill.level = microSkillDto.level();
         return microSkill;
     }
     
