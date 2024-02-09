@@ -19,7 +19,7 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String photo,
                             @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
                             String learningTime,
-                            @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
+                            @NotEmpty (message = MISSING_MICROSKILL_TAGS_MESSAGE)
                             List<Tags> tags,
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
                             Level level,

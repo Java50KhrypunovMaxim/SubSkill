@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill,Long> {
     Optional<MicroSkill> findById(Long id);
-    Page<PageMicroSkillDto> findAllByPage(Pageable pageable);
+    Page<PageMicroSkillDto> findAllBy(Pageable pageable);
     Page<PageMicroSkillDto> findByName(String name, Pageable pageable);
     Page<PageMicroSkillDto> findByRating(double rating, Pageable pageable);
     Optional<MicroSkill> findByName(String name);

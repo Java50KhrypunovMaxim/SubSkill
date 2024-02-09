@@ -1,6 +1,5 @@
 package com.subskill.dto;
 
-import com.subskill.api.ValidationConstants;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.validation.constraints.Min;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.subskill.api.ValidationConstants.*;
-import static com.subskill.api.ValidationConstants.TECHNOLOGY_ID_MISSING;
 
 public record PageMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String name,
@@ -22,14 +20,14 @@ public record PageMicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESS
                             String photo,
                             @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
                             String learningTime,
-                            @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
+                            @NotEmpty (message = MISSING_MICROSKILL_TAGS_MESSAGE)
                             List<Tags> tags,
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
                             Level level,
                              @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
-                              double rating,
+                              Double rating,
                             @NotNull(message = MISSING_MICROSKILL_VIEWS_MESSAGE)
-                              int views,
+                              Integer views,
                             @NotNull(message = MISSING_MICROSKILL_CREATING_DATE_MESSAGE)
                               LocalDate creationDate,
                             @NotNull(message = TECHNOLOGY_ID_MISSING)
