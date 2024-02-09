@@ -1,8 +1,8 @@
 package com.subskill.controller;
 
 
+import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
@@ -53,10 +53,10 @@ public class MicroSkillController {
 
 
     @Operation(summary = "Update MicroSkill card")
-    @GetMapping("/update")
-    ProductMicroSkillDto updateMicroSkill(@RequestBody @Valid ProductMicroSkillDto productMicroSkillDto) {
-        log.debug("update microskill: received new microskill data: {}", productMicroSkillDto);
-        return microSkillService.updateMicroskill(productMicroSkillDto);
+    @PutMapping("/update")
+    MicroSkill updateMicroSkill(@RequestBody @Valid EditMicroSkillDto microSkillDto) {
+        log.debug("update microskill: received new microskill data: {}", microSkillDto);
+        return microSkillService.updateMicroSkill(microSkillDto);
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")

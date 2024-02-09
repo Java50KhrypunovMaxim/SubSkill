@@ -1,8 +1,8 @@
 package com.subskill.service;
 
 
+import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.ProductMicroSkillDto;
 import com.subskill.models.MicroSkill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +11,7 @@ public interface MicroSkillService {
 
     MicroSkillDto addMicroskill(MicroSkillDto microSkillDto);
 
-    ProductMicroSkillDto updateMicroskill(ProductMicroSkillDto editMicroSkillDto);
+    MicroSkill updateMicroSkill(EditMicroSkillDto microSkillDto);
 
     void deleteMicroSkill(Long id);
 
