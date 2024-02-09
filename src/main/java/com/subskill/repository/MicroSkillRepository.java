@@ -1,5 +1,6 @@
 package com.subskill.repository;
 
+import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.models.MicroSkill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +12,9 @@ import java.util.Optional;
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill,Long> {
     Optional<MicroSkill> findById(Long id);
-    Page<MicroSkill> findAll(Pageable pageable);
-    Page<MicroSkill> findByName(String name, Pageable pageable);
-    Page<MicroSkill> findByRating(String rating, Pageable pageable);
+    Page<PageMicroSkillDto> findAllByPage(Pageable pageable);
+    Page<PageMicroSkillDto> findByName(String name, Pageable pageable);
+    Page<PageMicroSkillDto> findByRating(double rating, Pageable pageable);
     Optional<MicroSkill> findByName(String name);
     List<MicroSkill> findByViews(Long views);
 

@@ -3,6 +3,7 @@ package com.subskill.controller;
 
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
@@ -61,7 +62,7 @@ public class MicroSkillController {
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")
     @GetMapping("/all")
-    public Page<MicroSkill> getAllMicroSkills(
+    public Page<PageMicroSkillDto> getAllMicroSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -81,10 +82,10 @@ public class MicroSkillController {
     }
 
     @GetMapping("/byRating")
-    public Page<MicroSkill> getAllMicroSkillsByRating(
+    public Page<PageMicroSkillDto> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            @RequestParam String rating,
+            @RequestParam double rating,
             @RequestParam(defaultValue = "asc") String direction) {
 
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -95,7 +96,7 @@ public class MicroSkillController {
 
     @Operation(summary = "Get all MicroSkill by name with pagination and sorting")
     @GetMapping("/byName")
-    public Page<MicroSkill> getAllMicroSkillsByName(
+    public Page<PageMicroSkillDto> getAllMicroSkillsByName(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
             @RequestParam String name,

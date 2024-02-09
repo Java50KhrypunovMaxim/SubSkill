@@ -3,6 +3,7 @@ package com.subskill.service;
 
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.models.MicroSkill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +16,11 @@ public interface MicroSkillService {
 
     void deleteMicroSkill(Long id);
 
-    Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating);
+    Page<PageMicroSkillDto> findMicroSkillByRatingWithPage(Pageable paging, double rating);
 
-    Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name);
+    Page<PageMicroSkillDto> findMicroSkillByNameWithPage(Pageable paging, String name);
 
-    Page<MicroSkill> findMicroSkillByPage(Pageable paging);
+    Page<PageMicroSkillDto> findMicroSkillByPage(Pageable paging);
 
     long getViewsCount(long id);
 }

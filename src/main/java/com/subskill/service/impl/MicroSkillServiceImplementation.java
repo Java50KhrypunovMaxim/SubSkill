@@ -2,6 +2,7 @@ package com.subskill.service.impl;
 
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.PageMicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.exception.TechnologyNotFoundException;
@@ -48,7 +49,6 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public MicroSkill updateMicroSkill(EditMicroSkillDto microSkillDto) {
         MicroSkill existingMicroSkill = microSkillRepository.findByName(microSkillDto.name())
                 .orElseThrow(MicroSkillNotFoundException::new);
-
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(microSkillDto, existingMicroSkill);
         return microSkillRepository.save(existingMicroSkill);
@@ -71,23 +71,20 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     }
 
     @Override
-    public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
-        Page<MicroSkill> microskillPage;
-        microskillPage = microSkillRepository.findByRating(rating, paging);
-
+    public Page<PageMicroSkillDto> findMicroSkillByRatingWithPage(Pageable paging, double rating) {
+        Page<PageMicroSkillDto> pageMicroSkillDto = microSkillRepository.findByRating(rating, paging);
         log.debug("find MicroSkills description by page rating: {}", paging);
-        return microskillPage;
+        return pageMicroSkillDto;
     }
     @Override
-    public Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name) {
+    public Page<PageMicroSkillDto> findMicroSkillByNameWithPage(Pageable paging, String name) {
         log.debug("find MicroSkills description by page name: {}", paging);
         return microSkillRepository.findByName(name, paging);
     }
 
     @Override
-    public Page<MicroSkill> findMicroSkillByPage(Pageable paging) {
-        Page<MicroSkill> microskillPage;
-        microskillPage = microSkillRepository.findAll(paging);
+    public Page<PageMicroSkillDto> findMicroSkillByPage(Pageable paging) {
+        Page<PageMicroSkillDto> microskillPage = microSkillRepository.findAllByPage(paging);
 
         log.debug("MicroSkills description by page: {}", paging);
         return microskillPage;
