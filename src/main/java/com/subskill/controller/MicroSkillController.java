@@ -54,9 +54,9 @@ public class MicroSkillController {
 
     @Operation(summary = "Update MicroSkill card")
     @PutMapping("/update")
-    MicroSkill updateMicroSkill(@RequestBody @Valid EditMicroSkillDto microSkillDto) {
+    void updateMicroSkill(@RequestBody @Valid EditMicroSkillDto microSkillDto) {
         log.debug("update microskill: received new microskill data: {}", microSkillDto);
-        return microSkillService.updateMicroSkill(microSkillDto);
+        microSkillService.updateMicroSkill(microSkillDto);
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")

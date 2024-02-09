@@ -45,13 +45,13 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
-    public MicroSkill updateMicroSkill(EditMicroSkillDto microSkillDto) {
-        MicroSkill existingMicroSkill = microSkillRepository.findByName(microSkillDto.name())
+    public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
+        MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
                 .orElseThrow(MicroSkillNotFoundException::new);
 
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(microSkillDto, existingMicroSkill);
-        return microSkillRepository.save(existingMicroSkill);
+        microSkillRepository.save(existingMicroSkill);
     }
 
 
