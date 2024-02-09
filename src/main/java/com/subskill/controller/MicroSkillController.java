@@ -1,10 +1,8 @@
 package com.subskill.controller;
 
 
+import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.ProductMicroSkillDto;
-import com.subskill.exception.IllegalMicroSkillStateException;
-import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,17 +31,11 @@ public class MicroSkillController {
     private final TechnologyRepository technologyRepository;
 
     @Operation(summary = "Add new MicroSkill card")
-
-    @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
     @PostMapping("/add")
-    public ResponseEntity<MicroSkill> addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
+    @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
+    MicroSkillDto addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
         log.debug("add microskill: received microskill data: {}", microSkillDto);
-        try {
-            MicroSkill savedMicroSkill = microSkillService.addMicroskill(microSkillDto);
-            return ResponseEntity.ok(savedMicroSkill);
-        } catch (IllegalMicroSkillStateException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return microSkillService.addMicroskill(microSkillDto);
     }
 
     @Operation(summary = "Delete MicroSkill card with this id MicroSkill")
@@ -62,10 +53,10 @@ public class MicroSkillController {
 
 
     @Operation(summary = "Update MicroSkill card")
-    @GetMapping("/update")
-    ProductMicroSkillDto updateMicroSkill(@RequestBody @Valid ProductMicroSkillDto productMicroSkillDto) {
-        log.debug("update microskill: received new microskill data: {}", productMicroSkillDto);
-        return microSkillService.updateMicroskill(productMicroSkillDto);
+    @PutMapping("/update")
+    MicroSkill updateMicroSkill(@RequestBody @Valid EditMicroSkillDto microSkillDto) {
+        log.debug("update microskill: received new microskill data: {}", microSkillDto);
+        return microSkillService.updateMicroSkill(microSkillDto);
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")

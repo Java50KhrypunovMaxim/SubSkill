@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.subskill.enums.Level;
+import com.subskill.enums.Tags;
 import com.subskill.service.MicroSkillService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +55,7 @@ public class SubSkillArticleControllerTest {
     private static final String TEXT3 = "Vandam";
 
     Technology technology = new Technology();
-    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", 4.3, "database_design.jpg", List.of(), technology);
+    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", "", "", "database_design.jpg", List.of(Tags.BACKEND), Level.ADVANCED, List.of(), 1L);
     ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, MicroSkill.of(microSkillDto1));
     ArticleDto UpdateArticleDto = new ArticleDto(ARTICLE_NAME3, TEXT1, MicroSkill.of(microSkillDto1));
 
@@ -85,7 +87,7 @@ public class SubSkillArticleControllerTest {
         when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
         doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
 
-        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8.toString()))
+        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -102,7 +104,7 @@ public class SubSkillArticleControllerTest {
                 .getResponse()
                 .getContentAsString();
 
-        List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<List<ArticleDto>>() {
+        List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<>() {
         });
         assertEquals(articlesList, actualArticlesList);
     }

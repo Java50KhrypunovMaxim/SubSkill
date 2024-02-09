@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserDto registerUser(UserDto userDto) {
         Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
         if (existingUserOptional.isPresent()) {
@@ -32,11 +34,12 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         }
         User newUser = User.of(userDto);
         userRepository.save(newUser);
-        log.debug("user with email {d} has been registered", newUser.getEmail());
+        log.debug("user with email {} has been registered", newUser.getEmail());
         return newUser.build();
     }
 
     @Override
+    @Transactional
     public UserDto updateUser(UserDto userDto) throws NotFoundException {
         if (userDto == null || userDto.email() == null) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
@@ -45,24 +48,26 @@ public class UserServiceImplementation implements UserService, ValidationConstan
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
         deleteUser(existingUser.getEmail());
         UserDto updatedUser = registerUser(userDto);
-        log.debug("user with email {d} has been updated", updatedUser.email());
+        log.debug("user with email {} has been updated", updatedUser.email());
         return updatedUser;
     }
 
     @Override
+    @Transactional
     public UserDto changePassword(String email, String NewPassword) {
         User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
         optionalExistingUser.setPassword(NewPassword);
         userRepository.save(optionalExistingUser);
-        log.debug("Password in email {d} has been changed", optionalExistingUser.getEmail());
+        log.debug("Password in email {} has been changed", optionalExistingUser.getEmail());
         return optionalExistingUser.build();
     }
 
     @Override
+    @Transactional
     public void deleteUser(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(NoUserInRepositoryException::new);
         userRepository.deleteById(user.getId());
-        log.debug("user with email {d} has been deleted", user.getEmail());
+        log.debug("user with email {} has been deleted", user.getEmail());
     }
 
     @Override

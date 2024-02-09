@@ -2,7 +2,7 @@ package com.subskill.dto;
 
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
-import com.subskill.models.Technology;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,28 +12,26 @@ import java.util.Objects;
 import static com.subskill.api.ValidationConstants.*;
 
 public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
-                            String microSkillName,
-                            @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE)
-                            Double microSkillRating,
-                            @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
-                            String microSkillPhoto,
+                            String name,
                             @NotEmpty(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
-                            String microSkillDescription,
-                            @NotEmpty(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
-                            Level microSkillLevel,
-                            @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
-                            Tags microSkillTags,
+                            String description,
+                            @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
+                            String photo,
                             @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
-                            String microSkillLearningTime,
-                            @NotEmpty
+                            String learningTime,
+                            @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
+                            List<Tags> tags,
+                            @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
+                            Level level,
                             List<ArticleDto> articles,
-                            @NotEmpty(message = TECHNOLOGY_ID_MISSING)
-                            Technology technologyId
+                            @NotNull(message = TECHNOLOGY_ID_MISSING)
+                            @Min(value = 1)
+                            Long technologyId
 ) {
 
     @Override
     public int hashCode() {
-        return Objects.hash(microSkillName);
+        return Objects.hash(name);
     }
 
     @Override
@@ -45,7 +43,7 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
         if (getClass() != obj.getClass())
             return false;
         MicroSkillDto other = (MicroSkillDto) obj;
-        return Objects.equals(microSkillName, other.microSkillName);
+        return Objects.equals(name, other.name);
     }
 
 
