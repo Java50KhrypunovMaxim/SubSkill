@@ -38,7 +38,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "Find list of reviews based on microSkillName")
-    @GetMapping("/findbymicroskillname/{name}")
+    @GetMapping("/find-by-name/{name}")
     List<Review> findByMicroSkillName(@PathVariable String name) {
         log.debug("List of Review: received by microSkillName {}", name);
         return reviewService.findByMicroSkillName(name);
