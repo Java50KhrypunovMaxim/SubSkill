@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/microskill")
+@RequestMapping("c")
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin(maxAge = 3600, origins = "*")
@@ -85,7 +85,7 @@ public class MicroSkillController {
     public Page<PageMicroSkillDto> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            @RequestParam double rating,
+            @RequestParam String rating,
             @RequestParam(defaultValue = "asc") String direction) {
 
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;

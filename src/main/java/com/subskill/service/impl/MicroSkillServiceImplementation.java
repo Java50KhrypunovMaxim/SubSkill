@@ -71,7 +71,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     }
 
     @Override
-    public Page<PageMicroSkillDto> findMicroSkillByRatingWithPage(Pageable paging, double rating) {
+    public Page<PageMicroSkillDto> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
         Page<PageMicroSkillDto> pageMicroSkillDto = microSkillRepository.findByRating(rating, paging);
         log.debug("find MicroSkills description by page rating: {}", paging);
         return pageMicroSkillDto;
