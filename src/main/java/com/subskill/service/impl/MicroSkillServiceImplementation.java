@@ -1,66 +1,66 @@
 package com.subskill.service.impl;
 
-import com.subskill.dto.EditMicroSkillDto;
+
+;
 import com.subskill.dto.MicroSkillDto;
+
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
-import com.subskill.exception.TechnologyNotFoundException;
 import com.subskill.models.MicroSkill;
-import com.subskill.models.Technology;
 import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
-    private final TechnologyRepository technologyRepository;
-    private final ModelMapper modelMapper;
+    private final EditMicroSkillMapper editMicroSkillMapper;
 
     @Override
-    @Transactional
-    public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
-        if (microSkillRepository.existsByName(microSkillDto.name())) {
+    public MicroSkill addMicroskill(MicroSkillDto microSkillDto) {
+        if (microSkillRepository.existsByName(microSkillDto.microSkillName())) {
             throw new IllegalMicroSkillStateException();
         }
-        Technology technology = technologyRepository.findById(microSkillDto.technologyId())
-                .orElseThrow(TechnologyNotFoundException::new);
-
-        MicroSkill newMicroSkill = MicroSkill.of(microSkillDto);
-        newMicroSkill.setTechnology(technology);
+        MicroSkill newMicroSkill = editMicroSkillMapper.microSkillDtoToMicroSkill(microSkillDto);
         microSkillRepository.save(newMicroSkill);
         log.debug("MicroSkill card {} has been saved", microSkillDto);
-        return microSkillDto;
+        return newMicroSkill;
     }
 
     @Override
-    @Transactional
-    public MicroSkill updateMicroSkill(EditMicroSkillDto microSkillDto) {
-        MicroSkill existingMicroSkill = microSkillRepository.findByName(microSkillDto.name())
+    public ProductMicroSkillDto updateMicroskill(ProductMicroSkillDto productMicroSkillDto) {
+        MicroSkill existingMicroSkill = microSkillRepository.findByName(productMicroSkillDto.name())
                 .orElseThrow(MicroSkillNotFoundException::new);
-
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(microSkillDto, existingMicroSkill);
-        return microSkillRepository.save(existingMicroSkill);
+        editMicroSkillMapper.updateMicroSkillFromDto(productMicroSkillDto, existingMicroSkill);
+        MicroSkill updatedMicroSkill = microSkillRepository.save(existingMicroSkill);
+        ProductMicroSkillDto updatedMicroSkillDto = editMicroSkillMapper.microSkillToDto(updatedMicroSkill);
+        log.debug("MicroSkill {} has been updated", updatedMicroSkillDto);
+        return updatedMicroSkillDto;
     }
 
 
     @Override
-    @Transactional
     public void deleteMicroSkill(Long id) {
         MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
         microSkillRepository.delete(microSkill);
         log.debug("Microskill with ID {} has been deleted", id);
+    }
+
+    public List<ProductMicroSkillDto> findAllMicroSkill() {
+        List<MicroSkill> microSkills = microSkillRepository.findAll();
+        List<ProductMicroSkillDto> productMicroSkillDtos = microSkills.stream()
+                .map(editMicroSkillMapper::microSkillToDto)
+                .toList();
+        log.debug("All microskills: {}", productMicroSkillDtos);
+        return productMicroSkillDtos;
     }
 
     @Override
