@@ -11,7 +11,7 @@ public interface MicroSkillService {
 
     MicroSkillDto addMicroskill(MicroSkillDto microSkillDto);
 
-    MicroSkill updateMicroSkill(EditMicroSkillDto microSkillDto);
+    void updateMicroSkill(EditMicroSkillDto microSkillDto);
 
     void deleteMicroSkill(Long id);
 
