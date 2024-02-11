@@ -5,14 +5,14 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @AllArgsConstructor
@@ -97,7 +97,11 @@ public class MicroSkill {
         return totalRating / reviews.size();
     }
     public void calculatePopularity() {
-        this.popularity = this.views * 0.6 + this.rating * 0.6;
+        if(this.rating > 4.0) {
+            this.popularity = this.views * 0.3 + this.rating * 2.0;
+        } else {
+            this.popularity = this.views * 0.3 + this.rating * 0.6;
+        }
     }
 
 }

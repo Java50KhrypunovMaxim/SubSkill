@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service
 @Slf4j
@@ -38,7 +40,6 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
         MicroSkill newMicroSkill = MicroSkill.of(microSkillDto);
         newMicroSkill.setTechnology(technology);
-        newMicroSkill.calculatePopularity();
         microSkillRepository.save(newMicroSkill);
         log.debug("MicroSkill card {} has been saved", microSkillDto);
         return microSkillDto;
@@ -73,9 +74,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
-        Page<MicroSkill> microskillPage;
-        microskillPage = microSkillRepository.findByRating(rating, paging);
-
+        Page<MicroSkill> microskillPage = microSkillRepository.findByRating(rating, paging);
         log.debug("find MicroSkills description by page rating: {}", paging);
         return microskillPage;
     }
@@ -92,6 +91,16 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
         log.debug("MicroSkills description by page: {}", paging);
         return microskillPage;
+    }
+    public MicroSkill findMicroSkillPopularity(long id) {
+        Optional<MicroSkill> microSkillByPopularity = microSkillRepository.findById(id);
+        if (microSkillByPopularity.isPresent()) {
+            MicroSkill microSkill = microSkillByPopularity.get();
+            microSkill.calculatePopularity();
+            return microSkill;
+        } else {
+            throw new MicroSkillNotFoundException();
+        }
     }
 
 }

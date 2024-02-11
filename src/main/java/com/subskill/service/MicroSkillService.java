@@ -22,4 +22,5 @@ public interface MicroSkillService {
     Page<MicroSkill> findMicroSkillByPage(Pageable paging);
 
     long getViewsCount(long id);
+    MicroSkill findMicroSkillPopularity(long id);
 }
