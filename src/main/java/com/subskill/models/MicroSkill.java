@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -57,6 +58,7 @@ public class MicroSkill {
     private double rating;
 
     @Column(name = "popularity")
+    @ColumnDefault("0.0")
     private double popularity;
 
     @Column(name = "views")
@@ -99,8 +101,11 @@ public class MicroSkill {
     public void calculatePopularity() {
         if(this.rating > 4.0) {
             this.popularity = this.views * 0.3 + this.rating * 2.0;
-        } else {
+        } else if (this.rating > 0.0) {
             this.popularity = this.views * 0.3 + this.rating * 0.6;
+        }
+        if (this.rating == 0.0) {
+            this.popularity = 0.0;
         }
     }
 
