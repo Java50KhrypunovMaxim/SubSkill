@@ -9,7 +9,10 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @AllArgsConstructor
@@ -53,6 +56,9 @@ public class MicroSkill {
     @Column(name = "rating")
     private double rating;
 
+    @Column(name = "popularity")
+    private double popularity;
+
     @Column(name = "views")
     private int views;
 
@@ -79,7 +85,7 @@ public class MicroSkill {
         microSkill.level = microSkillDto.level();
         return microSkill;
     }
-    
+
     public double calculateAverageRating() {
         if (reviews.isEmpty()) {
             return 0.0; 
@@ -90,6 +96,8 @@ public class MicroSkill {
         }
         return totalRating / reviews.size();
     }
-
+    public void calculatePopularity() {
+        this.popularity = this.views * 0.6 + this.rating * 0.6;
+    }
 
 }

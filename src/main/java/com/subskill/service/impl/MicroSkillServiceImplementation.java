@@ -38,6 +38,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
         MicroSkill newMicroSkill = MicroSkill.of(microSkillDto);
         newMicroSkill.setTechnology(technology);
+        newMicroSkill.calculatePopularity();
         microSkillRepository.save(newMicroSkill);
         log.debug("MicroSkill card {} has been saved", microSkillDto);
         return microSkillDto;
