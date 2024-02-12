@@ -5,7 +5,11 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -30,14 +34,14 @@ public class MicroSkill {
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "creationdate")
+    @Column(name = "creationDate")
     @CreationTimestamp
     private LocalDate creationDate;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "learningtime")
+    @Column(name = "learningTime")
     private String learningTime;
 
     @ElementCollection(targetClass = Tags.class)
@@ -52,6 +56,10 @@ public class MicroSkill {
 
     @Column(name = "rating")
     private double rating;
+
+    @Column(name = "popularity")
+    @ColumnDefault("0.0")
+    private double popularity;
 
     @Column(name = "views")
     private int views;
@@ -79,7 +87,7 @@ public class MicroSkill {
         microSkill.level = microSkillDto.level();
         return microSkill;
     }
-    
+
     public double calculateAverageRating() {
         if (reviews.isEmpty()) {
             return 0.0; 
@@ -90,6 +98,15 @@ public class MicroSkill {
         }
         return totalRating / reviews.size();
     }
-
+    public void calculatePopularity() {
+        if(this.rating > 4.0) {
+            this.popularity = this.views * 0.3 + this.rating * 2.0;
+        } else if (this.rating > 0.0) {
+            this.popularity = this.views * 0.3 + this.rating * 0.6;
+        }
+        if (this.rating == 0.0) {
+            this.popularity = 0.0;
+        }
+    }
 
 }

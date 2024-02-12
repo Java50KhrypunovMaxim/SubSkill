@@ -106,4 +106,13 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByNameWithPage(paging, name);
     }
+    @Operation(summary = "Get popularity of  MicroSkill card by views and rating")
+    @GetMapping("{id}/popularity")
+    private MicroSkill getByPopularity(@PathVariable long id){
+        return microSkillService.findMicroSkillPopularity(id);
+    }
+    @GetMapping("{id}/find_microskill")
+    private MicroSkill findMicroSkill(@PathVariable long id) {
+        return microSkillService.findMicroSkill(id);
+    }
 }
