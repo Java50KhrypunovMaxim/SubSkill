@@ -103,6 +103,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         }
     }
     public MicroSkill findMicroSkill(long id){
+        log.debug("Get MicroSkill by id : {}", id);
         return microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
     }
 
