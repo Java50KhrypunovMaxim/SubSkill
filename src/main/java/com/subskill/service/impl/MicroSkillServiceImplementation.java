@@ -103,4 +103,11 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         }
     }
 
+	@Override
+	public void updatePriceMicroSkill(Long id, double price) {
+		 MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+		 microSkill.setPrice(price);
+	     log.debug("Microskill {} has been chenged price to {}", id , price);
+	}
+
 }

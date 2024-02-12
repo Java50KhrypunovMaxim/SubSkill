@@ -63,7 +63,10 @@ public class MicroSkill {
 
     @Column(name = "views")
     private int views;
-
+    
+    @Column (name = "price")
+    private double price;
+    
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "technology_id")
@@ -85,6 +88,7 @@ public class MicroSkill {
         microSkill.learningTime = microSkillDto.learningTime();
         microSkill.tags = microSkillDto.tags();
         microSkill.level = microSkillDto.level();
+        microSkill.price = microSkillDto.price();
         return microSkill;
     }
 

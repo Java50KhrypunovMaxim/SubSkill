@@ -111,4 +111,12 @@ public class MicroSkillController {
     private MicroSkill getByPopularity(@PathVariable long id){
         return microSkillService.findMicroSkillPopularity(id);
     }
+    
+    @Operation(summary = "Update price of MicroSkill")
+    @PutMapping("/changePrice")
+    void  updatePriceMicroSkill(@RequestBody long id, double price) {
+        log.debug("update price of  microskill withid{}: received new microskill price: {}", id, price);
+        microSkillService.updatePriceMicroSkill(id, price);
+    }
+    
 }
