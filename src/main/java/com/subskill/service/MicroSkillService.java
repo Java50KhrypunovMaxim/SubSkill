@@ -23,4 +23,5 @@ public interface MicroSkillService {
 
     long getViewsCount(long id);
     MicroSkill findMicroSkillPopularity(long id);
+    MicroSkill findMicroSkill(long id);
 }

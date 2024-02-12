@@ -102,5 +102,8 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
             throw new MicroSkillNotFoundException();
         }
     }
+    public MicroSkill findMicroSkill(long id){
+        return microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+    }
 
 }

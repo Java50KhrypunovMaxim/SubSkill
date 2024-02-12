@@ -34,14 +34,14 @@ public class MicroSkill {
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "creationdate")
+    @Column(name = "creationDate")
     @CreationTimestamp
     private LocalDate creationDate;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "learningtime")
+    @Column(name = "learningTime")
     private String learningTime;
 
     @ElementCollection(targetClass = Tags.class)

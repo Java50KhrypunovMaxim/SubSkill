@@ -111,4 +111,8 @@ public class MicroSkillController {
     private MicroSkill getByPopularity(@PathVariable long id){
         return microSkillService.findMicroSkillPopularity(id);
     }
+    @GetMapping("{id}/find_microskill")
+    private MicroSkill findMicroSkill(@PathVariable long id) {
+        return microSkillService.findMicroSkill(id);
+    }
 }
