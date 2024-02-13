@@ -21,6 +21,8 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String learningTime,
                             @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
                             List<Tags> tags,
+                            @NotNull(message = MISSING_MICROSKILL_PRICE_MESSAGE)
+                            double price,
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
                             Level level,
                             List<ArticleDto> articles,

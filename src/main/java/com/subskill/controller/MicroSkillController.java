@@ -106,14 +106,26 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByNameWithPage(paging, name);
     }
+
     @Operation(summary = "Get popularity of  MicroSkill card by views and rating")
     @GetMapping("{id}/popularity")
-    private MicroSkill getByPopularity(@PathVariable long id){
+    private MicroSkill getByPopularity(@PathVariable long id) {
         return microSkillService.findMicroSkillPopularity(id);
     }
+
     @Operation(summary = "Get MicroSkill card by id")
     @GetMapping("{id}/find_microskill")
     private MicroSkill findMicroSkill(@PathVariable long id) {
         return microSkillService.findMicroSkill(id);
     }
+
+
+    @Operation(summary = "Update price of MicroSkill")
+    @PutMapping("/changePrice")
+    void updatePriceMicroSkill(@RequestBody long id, double price) {
+        log.debug("update price of  microskill withid{}: received new microskill price: {}", id, price);
+        microSkillService.updatePriceMicroSkill(id, price);
+    }
+
+
 }
