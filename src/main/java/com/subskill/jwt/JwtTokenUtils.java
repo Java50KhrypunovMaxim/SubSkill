@@ -1,4 +1,4 @@
-package com.subskill.service.securityService;
+package com.subskill.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
