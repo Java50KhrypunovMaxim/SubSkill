@@ -31,16 +31,13 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
-        var jwt = jwtTokenUtils.generateToken(userDetails);
+        var jwt = jwtTokenUtils.generateToken(userDetails,user.getId());
         return JwtResponse.builder()
                 .token(jwt)
                 .build();
     }
 
     public JwtResponse register(RegisteredUserDto registeredUserDto) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.username(), registeredUserDto.password()));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.username());
-        String token = jwtTokenUtils.generateToken(userDetails);
         var user = User.builder()
                 .username(registeredUserDto.username())
                 .email(registeredUserDto.email())
@@ -48,12 +45,13 @@ public class AuthService {
                 .role(Roles.USER)
                 .build();
         userRepository.save(user);
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.username(), registeredUserDto.password()));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.username());
+        String token = jwtTokenUtils.generateToken(userDetails,user.getId());
+
         return JwtResponse.builder()
                 .token(token)
                 .build();
     }
-    public User authenticateUserFromToken(String token) {
-        String username = jwtTokenUtils.getUsername(token);
-        return userRepository.findByUsername(username).orElseThrow();
-    }
+
 }

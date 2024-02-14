@@ -41,21 +41,16 @@ public class AuthController {
     @Operation(description = "login for user")
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginDto loginDto) {
+
         try {
             JwtResponse response = authService.login(loginDto);
-            String username = jwtTokenUtils.getUsername(response.getToken());
-            List<String> roles = jwtTokenUtils.getRoles(response.getToken());
-            log.info("User '{}' with roles '{}' logged in successfully.", username, roles);
+            String username = jwtTokenUtils.getUsernameFromToken(response.getToken());
+            log.info("User '{}' logged in successfully.", username);
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-    @Operation(description = "authenticate user from token")
-    @GetMapping("/authenticateUser")
-    public ResponseEntity<User> authenticateUser(@RequestParam String token) {
-        User authenticatedUser = authService.authenticateUserFromToken(token);
-        return ResponseEntity.ok(authenticatedUser);
-    }
+
 }
