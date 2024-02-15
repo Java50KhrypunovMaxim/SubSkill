@@ -22,9 +22,6 @@ public record UserDto (
 	@Pattern(regexp = EMAIL_REGEXP, message= WRONG_EMAIL_FORMAT)
 	String email,
 	
-	@NotEmpty (message= MISSING_NICKNAME_MESSAGE)
-	String nickname,
-	
 	@NotNull (message= MISSING_STATUS_MESSAGE)
 	Boolean online,
 	

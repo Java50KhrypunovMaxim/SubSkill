@@ -5,9 +5,9 @@ import com.subskill.dto.UserDto;
 import com.subskill.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,14 +21,15 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 @Entity
-public class User implements UserDetails {
+@Builder
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -37,9 +38,6 @@ public class User implements UserDetails {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-
-    @Column(name = "nickname", nullable = false, unique = true)
-    private String nickname;
 
     @Column(name = "status", columnDefinition = "boolean default true")
     private Boolean online;
@@ -60,7 +58,6 @@ public class User implements UserDetails {
         user.username = userDto.username();
         user.password = userDto.password();
         user.email = userDto.email();
-        user.nickname = userDto.nickname();
         user.online = true;
         user.imageUrl = userDto.imageUrl();
         user.role = userDto.role();
@@ -68,33 +65,8 @@ public class User implements UserDetails {
     }
 
     public UserDto build() {
-        return new UserDto(username, password, email, nickname,
+        return new UserDto(username, password, email,
                 online, imageUrl, role);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill,Long> {
     Optional<MicroSkill> findById(Long id);

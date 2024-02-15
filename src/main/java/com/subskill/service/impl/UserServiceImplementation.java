@@ -7,11 +7,9 @@ import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
-
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,4 +78,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         return userDto;
 
     }
+
+
 }

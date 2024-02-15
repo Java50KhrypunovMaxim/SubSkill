@@ -1,5 +1,6 @@
 package com.subskill.service.impl;
 
+
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.exception.IllegalMicroSkillStateException;
@@ -103,7 +104,15 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         }
     }
     public MicroSkill findMicroSkill(long id){
+        log.debug("Get MicroSkill by id : {}", id);
         return microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
     }
+
+	@Override
+	public void updatePriceMicroSkill(Long id, double price) {
+		 MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+		 microSkill.setPrice(price);
+	     log.debug("Microskill {} has been changed price to {}", id , price);
+	}
 
 }
