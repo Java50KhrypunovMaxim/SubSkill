@@ -37,8 +37,10 @@ public interface ValidationConstants {
     String MISSING_RATING_MESSAGE = "Missing rating of review";
     String MISSING_MICRO_SKILLS_MESSAGE = "Missing micro skill";
     String MISSING_USER_MESSAGE = "Missing User";
-	String MIN_RARING = "Rating should be at least 1";
-	String MAX_RARING = "Rating should be at most 5";
+    String MISSING_MICROSKILL_ABOUT_SKILL = "Missing aboutSkill";
+    String MISSING_MICROSKILL_LAST_UPDATE_TIME = "Missing last updated time";
+    String MIN_RARING = "Rating should be at least 1";
+    String MAX_RARING = "Rating should be at most 5";
     String PROFESSION_NAME_MISSING = "Missing profession name";
     String PROFESSION_ID_MISSING = "Missing profession id";
 }

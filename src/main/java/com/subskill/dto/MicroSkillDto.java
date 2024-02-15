@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,7 +23,11 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
                             List<Tags> tags,
                             @NotNull(message = MISSING_MICROSKILL_PRICE_MESSAGE)
-                            double price,
+                            Double price,
+                            @NotNull(message = MISSING_MICROSKILL_LAST_UPDATE_TIME)
+                            LocalDateTime lastUpdateTime,
+                            @NotNull(message = MISSING_MICROSKILL_ABOUT_SKILL)
+                            String aboutSkill,
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
                             Level level,
                             List<ArticleDto> articles,
