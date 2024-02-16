@@ -44,7 +44,7 @@ public class AuthController {
 
         try {
             JwtResponse response = authService.login(loginDto);
-            String username = jwtTokenUtils.getUsernameFromToken(response.getToken());
+            String username = jwtTokenUtils.getUsernameFromToken(response.token());
             log.info("User '{}' logged in successfully.", username);
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {

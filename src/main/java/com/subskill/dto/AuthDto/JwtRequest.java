@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import static com.subskill.api.ValidationConstants.*;
-@Getter
 @Builder
 public record JwtRequest (@NotNull(message = USER_NOT_FOUND) String username,
                           @NotNull(message = PASSWORD_NOT_FOUND) String password) {
