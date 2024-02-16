@@ -56,7 +56,11 @@ public class SubSkillArticleControllerTest {
     private static final String TEXT3 = "Vandam";
 
     Technology technology = new Technology();
+
     MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", "", "", "database_design.jpg", List.of(Tags.BACKEND), 12.0, LocalDateTime.now(),   "About Microskill", Level.ADVANCED, List.of(), 1L);
+
+
+
     ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, MicroSkill.of(microSkillDto1));
     ArticleDto UpdateArticleDto = new ArticleDto(ARTICLE_NAME3, TEXT1, MicroSkill.of(microSkillDto1));
 

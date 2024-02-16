@@ -13,15 +13,15 @@ import java.util.Objects;
 
 import static com.subskill.api.ValidationConstants.*;
 
-public record MicroSkillDto(@NotNull(message = MISSING_MICROSKILL_NAME_MESSAGE)
+public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String name,
-                            @NotNull(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
+                            @NotEmpty(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
                             String description,
-                            @NotNull(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
+                            @NotEmpty(message = MISSING_MICROSKILL_PHOTO_MESSAGE)
                             String photo,
-                            @NotNull(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
+                            @NotEmpty(message = MISSING_MICROSKILL_LEARNING_TIME_MESSAGE)
                             String learningTime,
-                            @NotNull(message = MISSING_MICROSKILL_TAGS_MESSAGE)
+                            @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
                             List<Tags> tags,
                             @NotNull(message = MISSING_MICROSKILL_PRICE_MESSAGE)
                             Double price,

@@ -132,7 +132,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     @Override
     public MicroSkillDto findTagFromMicroSkill(Tags tags) {
         log.debug("finding level {} of MicroSkill", tags);
-        return microSkillRepository.findByTag(tags).orElseThrow(MicroSkillNotFoundException::new);
+        return microSkillRepository.findByTags(tags).orElseThrow(MicroSkillNotFoundException::new);
 
     }
 }
