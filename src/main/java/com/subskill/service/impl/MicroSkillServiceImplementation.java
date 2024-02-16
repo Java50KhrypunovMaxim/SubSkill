@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -53,7 +54,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
         MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
                 .orElseThrow(MicroSkillNotFoundException::new);
-
+            existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(microSkillDto, existingMicroSkill);
         microSkillRepository.save(existingMicroSkill);

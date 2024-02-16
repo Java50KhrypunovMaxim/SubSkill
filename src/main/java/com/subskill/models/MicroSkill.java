@@ -72,7 +72,7 @@ public class MicroSkill {
     private int lessonCount;
     @Column(name = "aboutSkill")
     private String aboutSkill;
-    @Column(name = "lastUpdateTime", nullable = false)
+    @Column(name = "lastUpdateTime")
     private LocalDateTime lastUpdateTime;
     @JsonIgnore
     @ManyToOne

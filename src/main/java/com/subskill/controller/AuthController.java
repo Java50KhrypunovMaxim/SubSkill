@@ -4,8 +4,7 @@ import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.exception.RegistrationUserNotFoundException;
-import com.subskill.models.User;
-import com.subskill.service.AuthService;
+import com.subskill.service.impl.AuthService;
 import com.subskill.jwt.JwtTokenUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 
@@ -44,7 +41,7 @@ public class AuthController {
 
         try {
             JwtResponse response = authService.login(loginDto);
-            String username = jwtTokenUtils.getUsernameFromToken(response.getToken());
+            String username = jwtTokenUtils.getUsernameFromToken(response.token());
             log.info("User '{}' logged in successfully.", username);
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {

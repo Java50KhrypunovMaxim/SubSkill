@@ -125,7 +125,7 @@ public class MicroSkillController {
     @Operation(summary = "Update price of MicroSkill")
     @PutMapping("/changePrice")
     void updatePriceMicroSkill(@RequestParam long id, @RequestParam Double price) {
-        log.debug("update price of  microskill withid{}: received new microskill price: {}", id, price);
+        log.debug("update price of  microskill within{}: received new microskill price: {}", id, price);
         microSkillService.updatePriceMicroSkill(id, price);
     }
 

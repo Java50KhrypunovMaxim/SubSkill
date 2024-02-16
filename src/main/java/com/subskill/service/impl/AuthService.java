@@ -1,4 +1,4 @@
-package com.subskill.service;
+package com.subskill.service.impl;
 
 import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;

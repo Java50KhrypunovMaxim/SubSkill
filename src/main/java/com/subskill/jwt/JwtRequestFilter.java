@@ -1,9 +1,10 @@
 package com.subskill.jwt;
 
-import com.subskill.service.UserDetailsServiceImpl;
+import com.subskill.service.impl.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,22 +28,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenUtils jwtTokenUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+    protected void doFilterInternal(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable FilterChain chain)
             throws ServletException, IOException {
 
-        final String tokenHeader = request.getHeader("Authorization");
-        if (StringUtils.isBlank(tokenHeader) || !tokenHeader.startsWith("Bearer ")) {
-            chain.doFilter(request, response);
-            return;
-        }
+        if (request != null && response != null && chain != null) {
+            final String tokenHeader = request.getHeader("Authorization");
+            if (StringUtils.isBlank(tokenHeader) || !tokenHeader.startsWith("Bearer ")) {
+                chain.doFilter(request, response);
+                return;
+            }
 
-        String jwtToken = tokenHeader.substring(7);
-        String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-        if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            authenticateUser(jwtToken, userDetails, request);
+            String jwtToken = tokenHeader.substring(7);
+            String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+            if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                authenticateUser(jwtToken, userDetails, request);
+            }
+            chain.doFilter(request, response);
+        } else {
+            log.error(" One or more parameters in JwtRequestFilter are null: request={}, response={}, chain={}", request, response, chain);
         }
-        chain.doFilter(request, response);
     }
 
     private void authenticateUser(String jwtToken, UserDetails userDetails, HttpServletRequest request) {
