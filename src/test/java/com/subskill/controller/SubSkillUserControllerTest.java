@@ -56,9 +56,9 @@ class SubSkillUserControllerTest {
     private static final String IMAGEURLl = "https://example.com/image1.jpg";
     private static final String IMAGEURL2 = "https://example.com/image2.jpg";
 
-    UserDto userDto1 = new UserDto(USERNAME1, PASSWORD1, EMAIL4, NICKNAME1, true, IMAGEURLl, Roles.USER);
-    UserDto userDtoUpdated = new UserDto(USERNAME1, PASSWORD1, EMAIL1, NICKNAME3, true, IMAGEURLl, Roles.ADMIN);
-    UserDto changePasswordUserDto2 = new UserDto(USERNAME2, PASSWORD3, EMAIL2, NICKNAME2, true, IMAGEURL2, Roles.USER);
+    UserDto userDto1 = new UserDto(USERNAME1, PASSWORD1, EMAIL4, true, IMAGEURLl, Roles.USER);
+    UserDto userDtoUpdated = new UserDto(USERNAME1, PASSWORD1, EMAIL1, true, IMAGEURLl, Roles.ADMIN);
+    UserDto changePasswordUserDto2 = new UserDto(USERNAME2, PASSWORD3, EMAIL2, true, IMAGEURL2, Roles.USER);
 
     @Test
     void testRegisterUser() throws Exception {
