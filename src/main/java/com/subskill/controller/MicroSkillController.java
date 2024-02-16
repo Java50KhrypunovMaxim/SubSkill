@@ -142,4 +142,10 @@ public class MicroSkillController {
         log.debug("finding tags {} of MicroSkill", tags);
         return microSkillService.findTagFromMicroSkill(tags);
     }
+    @Operation(summary = "Get top MicroSkill deals")
+    @GetMapping("get-today-deals")
+    public MicroSkillDto getTodayBestDeals(@RequestBody MicroSkillDto microSkillDto) {
+        log.debug("get best deals of {}  ", microSkillDto);
+        return microSkillService.getBestDealsByToday(microSkillDto);
+    }
 }

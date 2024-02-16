@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,8 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             Double price,
                             @NotNull(message = MISSING_MICROSKILL_LAST_UPDATE_TIME)
                             LocalDateTime lastUpdateTime,
+                            @NotNull(message = MISSING_MICROSKILL_CREATION_DATE)
+                            LocalDate creationDate,
                             @NotNull(message = MISSING_MICROSKILL_ABOUT_SKILL)
                             String aboutSkill,
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)

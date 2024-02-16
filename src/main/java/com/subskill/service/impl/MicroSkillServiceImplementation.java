@@ -21,8 +21,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -115,6 +118,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         return microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
     }
 
+
     @Override
     public void updatePriceMicroSkill(long id, Double price) {
         MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
@@ -134,5 +138,12 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("finding level {} of MicroSkill", tags);
         return microSkillRepository.findByTags(tags).orElseThrow(MicroSkillNotFoundException::new);
 
+    }
+
+    @Override
+    public MicroSkillDto getBestDealsByToday(MicroSkillDto microSkillDto) {
+        LocalDate twentyFourHoursAgo = LocalDate.now().minusDays(1);
+        List<MicroSkillDto> deals = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
+        return deals.isEmpty() ? null : deals.get(0);
     }
 }

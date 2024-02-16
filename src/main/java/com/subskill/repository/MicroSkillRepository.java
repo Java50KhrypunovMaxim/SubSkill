@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,9 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
     Page<MicroSkill> findByName(String name, Pageable pageable);
 
     Page<MicroSkill> findByRating(String rating, Pageable pageable);
+    Optional<MicroSkillDto> findByName(String name);
 
-
+    List<MicroSkillDto> findByCreationDateAfter(LocalDate date);
     List<MicroSkill> findByViews(Long views);
 
     boolean existsByName(String microSkillName);

@@ -19,6 +19,7 @@ import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class AuthController {
     private final AuthService authService;
     private final JwtTokenUtils jwtTokenUtils;
