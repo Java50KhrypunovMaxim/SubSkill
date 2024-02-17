@@ -6,6 +6,9 @@ import com.subskill.models.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
-    CartDto save(MicroSkillDto microSkillDto);
-    Cart findMicroSkillByUser(long id);
+
+    Cart findMicroSkillBy(MicroSkillDto microSkillDto);
+    Cart findCartByUserId(long userId);
+
+
 }
