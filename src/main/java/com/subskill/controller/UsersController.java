@@ -51,7 +51,7 @@ public class UsersController {
     @Operation(summary = "Delete our User based on email")
     @DeleteMapping("delete/{email}")
     void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
-                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email) {
+                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@PathVariable String email) {
         log.debug("delete user: user with email {}", email);
         usersService.deleteUser(email);
     }

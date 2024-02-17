@@ -56,6 +56,7 @@ public class CartServiceImpl implements CartService {
             UserDto userDto = modelMapper.map(cart.getUser(), UserDto.class);
             CartDto cartDto = new CartDto(userDto, microSkillDto);
             newCart.add(cartDto);
+
         }
         return newCart;
     }

@@ -142,7 +142,12 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     @Override
     public MicroSkillDto getBestDealsByToday(MicroSkillDto microSkillDto) {
         LocalDate twentyFourHoursAgo = LocalDate.now().minusDays(1);
-        List<MicroSkillDto> deals = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
-        return deals.isEmpty() ? null : deals.get(0);
+        List<MicroSkill> deals = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        if (!deals.isEmpty()) {
+            return modelMapper.map(deals.get(0), MicroSkillDto.class);
+        } else {
+            return null;
+        }
     }
 }
