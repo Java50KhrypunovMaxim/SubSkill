@@ -6,6 +6,6 @@ import com.subskill.models.User;
 import java.util.List;
 
 public record CartDto(
-        User user,
+        UserDto userDto,
         List<MicroSkillDto> listOfMicroSkills
 ) {}
