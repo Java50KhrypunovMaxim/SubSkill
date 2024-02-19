@@ -13,6 +13,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -63,10 +64,16 @@ public class MicroSkill {
 
     @Column(name = "views")
     private int views;
-    
-    @Column (name = "price")
+
+    @Column(name = "price")
     private double price;
-    
+
+    @Column(name = "lessonCount")
+    private int lessonCount;
+    @Column(name = "aboutSkill")
+    private String aboutSkill;
+    @Column(name = "lastUpdateTime")
+    private LocalDateTime lastUpdateTime;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "technology_id")
@@ -94,7 +101,7 @@ public class MicroSkill {
 
     public double calculateAverageRating() {
         if (reviews.isEmpty()) {
-            return 0.0; 
+            return 0.0;
         }
         double totalRating = 0.0;
         for (Review review : reviews) {
@@ -102,8 +109,9 @@ public class MicroSkill {
         }
         return totalRating / reviews.size();
     }
+
     public void calculatePopularity() {
-        if(this.rating > 4.0) {
+        if (this.rating > 4.0) {
             this.popularity = this.views * 0.3 + this.rating * 2.0;
         } else if (this.rating > 0.0) {
             this.popularity = this.views * 0.3 + this.rating * 0.6;

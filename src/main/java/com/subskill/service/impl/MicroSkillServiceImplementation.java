@@ -3,6 +3,8 @@ package com.subskill.service.impl;
 
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.enums.Level;
+import com.subskill.enums.Tags;
 import com.subskill.exception.IllegalMicroSkillStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.exception.TechnologyNotFoundException;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -51,7 +54,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
         MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
                 .orElseThrow(MicroSkillNotFoundException::new);
-
+            existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(microSkillDto, existingMicroSkill);
         microSkillRepository.save(existingMicroSkill);
@@ -66,6 +69,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("Microskill with ID {} has been deleted", id);
     }
 
+
     @Override
     public long getViewsCount(long id) {
         MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
@@ -79,6 +83,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("find MicroSkills description by page rating: {}", paging);
         return microskillPage;
     }
+
     @Override
     public Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name) {
         log.debug("find MicroSkills description by page name: {}", paging);
@@ -93,6 +98,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("MicroSkills description by page: {}", paging);
         return microskillPage;
     }
+
     public MicroSkill findMicroSkillPopularity(long id) {
         Optional<MicroSkill> microSkillByPopularity = microSkillRepository.findById(id);
         if (microSkillByPopularity.isPresent()) {
@@ -103,16 +109,30 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
             throw new MicroSkillNotFoundException();
         }
     }
-    public MicroSkill findMicroSkill(long id){
+
+    public MicroSkill findMicroSkill(long id) {
         log.debug("Get MicroSkill by id : {}", id);
         return microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
     }
 
-	@Override
-	public void updatePriceMicroSkill(Long id, double price) {
-		 MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
-		 microSkill.setPrice(price);
-	     log.debug("Microskill {} has been changed price to {}", id , price);
-	}
+    @Override
+    public void updatePriceMicroSkill(long id, Double price) {
+        MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+        microSkill.setPrice(price);
+        log.debug("Microskill {} has been changed price to {}", id, price);
+    }
 
+    @Override
+    public MicroSkillDto findLevelFromMicroSkill(Level level) {
+        log.debug("finding level {} of MicroSkill", level);
+        return microSkillRepository.findByLevel(level).orElseThrow(MicroSkillNotFoundException::new);
+
+    }
+
+    @Override
+    public MicroSkillDto findTagFromMicroSkill(Tags tags) {
+        log.debug("finding level {} of MicroSkill", tags);
+        return microSkillRepository.findByTags(tags).orElseThrow(MicroSkillNotFoundException::new);
+
+    }
 }

@@ -3,6 +3,8 @@ package com.subskill.controller;
 
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.enums.Level;
+import com.subskill.enums.Tags;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
@@ -109,23 +111,35 @@ public class MicroSkillController {
 
     @Operation(summary = "Get popularity of  MicroSkill card by views and rating")
     @GetMapping("{id}/popularity")
-    private MicroSkill getByPopularity(@PathVariable long id) {
+    public MicroSkill getByPopularity(@PathVariable long id) {
         return microSkillService.findMicroSkillPopularity(id);
     }
 
     @Operation(summary = "Get MicroSkill card by id")
     @GetMapping("{id}/find_microskill")
-    private MicroSkill findMicroSkill(@PathVariable long id) {
+    public MicroSkill findMicroSkill(@PathVariable long id) {
         return microSkillService.findMicroSkill(id);
     }
 
 
     @Operation(summary = "Update price of MicroSkill")
     @PutMapping("/changePrice")
-    void updatePriceMicroSkill(@RequestBody long id, double price) {
-        log.debug("update price of  microskill withid{}: received new microskill price: {}", id, price);
+    void updatePriceMicroSkill(@RequestParam long id, @RequestParam Double price) {
+        log.debug("update price of  microskill within{}: received new microskill price: {}", id, price);
         microSkillService.updatePriceMicroSkill(id, price);
     }
 
+    @Operation(summary = "Find MicroSkill by level")
+    @GetMapping("find-by-level")
+    public MicroSkillDto findMicroSkillByLevel(@RequestParam Level level) {
+        log.debug("finding level {} of MicroSkill", level);
+        return microSkillService.findLevelFromMicroSkill(level);
+    }
 
+    @Operation(summary = "Find MicroSkill by tag")
+    @GetMapping("find-by-tags")
+    public MicroSkillDto findMicroSkillByTag(@RequestParam Tags tags) {
+        log.debug("finding tags {} of MicroSkill", tags);
+        return microSkillService.findTagFromMicroSkill(tags);
+    }
 }
