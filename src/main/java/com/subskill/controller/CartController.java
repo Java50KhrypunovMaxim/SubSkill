@@ -5,7 +5,6 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 @Slf4j
-@AllArgsConstructor
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class CartController {
     CartService cartService;
