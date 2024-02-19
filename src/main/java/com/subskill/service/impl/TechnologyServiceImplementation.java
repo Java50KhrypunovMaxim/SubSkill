@@ -12,6 +12,7 @@ import com.subskill.repository.TechnologyRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -20,24 +21,28 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     private final TechnologyRepository technologyRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<Technology> getAllTechnology() {
         log.debug("All technologies");
         return technologyRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Technology getByName(String name) {
         return technologyRepository.findByName(name).
-        		orElseThrow(TechnologyNotFoundException::new);
+                orElseThrow(TechnologyNotFoundException::new);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public Technology getByID(long ID) {
-        return technologyRepository.findById(ID)
+    public Technology getByID(long technology_id) {
+        return technologyRepository.findById(technology_id)
                 .orElseThrow(TechnologyNotFoundException::new);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Technology> getByProfessionName(String name) {
         List<Technology> technology = technologyRepository.findByProfessionName(name);

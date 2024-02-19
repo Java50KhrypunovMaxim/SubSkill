@@ -56,7 +56,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
         MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
                 .orElseThrow(MicroSkillNotFoundException::new);
-            existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
+        existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(microSkillDto, existingMicroSkill);
         microSkillRepository.save(existingMicroSkill);
@@ -65,20 +65,21 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
-    public void deleteMicroSkill(Long id) {
-        MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+    public void deleteMicroSkill(Long microSkill_id) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
         microSkillRepository.delete(microSkill);
-        log.debug("Microskill with ID {} has been deleted", id);
+        log.debug("Microskill with ID {} has been deleted", microSkill_id);
     }
 
-
+    @Transactional(readOnly = true)
     @Override
-    public long getViewsCount(long id) {
-        MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
-        log.debug("All views {}", id);
+    public long getViewsCount(long microSkill_id) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
+        log.debug("All views {}", microSkill_id);
         return microSkill.getViews();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
         Page<MicroSkill> microskillPage = microSkillRepository.findByRating(rating, paging);
@@ -86,12 +87,14 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         return microskillPage;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name) {
         log.debug("find MicroSkills description by page name: {}", paging);
         return microSkillRepository.findByName(name, paging);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<MicroSkill> findMicroSkillByPage(Pageable paging) {
         Page<MicroSkill> microskillPage;
@@ -101,6 +104,8 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         return microskillPage;
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public MicroSkill findMicroSkillPopularity(long id) {
         Optional<MicroSkill> microSkillByPopularity = microSkillRepository.findById(id);
         if (microSkillByPopularity.isPresent()) {
@@ -112,19 +117,23 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         }
     }
 
-    public MicroSkill findMicroSkill(long id) {
-        log.debug("Get MicroSkill by id : {}", id);
-        return microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+    @Transactional(readOnly = true)
+    @Override
+    public MicroSkill findMicroSkill(long microSkill_id) {
+        log.debug("Get MicroSkill by id : {}", microSkill_id);
+        return microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
     }
 
 
     @Override
-    public void updatePriceMicroSkill(long id, Double price) {
-        MicroSkill microSkill = microSkillRepository.findById(id).orElseThrow(MicroSkillNotFoundException::new);
+    @Transactional
+    public void updatePriceMicroSkill(long microSkill_id, Double price) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
         microSkill.setPrice(price);
-        log.debug("Microskill {} has been changed price to {}", id, price);
+        log.debug("Microskill {} has been changed price to {}", microSkill_id, price);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MicroSkillDto findLevelFromMicroSkill(Level level) {
         log.debug("finding level {} of MicroSkill", level);
@@ -132,6 +141,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MicroSkillDto findTagFromMicroSkill(Tags tags) {
         log.debug("finding level {} of MicroSkill", tags);

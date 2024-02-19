@@ -6,6 +6,7 @@ import com.subskill.repository.ProfessionRepository;
 import com.subskill.service.ProfessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     private final ProfessionRepository professionRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<ProfessionDto> findAll() {
         List<Profession> professions = professionRepository.findAll();

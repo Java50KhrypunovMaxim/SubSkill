@@ -4,7 +4,7 @@ import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.exception.RegistrationUserNotFoundException;
-import com.subskill.service.impl.AuthService;
+import com.subskill.service.AuthService;
 import com.subskill.jwt.JwtTokenUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

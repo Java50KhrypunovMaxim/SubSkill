@@ -2,7 +2,6 @@ package com.subskill.controller;
 
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.UserDto;
 import com.subskill.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

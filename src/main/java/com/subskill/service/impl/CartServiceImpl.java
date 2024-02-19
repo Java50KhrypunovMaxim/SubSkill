@@ -9,10 +9,12 @@ import com.subskill.repository.CartRepository;
 import com.subskill.service.CartService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class CartServiceImpl implements CartService {
@@ -20,24 +22,26 @@ public class CartServiceImpl implements CartService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public CartDto addMicroSkillToCart(MicroSkillDto microSkillDto) {
-
         MicroSkill microSkill = MicroSkill.of(microSkillDto);
-        Cart cart = cartRepository.findMicroSkillBy(microSkillDto);
+        Optional<Cart> optionalCart = cartRepository.findMicroSkillBy(microSkillDto);
+        Cart cart = optionalCart.orElseGet(Cart::new);
         cart.getListOfMicroSkills().add(microSkill);
         cartRepository.save(cart);
         return modelMapper.map(cart, CartDto.class);
     }
 
     @Override
-    public void deleteMicroSkillFromCart(long id) {
-        Cart cart = cartRepository.findCartByUserId(id);
-        if (cart != null) {
-            List<MicroSkill> listOfMicroSkills = cart.getListOfMicroSkills();
+    @Transactional
+    public void deleteMicroSkillFromCart(long cart_id) {
+        Optional<Cart> cart = cartRepository.findCartByUserId(cart_id);
+        if (cart.isPresent()) {
+            List<MicroSkill> listOfMicroSkills = cart.get().getListOfMicroSkills();
             Iterator<MicroSkill> iterator = listOfMicroSkills.iterator();
             while (iterator.hasNext()) {
                 MicroSkill microSkill = iterator.next();
-                if (microSkill.getId() == id) {
+                if (microSkill.getId() == cart_id) {
                     iterator.remove();
                     break;
                 }
@@ -45,6 +49,7 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CartDto> allMicroSkillsInCart() {
         List<Cart> carts = cartRepository.findAll();
