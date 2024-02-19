@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {

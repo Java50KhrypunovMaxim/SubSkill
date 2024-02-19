@@ -18,7 +18,7 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
     Optional<MicroSkillDto> findByLevel(Level level);
 
-    Optional<MicroSkillDto> findByTag(Tags tags);
+    Optional<MicroSkillDto> findByTags(Tags tags);
 
     Page<MicroSkill> findAll(Pageable pageable);
 
