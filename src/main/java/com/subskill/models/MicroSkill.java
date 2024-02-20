@@ -79,6 +79,10 @@ public class MicroSkill {
     @JoinColumn(name = "technology_id")
     private Technology technology;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     @JsonIgnore
     @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;

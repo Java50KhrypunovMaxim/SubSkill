@@ -37,6 +37,7 @@ public interface ValidationConstants {
     String MISSING_RATING_MESSAGE = "Missing rating of review";
     String MISSING_MICRO_SKILLS_MESSAGE = "Missing micro skill";
     String MISSING_USER_MESSAGE = "Missing User";
+    String MISSING_MICROSKILL_CREATION_DATE = "Missing creation date for microSkill";
     String MISSING_MICROSKILL_ABOUT_SKILL = "Missing aboutSkill";
     String MISSING_MICROSKILL_LAST_UPDATE_TIME = "Missing last updated time";
     String MIN_RARING = "Rating should be at least 1";

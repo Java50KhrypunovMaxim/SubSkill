@@ -14,10 +14,6 @@ public record UserDto (
 	@NotEmpty (message= MISSING_PERSON_USERNAME_MESSAGE)
 	String username,
 	
-	@NotEmpty (message= MISSING_PASSWORD_MESSAGE)
-	@Pattern(regexp = PASSWORD_REGEXP, message= WRONG_PASSWORD_CREATION_MESSAGE)
-	String password,
-	
 	@NotEmpty (message= MISSING_PERSON_EMAIL)
 	@Pattern(regexp = EMAIL_REGEXP, message= WRONG_EMAIL_FORMAT)
 	String email,

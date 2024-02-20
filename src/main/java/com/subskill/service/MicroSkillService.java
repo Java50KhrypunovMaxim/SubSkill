@@ -15,9 +15,9 @@ public interface MicroSkillService {
 
     void updateMicroSkill(EditMicroSkillDto microSkillDto);
     
-    void updatePriceMicroSkill(long id, Double price);
+    void updatePriceMicroSkill(long microSkill_id, Double price);
 
-    void deleteMicroSkill(Long id);
+    void deleteMicroSkill(Long microSkill_id);
     MicroSkillDto findLevelFromMicroSkill(Level level);
     MicroSkillDto findTagFromMicroSkill(Tags tags);
 
@@ -27,7 +27,8 @@ public interface MicroSkillService {
 
     Page<MicroSkill> findMicroSkillByPage(Pageable paging);
 
-    long getViewsCount(long id);
-    MicroSkill findMicroSkillPopularity(long id);
-    MicroSkill findMicroSkill(long id);
+    long getViewsCount(long microSkill_id);
+    MicroSkill findMicroSkillPopularity(long microSkill_id);
+    MicroSkill findMicroSkill(long microSkill_id);
+    MicroSkillDto getBestDealsByToday(MicroSkillDto microSkillDto);
 }

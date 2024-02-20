@@ -68,7 +68,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         userRepository.deleteById(user.getId());
         log.debug("user with email {} has been deleted", user.getEmail());
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<UserDto> allUsers() {
         List<User> users = userRepository.findAll();
