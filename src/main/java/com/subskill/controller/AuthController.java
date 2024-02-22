@@ -4,7 +4,7 @@ import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.exception.RegistrationUserNotFoundException;
-import com.subskill.service.impl.AuthService;
+import com.subskill.service.AuthService;
 import com.subskill.jwt.JwtTokenUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(maxAge = 3600, origins = "*")
 public class AuthController {
     private final AuthService authService;
     private final JwtTokenUtils jwtTokenUtils;
@@ -42,7 +43,7 @@ public class AuthController {
         try {
             JwtResponse response = authService.login(loginDto);
             String username = jwtTokenUtils.getUsernameFromToken(response.token());
-            log.info("User '{}' logged in successfully.", username);
+            log.info("User '{}' logged in successfully with token {}.", username,response.token());
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

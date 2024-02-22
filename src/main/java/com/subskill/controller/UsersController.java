@@ -6,6 +6,7 @@ import static com.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
 
 import java.util.List;
 
+import com.subskill.dto.UserDtoPassword;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,15 +43,15 @@ public class UsersController {
 
     @Operation(summary = "Change password for User")
     @PutMapping("/password/{email}")
-    UserDto changeUserPassword(@RequestBody @Valid UserDto userDto) {
-        log.debug("The password has been changed {}", userDto.email());
-        return usersService.changePassword(userDto.email(), userDto.password());
+    UserDto changeUserPassword(@PathVariable String email,@RequestBody @Valid UserDtoPassword userDtoPassword) {
+        log.debug("The password has been changed {}", email);
+        return usersService.changePassword(email, userDtoPassword.password());
     }
 
     @Operation(summary = "Delete our User based on email")
     @DeleteMapping("delete/{email}")
     void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
-                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT) String email) {
+                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@PathVariable String email) {
         log.debug("delete user: user with email {}", email);
         usersService.deleteUser(email);
     }

@@ -9,7 +9,7 @@ public interface TechnologyService {
 
 	Technology getByName(String name);
 
-	Technology getByID(long ID);
+	Technology getByID(long technology_id);
 	
 	List <Technology> getByProfessionName(String name);
 }

@@ -8,6 +8,6 @@ import com.subskill.models.Review;
 
 public interface ReviewService {
 	ReviewDto addReview (ReviewDto reviewDto);
-	void deleteReview(Long id);
+	void deleteReview(Long review_id);
 	List <Review> findByMicroSkillName(String MicroSkillName);
 }

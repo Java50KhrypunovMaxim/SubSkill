@@ -20,38 +20,40 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class ReviewServiceImplementation implements ReviewService {
 
-	private final ReviewRepository reviewRepo;
-	private final MicroSkillRepository microSkillRepo;
-	
-	@Override
-	@Transactional
-	public ReviewDto addReview(ReviewDto reviewDto) {
-		Review review = Review.of(reviewDto);
-		reviewRepo.save(review);
-		log.debug("Review {} has been saved", reviewDto);
-		updateMicroSkillAverageRating(review.getMicroSkill());
-		return reviewDto;
-	}
+    private final ReviewRepository reviewRepo;
+    private final MicroSkillRepository microSkillRepo;
 
-	@Override
-	@Transactional
-	public void deleteReview(Long id) {
-		Review review = reviewRepo.findByid(id).orElseThrow(ReviewNotFoundException::new);
-	    reviewRepo.deleteById(review.getId());
-	    log.debug("Review with id {} has been deleted", review.getId());
-	    updateMicroSkillAverageRating(review.getMicroSkill());
-	}
+    @Override
+    @Transactional
+    public ReviewDto addReview(ReviewDto reviewDto) {
+        Review review = Review.of(reviewDto);
+        reviewRepo.save(review);
+        log.debug("Review {} has been saved", reviewDto);
+        updateMicroSkillAverageRating(review.getMicroSkill());
+        return reviewDto;
+    }
 
-	@Override
-	public List <Review> findByMicroSkillName(String microSkillName) {
-		   List<Review> technology = reviewRepo.findByMicroSkillName(microSkillName);
-	        log.debug("All reviews  for {} ", microSkillName);
-	        return Optional.of(technology)
-	                .filter(list -> !list.isEmpty())
-	                .orElseThrow(ReviewNotFoundException::new);
-	}
-	
-	private void updateMicroSkillAverageRating(MicroSkill microSkill) {
+    @Override
+    @Transactional
+    public void deleteReview(Long review_id) {
+        Review review = reviewRepo.findByid(review_id).orElseThrow(ReviewNotFoundException::new);
+        reviewRepo.deleteById(review.getId());
+        log.debug("Review with id {} has been deleted", review.getId());
+        updateMicroSkillAverageRating(review.getMicroSkill());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Review> findByMicroSkillName(String microSkillName) {
+        List<Review> technology = reviewRepo.findByMicroSkillName(microSkillName);
+        log.debug("All reviews  for {} ", microSkillName);
+        return Optional.of(technology)
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(ReviewNotFoundException::new);
+    }
+
+    @Transactional
+    public void updateMicroSkillAverageRating(MicroSkill microSkill) {
         double averageRating = microSkill.calculateAverageRating();
         microSkill.setRating(averageRating);
         microSkillRepo.save(microSkill);

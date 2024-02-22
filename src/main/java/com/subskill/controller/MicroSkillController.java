@@ -124,9 +124,9 @@ public class MicroSkillController {
 
     @Operation(summary = "Update price of MicroSkill")
     @PutMapping("/changePrice")
-    void updatePriceMicroSkill(@RequestParam long id, @RequestParam Double price) {
-        log.debug("update price of  microskill within{}: received new microskill price: {}", id, price);
-        microSkillService.updatePriceMicroSkill(id, price);
+    void updatePriceMicroSkill(@RequestParam long microSkill_id , @RequestParam Double price) {
+        log.debug("update price of  microskill within{}: received new microskill price: {}", microSkill_id , price);
+        microSkillService.updatePriceMicroSkill(microSkill_id , price);
     }
 
     @Operation(summary = "Find MicroSkill by level")
@@ -141,5 +141,11 @@ public class MicroSkillController {
     public MicroSkillDto findMicroSkillByTag(@RequestParam Tags tags) {
         log.debug("finding tags {} of MicroSkill", tags);
         return microSkillService.findTagFromMicroSkill(tags);
+    }
+    @Operation(summary = "Get top MicroSkill deals")
+    @GetMapping("get-today-deals")
+    public MicroSkillDto getTodayBestDeals(@RequestBody MicroSkillDto microSkillDto) {
+        log.debug("get best deals of {}  ", microSkillDto);
+        return microSkillService.getBestDealsByToday(microSkillDto);
     }
 }

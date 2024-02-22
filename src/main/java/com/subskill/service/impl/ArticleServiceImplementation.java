@@ -54,7 +54,7 @@ public class ArticleServiceImplementation implements ArticleService {
         log.debug("article with name {} has been deleted", res.articleName());
 
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<ArticleDto> allArticles() {
         List<Article> articles = articleRepository.findAll();
