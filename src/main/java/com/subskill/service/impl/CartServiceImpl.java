@@ -3,9 +3,11 @@ package com.subskill.service.impl;
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.dto.UserDto;
+import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.Cart;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.CartRepository;
+import com.subskill.repository.MicroSkillRepository;
 import com.subskill.service.CartService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,11 +22,15 @@ import java.util.Optional;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
-
+    private final MicroSkillRepository microSkillRepository;
     @Override
     @Transactional
-    public CartDto addMicroSkillToCart(MicroSkillDto microSkillDto) {
-        MicroSkill microSkill = MicroSkill.of(microSkillDto);
+    public CartDto addMicroSkillToCart(long microSkillId) {
+
+        Optional<MicroSkill> optionalMicroSkill = microSkillRepository.findById(microSkillId);
+        if (optionalMicroSkill.isEmpty()) {
+            throw new MicroSkillNotFoundException();        }
+        MicroSkill microSkill = optionalMicroSkill.get();
         Optional<Cart> optionalCart = cartRepository.findByListOfMicroSkills(microSkill);
         Cart cart = optionalCart.orElseGet(Cart::new);
         cart.getListOfMicroSkills().add(microSkill);

@@ -43,7 +43,7 @@ public class AuthController {
         try {
             JwtResponse response = authService.login(loginDto);
             String username = jwtTokenUtils.getUsernameFromToken(response.token());
-            log.info("User '{}' logged in successfully.", username);
+            log.info("User '{}' logged in successfully with token {}.", username,response.token());
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
