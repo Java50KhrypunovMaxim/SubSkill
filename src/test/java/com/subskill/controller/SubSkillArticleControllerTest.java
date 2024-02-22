@@ -25,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +37,7 @@ import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.service.ArticleService;
 
+@Profile("test")
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(ArticleController.class)
 public class SubSkillArticleControllerTest {

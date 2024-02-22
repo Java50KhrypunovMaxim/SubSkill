@@ -1,6 +1,8 @@
 package com.subskill.service.impl;
 
 import com.subskill.api.ValidationConstants;
+import com.subskill.dto.AuthDto.LoginDto;
+import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
@@ -11,6 +13,7 @@ import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +26,19 @@ import java.util.Optional;
 public class UserServiceImplementation implements UserService, ValidationConstants {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
-    public UserDto registerUser(UserDto userDto) {
+    public UserDto registerUser(RegisteredUserDto userDto) {
         Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
         if (existingUserOptional.isPresent()) {
             throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");
         }
+
+        // TODO: Fix mapping dto
         User newUser = User.of(userDto);
+        newUser.setPassword(passwordEncoder.encode(userDto.password()));
         userRepository.save(newUser);
         log.debug("user with email {} has been registered", newUser.getEmail());
         return newUser.build();
@@ -46,6 +53,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         User existingUser = userRepository.findByEmail(userDto.email())
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
         deleteUser(existingUser.getEmail());
+        // TODO: Fix mapping dto
         UserDto updatedUser = registerUser(userDto);
         log.debug("user with email {} has been updated", updatedUser.email());
         return updatedUser;

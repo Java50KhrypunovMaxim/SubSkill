@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthService {
                 .username(registeredUserDto.username())
                 .email(registeredUserDto.email())
                 .password(passwordEncoder.encode(registeredUserDto.password()))
+                .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
                 .build();
         userRepository.save(user);

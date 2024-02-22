@@ -70,10 +70,13 @@ public class MicroSkill {
 
     @Column(name = "lessonCount")
     private int lessonCount;
+
     @Column(name = "aboutSkill")
     private String aboutSkill;
+
     @Column(name = "lastUpdateTime")
     private LocalDateTime lastUpdateTime;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "technology_id")

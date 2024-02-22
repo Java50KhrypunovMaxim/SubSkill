@@ -130,6 +130,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public void updatePriceMicroSkill(long microSkill_id, Double price) {
         MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
         microSkill.setPrice(price);
+        microSkillRepository.save(microSkill);
         log.debug("Microskill {} has been changed price to {}", microSkill_id, price);
     }
 
