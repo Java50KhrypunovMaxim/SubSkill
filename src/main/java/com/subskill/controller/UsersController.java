@@ -1,23 +1,21 @@
 package com.subskill.controller;
 
-import static com.subskill.api.ValidationConstants.EMAIL_REGEXP;
-import static com.subskill.api.ValidationConstants.MISSING_PERSON_EMAIL;
-import static com.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
-
-import java.util.List;
-
+import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
+import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.subskill.dto.UserDto;
-import com.subskill.service.UserService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.subskill.api.ValidationConstants.*;
+
+@Validated
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
@@ -27,23 +25,23 @@ public class UsersController {
 
     private final UserService usersService;
 
-    @Operation(summary = "Register an new User")
-    @PostMapping()
-    UserDto registerUser(@RequestBody @Valid UserDto userDto) {
-        log.debug("registerUser: received user data: {}", userDto);
-        return usersService.registerUser(userDto);
-    }
+//    @Operation(summary = "Register an new User")
+//    @PostMapping()
+//    UserDto registerUser(@RequestBody @Valid UserDto userDto) {
+//        log.debug("registerUser: received user data: {}", userDto);
+//        return usersService.registerUser(userDto);
+//    }
 
     @Operation(summary = "Update our User")
     @PutMapping("/update/{email}")
-    UserDto updateUser(@RequestBody @Valid UserDto userDto) {
+    UserDto updateUser(@RequestBody  UserDto userDto) {
         log.debug("update user: received new information about user: {}", userDto);
         return usersService.updateUser(userDto);
     }
 
     @Operation(summary = "Change password for User")
     @PutMapping("/password/{email}")
-    UserDto changeUserPassword(@PathVariable String email,@RequestBody @Valid UserDtoPassword userDtoPassword) {
+    UserDto changeUserPassword(@PathVariable String email,@RequestBody  UserDtoPassword userDtoPassword) {
         log.debug("The password has been changed {}", email);
         return usersService.changePassword(email, userDtoPassword.password());
     }

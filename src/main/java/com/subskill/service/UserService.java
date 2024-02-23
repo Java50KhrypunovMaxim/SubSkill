@@ -6,7 +6,7 @@ import com.subskill.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
-	UserDto registerUser(RegisteredUserDto userDto);
+//	UserDto registerUser(RegisteredUserDto userDto);
 	UserDto updateUser(UserDto userDto);
 
     UserDto changePassword(String email, String NewPassword);

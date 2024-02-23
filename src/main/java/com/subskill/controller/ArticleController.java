@@ -3,6 +3,7 @@ package com.subskill.controller;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -14,7 +15,7 @@ import com.subskill.service.ArticleService;
 
 import static com.subskill.api.ValidationConstants.*;
 
-
+@Validated
 @RestController
 @RequestMapping("api/v1/articles")
 @RequiredArgsConstructor
@@ -26,14 +27,14 @@ public class ArticleController {
 
     @Operation(summary = "Adding new Article for MicroSkill")
     @PostMapping()
-    ArticleDto addArticle(@RequestBody @Valid ArticleDto articleDto) {
+    ArticleDto addArticle(@RequestBody  ArticleDto articleDto) {
         log.debug("register article: received article data: {}", articleDto);
         return articlesService.addArticle(articleDto);
     }
 
     @Operation(summary = "update an Article for MicroSkill")
     @PutMapping("update/{nameArticle}")
-    ArticleDto updateArticle(@RequestBody @Valid ArticleDto articleDto
+    ArticleDto updateArticle(@RequestBody  ArticleDto articleDto
     ) {
         log.debug("update article: received new information about article: {}", articleDto);
         return articlesService.updateArticle(articleDto);
