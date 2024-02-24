@@ -22,9 +22,12 @@ public class Cart {
     @Column(name = "cart_id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "id")
+//    private User user;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)

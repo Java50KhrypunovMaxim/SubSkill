@@ -49,6 +49,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<SaveMicroskill> saveMicroskills;
 
 
     public static User of(UserDto userDto) {

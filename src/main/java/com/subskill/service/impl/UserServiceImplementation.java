@@ -16,8 +16,7 @@ import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,42 +37,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-
-//    @Override
-//    @Transactional
-//    public UserDto registerUser(RegisteredUserDto userDto) {
-//        Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
-//        if (existingUserOptional.isPresent()) {
-//            throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");
-//        }
-//
-//        // TODO: Fix mapping dto
-//        User newUser = User.of(userDto);
-//        newUser.setPassword(passwordEncoder.encode(userDto.password()));
-//        userRepository.save(newUser);
-//        log.debug("user with email {} has been registered", newUser.getEmail());
-//        return newUser.build();
-//    }
-@Override
-@Transactional
-public JwtResponse register(RegisteredUserDto registeredUserDto) {
-    var user = User.builder()
-            .username(registeredUserDto.username())
-            .email(registeredUserDto.email())
-            .password(passwordEncoder.encode(registeredUserDto.password()))
-            .imageUrl(registeredUserDto.imageUrl())
-            .role(Roles.USER)
-            .online(true)
-            .build();
-    userRepository.save(user);
-    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));
-    UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.email());
-    String token = jwtTokenUtils.generateToken(userDetails, user.getId());
-
-    return JwtResponse.builder()
-            .token(token)
-            .build();
-}
 
     @Override
     @Transactional
@@ -125,7 +88,10 @@ public JwtResponse register(RegisteredUserDto registeredUserDto) {
 
     }
 
-
-
-
+    @Override
+    public User getAuthenticatedUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElse(null);
+    }
 }

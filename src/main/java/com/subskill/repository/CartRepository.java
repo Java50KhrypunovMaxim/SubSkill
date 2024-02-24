@@ -12,6 +12,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Optional<Cart> findByListOfMicroSkills(MicroSkill microSkill);
 
+    Optional<Cart> findByUserId(long userId);
+
     Optional<Cart> findCartByUserId(long userId);
 
 
