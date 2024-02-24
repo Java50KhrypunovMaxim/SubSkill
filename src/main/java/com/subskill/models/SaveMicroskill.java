@@ -1,20 +1,9 @@
 package com.subskill.models;
 
-import java.util.List;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,16 +23,15 @@ public class SaveMicroskill {
     private Long id;
 
 	@ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinColumn(name = "microSkill")
-    private MicroSkill microSkills;
-    
-    public SaveMicroskill(User user, MicroSkill microSkills) {
-        this.user = user;
-        this.microSkills = microSkills;
-    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "saved_microskills",
+            joinColumns = @JoinColumn(name = "save_microskill_id"),
+            inverseJoinColumns = @JoinColumn(name = "microskill_id")
+    )
+    private Set<MicroSkill> microSkills;
 }
 

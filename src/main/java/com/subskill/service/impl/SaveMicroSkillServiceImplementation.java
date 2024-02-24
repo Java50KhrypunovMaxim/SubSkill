@@ -2,8 +2,10 @@ package com.subskill.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.subskill.service.UserService;
 import org.springframework.stereotype.Service;
 import com.subskill.exception.MicroSkillAlreadySavedException;
 import com.subskill.exception.MicroSkillNotFoundException;
@@ -24,41 +26,47 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
 	 private final MicroSkillRepository microSkillRepository;
 	 private final UserRepository userRepository;
 	 private final SaveMicroskillRepository  saveMicroskillRepository;
+    private final UserService userService;
 	
 	@Override
-	public SaveMicroskill addMicroSkillToUser(long user_id, long microskill_id) {
+    public SaveMicroskill addMicroSkillToUser(long microskillId) {
+        Long userId = userService.getAuthenticatedUser().getId();
 		boolean alreadySaved = saveMicroskillRepository.existsByUserAndMicroSkills(
-	            userRepository.findById(user_id).orElseThrow(NoUserInRepositoryException::new),
-	            microSkillRepository.findById(microskill_id).orElseThrow(MicroSkillNotFoundException::new)
+                userRepository.findById(userId).orElseThrow(NoUserInRepositoryException::new),
+                microSkillRepository.findById(microskillId).orElseThrow(MicroSkillNotFoundException::new)
 	    );
 	    if (alreadySaved) {
 	        throw new MicroSkillAlreadySavedException("MicroSkill is already saved for the user");
 	    }
-		    MicroSkill microSkill = microSkillRepository.findById(microskill_id)
+        MicroSkill microSkill = microSkillRepository.findById(microskillId)
 		            .orElseThrow(MicroSkillNotFoundException::new);
-		    User user = userRepository.findById(user_id)
+        User user = userRepository.findById(userId)
 		            .orElseThrow(NoUserInRepositoryException::new);
-		    SaveMicroskill saveMicroskill = new SaveMicroskill(user, microSkill);
+        SaveMicroskill saveMicroskill = new SaveMicroskill();
+        saveMicroskill.getMicroSkills().add(microSkill);
+        saveMicroskill.setUser(user);
 		    saveMicroskillRepository.save(saveMicroskill);
 		    return saveMicroskill;
 		}
 
 	@Override
-	public void deleteMicroSkillFromUser(long user_id, long microskill_id) {
+    public void deleteMicroSkillFromUser(long microskillId) {
+        Long userId = userService.getAuthenticatedUser().getId();
 		Optional <SaveMicroskill> saveMicroskill = saveMicroskillRepository.findByUserAndMicroSkills(
-	            userRepository.findById(user_id).orElseThrow(NoUserInRepositoryException::new),
-	            microSkillRepository.findById(microskill_id).orElseThrow(MicroSkillNotFoundException::new));
+                userRepository.findById(userId).orElseThrow(NoUserInRepositoryException::new),
+                microSkillRepository.findById(microskillId).orElseThrow(MicroSkillNotFoundException::new));
 		 saveMicroskillRepository.deleteById(saveMicroskill.get().getId());
 	}
 
 	@Override
-	public List<MicroSkill> allMicroSkillsOfUser(long user_id) {
-		 User user = userRepository.findById(user_id)
+    public Set<MicroSkill> allMicroSkillsOfUser(long userId) {
+        User user = userRepository.findById(userId)
 		            .orElseThrow(NoUserInRepositoryException::new);
 		 List<SaveMicroskill> saveMicroskills = saveMicroskillRepository.findByUser(user);
 		 return saveMicroskills.stream()
 		            .map(SaveMicroskill::getMicroSkills)
-		            .collect(Collectors.toList());
+                 .flatMap(Set::stream)
+                 .collect(Collectors.toSet());
 	}
 
 }

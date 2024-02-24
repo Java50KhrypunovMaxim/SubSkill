@@ -13,6 +13,7 @@ import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,22 +30,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-
-//    @Override
-//    @Transactional
-//    public UserDto registerUser(RegisteredUserDto userDto) {
-//        Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
-//        if (existingUserOptional.isPresent()) {
-//            throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");
-//        }
-//
-//        // TODO: Fix mapping dto
-//        User newUser = User.of(userDto);
-//        newUser.setPassword(passwordEncoder.encode(userDto.password()));
-//        userRepository.save(newUser);
-//        log.debug("user with email {} has been registered", newUser.getEmail());
-//        return newUser.build();
-//    }
 
     @Override
     @Transactional
@@ -94,7 +79,10 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     }
 
-
-
-
+    @Override
+    public User getAuthenticatedUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElse(null);
+    }
 }

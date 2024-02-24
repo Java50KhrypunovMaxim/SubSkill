@@ -1,6 +1,7 @@
 package com.subskill.controller;
 
-import java.util.List;
+import java.util.Set;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,26 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 public class SaveMicroSkillController {
 	
 	SavedMicroskillService savedMicroskillService;
-    
-    @Operation(summary = "Add new MicroSkills to User")
-    @PostMapping("/add/user{user_id}microskill{microskill_id}")
-    SaveMicroskill addMicroSkillToUser(@PathVariable long user_id, long microskill_id) {
-        log.debug("Add MicroSkill ID: {} to User ID: {}", microskill_id, user_id);
-        return savedMicroskillService.addMicroSkillToUser(user_id, microskill_id);
+
+    @Operation(summary = "Save MicroSkills to User")
+    @PostMapping("/add/microskill{microskillId}")
+    SaveMicroskill addMicroSkillToUser(@PathVariable long microskillId) {
+        log.debug("Add MicroSkill ID: {} to User ID: {}", microskillId);
+        return savedMicroskillService.addMicroSkillToUser(microskillId);
     }
     
     @Operation(summary = "Remove MicroSkills from User")
-    @DeleteMapping("/delete/user{user_id}microskill{microskill_id")
-    void deleteMicroSkillFromCart(@PathVariable long user_id, long microskill_id) {
-        log.debug("remove microSkill: remove cart microskill {} from user ID {}", microskill_id, user_id );
-        savedMicroskillService.deleteMicroSkillFromUser(user_id, microskill_id);
+    @DeleteMapping("/delete/microskill{microskillId}")
+    void deleteMicroSkillFromCart(@PathVariable long microskillId) {
+        log.debug("remove microSkill: remove cart microskill {} from user ID {}", microskillId);
+        savedMicroskillService.deleteMicroSkillFromUser(microskillId);
     }
     
     @Operation(summary = "List of MicroSkills of User")
     @GetMapping("/all")
-    List<MicroSkill> allMicroSkillsOfUser(@PathVariable long user_id) {
-        log.debug("List of microslills of user id{}", user_id); 
-        return savedMicroskillService.allMicroSkillsOfUser(user_id);
+    Set<MicroSkill> allMicroSkillsOfUser(@PathVariable long userId) {
+        log.debug("List of microslills of user id{}", userId);
+        return savedMicroskillService.allMicroSkillsOfUser(userId);
     }
 }
 

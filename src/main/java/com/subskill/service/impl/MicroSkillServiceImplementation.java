@@ -118,19 +118,18 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
-    public MicroSkill findMicroSkill(long microSkill_id) {
-        log.debug("Get MicroSkill by id : {}", microSkill_id);
-        return microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
+    public MicroSkill findMicroSkill(long microSkillId) {
+        log.debug("Get MicroSkill by id : {}", microSkillId);
+        return microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
     }
-
 
     @Override
     @Transactional
-    public void updatePriceMicroSkill(long microSkill_id, Double price) {
-        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
+    public void updatePriceMicroSkill(long microSkillId, Double price) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
         microSkill.setPrice(price);
         microSkillRepository.save(microSkill);
-        log.debug("Microskill {} has been changed price to {}", microSkill_id, price);
+        log.debug("Microskill {} has been changed price to {}", microSkillId, price);
     }
 
     @Transactional(readOnly = true)
