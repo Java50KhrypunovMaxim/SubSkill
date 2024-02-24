@@ -22,7 +22,6 @@ public class Cart {
     @Column(name = "cart_id", nullable = false)
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "id")
     private User user;
