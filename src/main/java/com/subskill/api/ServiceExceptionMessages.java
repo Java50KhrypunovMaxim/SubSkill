@@ -8,5 +8,7 @@ public interface ServiceExceptionMessages {
 	String MICROSKILL_ALREADY_EXISTS = "MicroSkill already exists";
 	String USER_NOT_FOUND = "User not found ";
 	String TECHNOLOGY_NOT_FOUND = "Technology not found";
-	
+	String TRANSACTIONAL_ERROR = "Problem with data in DataBase";
+	String USER_EMAIL_ALREADY_EXISTS = "This email already taken";
+
 }

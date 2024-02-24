@@ -1,19 +1,21 @@
 package com.subskill.exception.controller;
 
-import java.util.stream.Collectors;
-
 import com.subskill.exception.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import lombok.extern.slf4j.Slf4j;
+
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Slf4j
@@ -57,12 +59,20 @@ public class ExceptionsController {
 
 		return returnResponse(message, HttpStatus.BAD_REQUEST);
 	}
-
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	ResponseEntity<String> jsonFieldTypeMismatchException(HttpMessageNotReadableException e) {
 		String message = JSON_TYPE_MISMATCH_MESSAGE;
 
 		return returnResponse(message, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(AuthenticationException.class)
+	ResponseEntity<String> authenticationExceptionHandler(AuthenticationException e) {
+		return returnResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
+	}
+	@ExceptionHandler(TransactionSystemException.class)
+	ResponseEntity<String> transactionSystemExceptionHandler(TransactionSystemException e) {
+		return returnResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
 

@@ -21,7 +21,7 @@ public interface MicroSkillService {
     MicroSkillDto findLevelFromMicroSkill(Level level);
     MicroSkillDto findTagFromMicroSkill(Tags tags);
 
-    Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating);
+    Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, Double rating);
 
     Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name);
 

@@ -1,12 +1,15 @@
 package com.subskill.service.impl;
 
 import com.subskill.api.ValidationConstants;
+import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
+import com.subskill.enums.Roles;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
+import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
@@ -15,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,9 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final JwtTokenUtils jwtTokenUtils;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
 
     @Override
     @Transactional
@@ -38,7 +45,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
         User existingUser = userRepository.findByEmail(userDto.email())
-                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+                .orElseThrow(UserExistingEmailExeption::new);
         if (userDto.password() != null && !userDto.password().isEmpty()) {
             existingUser.setPassword(passwordEncoder.encode(userDto.password()));
         }
@@ -52,7 +59,9 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Override
     @Transactional
     public UserDto changePassword(String email, String NewPassword) {
-        User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
+        User optionalExistingUser = userRepository.findByEmail(email)
+               .orElseThrow(UserExistingEmailExeption::new);
+
         optionalExistingUser.setPassword(NewPassword);
         userRepository.save(optionalExistingUser);
         UserDto userWithNewPassword = modelMapper.map(optionalExistingUser, UserDto.class);
@@ -74,7 +83,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         List<UserDto> userDto = users.stream()
                 .map(User::build)
                 .toList();
-        log.debug("Showing all users that alreagy registred of site");
+        log.debug("Showing all users that already registered on site");
         return userDto;
 
     }

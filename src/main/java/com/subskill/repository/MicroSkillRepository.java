@@ -25,7 +25,7 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
     Page<MicroSkill> findByName(String name, Pageable pageable);
 
-    Page<MicroSkill> findByRating(String rating, Pageable pageable);
+    Page<MicroSkill> findByRating(Double rating, Pageable pageable);
 
     List<MicroSkill> findByCreationDateAfter(LocalDate date);
     List<MicroSkill> findByViews(Long views);
