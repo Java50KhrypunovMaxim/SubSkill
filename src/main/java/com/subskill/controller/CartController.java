@@ -17,8 +17,7 @@ import java.util.List;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class CartController {
     CartService cartService;
-
-
+    
     @Operation(summary = "Add new MicroSkills to cart")
     @PostMapping("/add/{microSkillId}")
     CartDto addMicroSkillToCart(@PathVariable long microSkillId) {

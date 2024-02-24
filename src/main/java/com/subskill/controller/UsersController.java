@@ -3,6 +3,7 @@ package com.subskill.controller;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
 import com.subskill.service.UserService;
+import com.subskill.dto.AuthDto.RegisteredUserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -31,6 +32,7 @@ public class UsersController {
 //        log.debug("registerUser: received user data: {}", userDto);
 //        return usersService.registerUser(userDto);
 //    }
+
 
     @Operation(summary = "Update our User")
     @PutMapping("/update/{email}")
