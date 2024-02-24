@@ -11,6 +11,7 @@ import com.subskill.repository.MicroSkillRepository;
 import com.subskill.service.CartService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @AllArgsConstructor
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;

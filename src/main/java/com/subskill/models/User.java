@@ -52,7 +52,6 @@ public class User {
     public static User of(UserDto userDto) {
         User user = new User();
         user.username = userDto.username();
-
         user.email = userDto.email();
         user.online = true;
         user.imageUrl = userDto.imageUrl();

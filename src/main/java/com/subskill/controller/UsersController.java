@@ -7,6 +7,8 @@ import static com.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
 import java.util.List;
 
 import com.subskill.dto.UserDtoPassword;
+import com.subskill.dto.AuthDto.RegisteredUserDto;
+
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,7 @@ public class UsersController {
 
     @Operation(summary = "Register an new User")
     @PostMapping()
-    UserDto registerUser(@RequestBody @Valid UserDto userDto) {
+    UserDto registerUser(@RequestBody @Valid RegisteredUserDto userDto) {
         log.debug("registerUser: received user data: {}", userDto);
         return usersService.registerUser(userDto);
     }
