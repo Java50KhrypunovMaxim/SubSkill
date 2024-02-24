@@ -11,7 +11,6 @@ import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -88,7 +87,7 @@ public class MicroSkillController {
     public Page<MicroSkill> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            @RequestParam String rating,
+            @RequestParam Double rating,
             @RequestParam(defaultValue = "asc") String direction) {
 
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;

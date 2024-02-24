@@ -1,13 +1,19 @@
 package com.subskill.controller;
 
+import com.subskill.dto.AuthDto.JwtResponse;
+import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
+import com.subskill.exception.RegistrationUserNotFoundException;
+import com.subskill.service.AuthService;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +38,16 @@ public class UsersController {
 //        return usersService.registerUser(userDto);
 //    }
 
+    @Operation(description = "authenticate our user")
+    @PostMapping("/register")
+    public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
+        try {
+            JwtResponse response = usersService.register(registeredUserDto);
+            return ResponseEntity.ok(response);
+        } catch (RegistrationUserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
+        }
+    }
     @Operation(summary = "Update our User")
     @PutMapping("/update/{email}")
     UserDto updateUser(@RequestBody  UserDto userDto) {

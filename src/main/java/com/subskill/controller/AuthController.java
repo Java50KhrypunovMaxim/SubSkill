@@ -24,17 +24,17 @@ public class AuthController {
     private final AuthService authService;
     private final JwtTokenUtils jwtTokenUtils;
 
-
-    @Operation(description = "authenticate our user")
-    @PostMapping("/register")
-    public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
-        try {
-            JwtResponse response = authService.register(registeredUserDto);
-            return ResponseEntity.ok(response);
-        } catch (RegistrationUserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
-        }
-    }
+//
+//    @Operation(description = "authenticate our user")
+//    @PostMapping("/register")
+//    public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
+//        try {
+//            JwtResponse response = authService.register(registeredUserDto);
+//            return ResponseEntity.ok(response);
+//        } catch (RegistrationUserNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
+//        }
+//    }
 
     @Operation(description = "login for user")
     @PostMapping("/login")

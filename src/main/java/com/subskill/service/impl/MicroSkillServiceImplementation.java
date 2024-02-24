@@ -80,7 +80,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
+    public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, Double rating) {
         Page<MicroSkill> microskillPage = microSkillRepository.findByRating(rating, paging);
         log.debug("find MicroSkills description by page rating: {}", paging);
         return microskillPage;
