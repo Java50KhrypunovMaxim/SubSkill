@@ -12,6 +12,7 @@ import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,22 +28,23 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    @Override
-    @Transactional
-    public UserDto registerUser(RegisteredUserDto userDto) {
-        Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
-        if (existingUserOptional.isPresent()) {
-            throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");
-        }
-
-        // TODO: Fix mapping dto
-        User newUser = User.of(userDto);
-        newUser.setPassword(passwordEncoder.encode(userDto.password()));
-        userRepository.save(newUser);
-        log.debug("user with email {} has been registered", newUser.getEmail());
-        return newUser.build();
-    }
+//    @Override
+//    @Transactional
+//    public UserDto registerUser(RegisteredUserDto userDto) {
+//        Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
+//        if (existingUserOptional.isPresent()) {
+//            throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");
+//        }
+//
+//        // TODO: Fix mapping dto
+//        User newUser = User.of(userDto);
+//        newUser.setPassword(passwordEncoder.encode(userDto.password()));
+//        userRepository.save(newUser);
+//        log.debug("user with email {} has been registered", newUser.getEmail());
+//        return newUser.build();
+//    }
 
     @Override
     @Transactional
@@ -52,10 +54,13 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         }
         User existingUser = userRepository.findByEmail(userDto.email())
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
-        deleteUser(existingUser.getEmail());
-        // TODO: Fix mapping dto
-        UserDto updatedUser = registerUser(userDto);
-        log.debug("user with email {} has been updated", updatedUser.email());
+        if (userDto.password() != null && !userDto.password().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(userDto.password()));
+        }
+        userRepository.save(existingUser);
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        UserDto updatedUser = modelMapper.map(existingUser, UserDto.class);
+        log.debug("user with email {} has been updated", existingUser.getEmail());
         return updatedUser;
     }
 
@@ -65,8 +70,9 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
         optionalExistingUser.setPassword(NewPassword);
         userRepository.save(optionalExistingUser);
+        UserDto userWithNewPassword = modelMapper.map(optionalExistingUser, UserDto.class);
         log.debug("Password in email {} has been changed", optionalExistingUser.getEmail());
-        return optionalExistingUser.build();
+        return userWithNewPassword;
     }
 
     @Override

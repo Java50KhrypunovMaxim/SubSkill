@@ -25,26 +25,24 @@ class SubSkillUserServiceTest {
 	private static final String USERNAME2 = "Artur";
 	private static final String USERNAME3 = "David";
 
-	private static final String NICKNAME1 = "Rambo";
-	private static final String NICKNAME2 = "Leo";
-	private static final String NICKNAME3 = "Monkey";
 
 	private static final String EMAIL1 = "user1@telran.com";
 	private static final String EMAIL2 = "name1@tel-ran.co.il";
-	private static final String EMAIL4 = "Max@gmail.com";
+	private static final String EMAIL3 = "Max@gmail.com";
+
+
 
 	private static final String PASSWORD1 = "telran321";
 	private static final String PASSWORD2 = "tel567";
 	private static final String PASSWORD3 = "telran234";
 
-	private static final String IMAGEURLl = "https://example.com/image1.jpg";
+	private static final String IMAGEURL1 = "https://example.com/image1.jpg";
 	private static final String IMAGEURL2 = "https://example.com/image2.jpg";
 	private static final String IMAGEURL3 = "https://example.com/image3.jpg";
 
-	UserDto userDto1 = new UserDto(USERNAME1, PASSWORD1, true, IMAGEURLl, Roles.USER);
-	UserDto userDto2 = new UserDto(USERNAME2, PASSWORD2, true, IMAGEURL2, Roles.USER);
-	UserDto userDto3 = new UserDto(USERNAME3, PASSWORD3, true, IMAGEURL3, Roles.USER);
-	UserDto userDtoUpdate = new UserDto(USERNAME2, PASSWORD2, true, IMAGEURL2, Roles.ADMIN);
+	UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, true, IMAGEURL1, Roles.USER);
+	UserDto userDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD2, true, IMAGEURL2, Roles.USER);
+	UserDto userDto3 = new UserDto(USERNAME3, EMAIL3, PASSWORD3, true, IMAGEURL3, Roles.USER);
 
 	public static final List<String> ALLUSERS = Arrays.asList("user1@example.com", "user2@example.com",
 			"user3@example.com", "user4@example.com", "user5@example.com");
@@ -53,14 +51,37 @@ class SubSkillUserServiceTest {
 	UserRepository userRepo;
 
 	@Autowired
-	UserService userService;
+	UserService userService;;
+	@Test
+	void testUpdateAndDeleteUser() {
 
+		Optional<User> optionalUser = userRepo.findByEmail(userDto1.email());
+		assertTrue(optionalUser.isPresent());
+
+		UserDto updatedUserDto = new UserDto(userDto2.username(), userDto1.email(), userDto2.password(), userDto2.online(), userDto2.imageUrl(), userDto2.role());
+		User updatedUser = userRepo.save(User.builder()
+				.username(updatedUserDto.username())
+				.password(updatedUserDto.password())
+				.email(updatedUserDto.email())
+				.online(updatedUserDto.online())
+				.imageUrl(updatedUserDto.imageUrl())
+				.role(updatedUserDto.role())
+				.build());
+		assertNotNull(updatedUser);
+
+		User updatedDbUser = userRepo.findByEmail(updatedUserDto.email()).orElse(null);
+		assertNotNull(updatedDbUser);
+		assertEquals(updatedUserDto.username(), updatedDbUser.getUsername());
+
+		userRepo.delete(updatedDbUser);
+		Optional<User> deletedUser = userRepo.findByEmail(updatedUserDto.email());
+		assertTrue(deletedUser.isEmpty());
+	}
 	@Test
 	void testExist() {
-		Optional<User> optionalUser = userRepo.findByEmail("john.doe@example.com");
+		Optional<User> optionalUser = userRepo.findByEmail(EMAIL2);
         assertTrue(optionalUser.isPresent());
-
         User user = optionalUser.get();
-        assertEquals("john_doe", user.getUsername());
+        assertEquals(USERNAME2, user.getUsername());
 	}
 }

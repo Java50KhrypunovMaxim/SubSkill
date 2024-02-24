@@ -50,6 +50,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(registeredUserDto.password()))
                 .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
+                .online(true)
                 .build();
         userRepository.save(user);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.username(), registeredUserDto.password()));

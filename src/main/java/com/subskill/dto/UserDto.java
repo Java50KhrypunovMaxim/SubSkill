@@ -17,6 +17,9 @@ public record UserDto (
 	@NotEmpty (message= MISSING_PERSON_EMAIL)
 	@Pattern(regexp = EMAIL_REGEXP, message= WRONG_EMAIL_FORMAT)
 	String email,
+	@NotEmpty(message= MISSING_PASSWORD_MESSAGE)
+	@Pattern(regexp = PASSWORD_REGEXP, message= WRONG_PASSWORD_CREATION_MESSAGE)
+	String password,
 	
 	@NotNull (message= MISSING_STATUS_MESSAGE)
 	Boolean online,

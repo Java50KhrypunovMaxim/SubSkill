@@ -4,6 +4,7 @@ import static com.subskill.api.ValidationConstants.*;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.subskill.dto.ReviewDto;
 import com.subskill.models.Review;
@@ -13,7 +14,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+@Validated
 @RestController
 @RequestMapping("api/v1/review")
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class ReviewController {
 
     @Operation(summary = "Register a new review")
     @PostMapping()
-    ReviewDto addReview(@RequestBody @Valid ReviewDto reviewDto) {
+    ReviewDto addReview(@RequestBody  ReviewDto reviewDto) {
         log.debug("registerReview: received review data: {}", reviewDto);
         return reviewService.addReview(reviewDto);
     }
