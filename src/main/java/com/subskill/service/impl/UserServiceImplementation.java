@@ -1,16 +1,25 @@
 package com.subskill.service.impl;
 
 import com.subskill.api.ValidationConstants;
+import com.subskill.dto.AuthDto.JwtResponse;
+import com.subskill.dto.AuthDto.LoginDto;
+import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
+import com.subskill.enums.Roles;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
+import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,19 +32,8 @@ import java.util.Optional;
 public class UserServiceImplementation implements UserService, ValidationConstants {
 
     private final UserRepository userRepository;
-
-    @Override
-    @Transactional
-    public UserDto registerUser(UserDto userDto) {
-        Optional<User> existingUserOptional = userRepository.findByEmail(userDto.email());
-        if (existingUserOptional.isPresent()) {
-            throw new UserExistingEmailExeption("User with email " + userDto.email() + " already exists");
-        }
-        User newUser = User.of(userDto);
-        userRepository.save(newUser);
-        log.debug("user with email {} has been registered", newUser.getEmail());
-        return newUser.build();
-    }
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -44,21 +42,28 @@ public class UserServiceImplementation implements UserService, ValidationConstan
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
         User existingUser = userRepository.findByEmail(userDto.email())
-                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
-        deleteUser(existingUser.getEmail());
-        UserDto updatedUser = registerUser(userDto);
-        log.debug("user with email {} has been updated", updatedUser.email());
+                .orElseThrow(UserExistingEmailExeption::new);
+        if (userDto.password() != null && !userDto.password().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(userDto.password()));
+        }
+        userRepository.save(existingUser);
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        UserDto updatedUser = modelMapper.map(existingUser, UserDto.class);
+        log.debug("user with email {} has been updated", existingUser.getEmail());
         return updatedUser;
     }
 
     @Override
     @Transactional
     public UserDto changePassword(String email, String NewPassword) {
-        User optionalExistingUser = userRepository.findByEmail(email).orElseThrow();
+        User optionalExistingUser = userRepository.findByEmail(email)
+               .orElseThrow(UserExistingEmailExeption::new);
+
         optionalExistingUser.setPassword(NewPassword);
         userRepository.save(optionalExistingUser);
+        UserDto userWithNewPassword = modelMapper.map(optionalExistingUser, UserDto.class);
         log.debug("Password in email {} has been changed", optionalExistingUser.getEmail());
-        return optionalExistingUser.build();
+        return userWithNewPassword;
     }
 
     @Override
@@ -75,12 +80,15 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         List<UserDto> userDto = users.stream()
                 .map(User::build)
                 .toList();
-        log.debug("Showing all users that alreagy registred of site");
+        log.debug("Showing all users that already registered on site");
         return userDto;
 
     }
 
-
-
-
+    @Override
+    public User getAuthenticatedUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElse(null);
+    }
 }

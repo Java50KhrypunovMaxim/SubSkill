@@ -25,11 +25,13 @@ public class AuthController {
     private final JwtTokenUtils jwtTokenUtils;
 
 
+
     @Operation(description = "authenticate our user")
     @PostMapping("/register")
     public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
         try {
             JwtResponse response = authService.register(registeredUserDto);
+            log.debug("User {} has been successfully registered", registeredUserDto.username());
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);

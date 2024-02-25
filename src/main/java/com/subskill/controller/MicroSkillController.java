@@ -11,13 +11,13 @@ import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +26,7 @@ import java.util.List;
 @RequestMapping("api/v1/microskill")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class MicroSkillController {
 
@@ -35,7 +36,7 @@ public class MicroSkillController {
     @Operation(summary = "Add new MicroSkill card")
     @PostMapping("/add")
     @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
-    MicroSkillDto addMicroSkill(@RequestBody @Valid MicroSkillDto microSkillDto) {
+    MicroSkillDto addMicroSkill(@RequestBody  MicroSkillDto microSkillDto) {
         log.debug("add microskill: received microskill data: {}", microSkillDto);
         return microSkillService.addMicroskill(microSkillDto);
     }
@@ -56,7 +57,7 @@ public class MicroSkillController {
 
     @Operation(summary = "Update MicroSkill card")
     @PutMapping("/update")
-    void updateMicroSkill(@RequestBody @Valid EditMicroSkillDto microSkillDto) {
+    void updateMicroSkill(@RequestBody  EditMicroSkillDto microSkillDto) {
         log.debug("update microskill: received new microskill data: {}", microSkillDto);
         microSkillService.updateMicroSkill(microSkillDto);
     }
@@ -86,7 +87,7 @@ public class MicroSkillController {
     public Page<MicroSkill> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
-            @RequestParam String rating,
+            @RequestParam Double rating,
             @RequestParam(defaultValue = "asc") String direction) {
 
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;

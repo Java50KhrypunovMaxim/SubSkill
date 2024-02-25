@@ -4,6 +4,7 @@ import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.enums.Roles;
+import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
@@ -23,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
@@ -30,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public JwtResponse login(LoginDto request) {
-        var user = userRepository.findByEmail(request.email()).orElseThrow();
+        var user = userRepository.findByEmail(request.email()).orElseThrow(NoUserInRepositoryException::new);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );
@@ -48,11 +50,13 @@ public class AuthServiceImpl implements AuthService {
                 .username(registeredUserDto.username())
                 .email(registeredUserDto.email())
                 .password(passwordEncoder.encode(registeredUserDto.password()))
+                .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
+                .online(true)
                 .build();
         userRepository.save(user);
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.username(), registeredUserDto.password()));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.username());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.email());
         String token = jwtTokenUtils.generateToken(userDetails, user.getId());
 
         return JwtResponse.builder()

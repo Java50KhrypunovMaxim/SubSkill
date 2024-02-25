@@ -35,8 +35,8 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional
-    public void deleteReview(Long review_id) {
-        Review review = reviewRepo.findByid(review_id).orElseThrow(ReviewNotFoundException::new);
+    public void deleteReview(Long reviewId) {
+        Review review = reviewRepo.findByid(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewRepo.deleteById(review.getId());
         log.debug("Review with id {} has been deleted", review.getId());
         updateMicroSkillAverageRating(review.getMicroSkill());

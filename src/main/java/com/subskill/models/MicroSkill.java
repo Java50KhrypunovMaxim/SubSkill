@@ -46,7 +46,8 @@ public class MicroSkill {
     private String learningTime;
 
     @ElementCollection(targetClass = Tags.class)
-    @CollectionTable(name = "micro_skill_tags", joinColumns = @JoinColumn(name = "micro_skill_id"))
+    @CollectionTable(name = "micro_skill_tags",
+            joinColumns = @JoinColumn(name = "micro_skill_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "tag")
     private List<Tags> tags;
@@ -70,10 +71,13 @@ public class MicroSkill {
 
     @Column(name = "lessonCount")
     private int lessonCount;
+
     @Column(name = "aboutSkill")
     private String aboutSkill;
+
     @Column(name = "lastUpdateTime")
     private LocalDateTime lastUpdateTime;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "technology_id")

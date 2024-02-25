@@ -49,10 +49,14 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<SaveMicroskill> saveMicroskills;
+
+
     public static User of(UserDto userDto) {
         User user = new User();
         user.username = userDto.username();
-
+        user.password = userDto.password();
         user.email = userDto.email();
         user.online = true;
         user.imageUrl = userDto.imageUrl();
@@ -61,8 +65,8 @@ public class User {
     }
 
     public UserDto build() {
-        return new UserDto(username, email,
-                online, imageUrl, role);
+        return new UserDto(username, email,password,
+                online,  imageUrl, role);
     }
 }
 

@@ -37,8 +37,8 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     @Transactional(readOnly = true)
     @Override
-    public Technology getByID(long technology_id) {
-        return technologyRepository.findById(technology_id)
+    public Technology getByID(long technologyId) {
+        return technologyRepository.findById(technologyId)
                 .orElseThrow(TechnologyNotFoundException::new);
     }
 

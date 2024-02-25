@@ -20,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -81,7 +80,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, String rating) {
+    public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, Double rating) {
         Page<MicroSkill> microskillPage = microSkillRepository.findByRating(rating, paging);
         log.debug("find MicroSkills description by page rating: {}", paging);
         return microskillPage;
@@ -119,18 +118,18 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
-    public MicroSkill findMicroSkill(long microSkill_id) {
-        log.debug("Get MicroSkill by id : {}", microSkill_id);
-        return microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
+    public MicroSkill findMicroSkill(long microSkillId) {
+        log.debug("Get MicroSkill by id : {}", microSkillId);
+        return microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
     }
-
 
     @Override
     @Transactional
-    public void updatePriceMicroSkill(long microSkill_id, Double price) {
-        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
+    public void updatePriceMicroSkill(long microSkillId, Double price) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
         microSkill.setPrice(price);
-        log.debug("Microskill {} has been changed price to {}", microSkill_id, price);
+        microSkillRepository.save(microSkill);
+        log.debug("Microskill {} has been changed price to {}", microSkillId, price);
     }
 
     @Transactional(readOnly = true)
