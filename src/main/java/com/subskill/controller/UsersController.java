@@ -5,6 +5,7 @@ import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
 import com.subskill.exception.RegistrationUserNotFoundException;
+import com.subskill.service.AuthService;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,39 +29,24 @@ import static com.subskill.api.ValidationConstants.*;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class UsersController {
 
-    private final UserService usersService;
 
-//    @Operation(summary = "Register an new User")
-//    @PostMapping()
-//    UserDto registerUser(@RequestBody @Valid UserDto userDto) {
-//        log.debug("registerUser: received user data: {}", userDto);
-//        return usersService.registerUser(userDto);
-//    }
+    private final UserService userService;
 
 
-    @Operation(description = "authenticate our user")
-    @PostMapping("/register")
-    public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
-        try {
-            JwtResponse response = usersService.register(registeredUserDto);
-            return ResponseEntity.ok(response);
-        } catch (RegistrationUserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
-        }
-    }
+
 
     @Operation(summary = "Update our User")
     @PutMapping("/update/{email}")
     UserDto updateUser(@RequestBody  UserDto userDto) {
         log.debug("update user: received new information about user: {}", userDto);
-        return usersService.updateUser(userDto);
+        return userService.updateUser(userDto);
     }
 
     @Operation(summary = "Change password for User")
     @PutMapping("/password/{email}")
     UserDto changeUserPassword(@PathVariable String email,@RequestBody  UserDtoPassword userDtoPassword) {
         log.debug("The password has been changed {}", email);
-        return usersService.changePassword(email, userDtoPassword.password());
+        return userService.changePassword(email, userDtoPassword.password());
     }
 
     @Operation(summary = "Delete our User based on email")
@@ -68,14 +54,14 @@ public class UsersController {
     void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
                     @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@PathVariable String email) {
         log.debug("delete user: user with email {}", email);
-        usersService.deleteUser(email);
+        userService.deleteUser(email);
     }
 
     @Operation(summary = "List of Users")
     @GetMapping()
     List<UserDto> listOfUsers() {
         log.debug("List of users have been received");
-        return usersService.allUsers();
+        return userService.allUsers();
     }
 
 }
