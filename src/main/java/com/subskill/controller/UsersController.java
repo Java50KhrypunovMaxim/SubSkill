@@ -42,7 +42,7 @@ public class UsersController {
     @PostMapping("/register")
     public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
         try {
-            JwtResponse response = usersService.register(registeredUserDto);
+            JwtResponse response = usersService.(registeredUserDto);
             return ResponseEntity.ok(response);
         } catch (RegistrationUserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
