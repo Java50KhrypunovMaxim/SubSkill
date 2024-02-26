@@ -1,19 +1,14 @@
 package com.subskill.controller;
 
-import com.subskill.dto.AuthDto.JwtResponse;
-import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
-import com.subskill.exception.RegistrationUserNotFoundException;
-import com.subskill.service.AuthService;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
