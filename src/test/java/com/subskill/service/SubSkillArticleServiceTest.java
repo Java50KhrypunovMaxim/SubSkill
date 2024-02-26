@@ -20,7 +20,7 @@ import com.subskill.repository.MicroSkillRepository;
 
 @SpringBootTest
 @Sql(scripts = {"classpath:data_for_the_database.sql"})
-class SubSkillArticleServiceTest {
+public class SubSkillArticleServiceTest {
 	@Autowired
 	ArticleRepository articleRepo;
 

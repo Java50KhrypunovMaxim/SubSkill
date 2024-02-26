@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "save_microskill")
+@Table(name = "saved_microskill")
 public class SaveMicroskill {
 	
 	@Id
@@ -28,7 +28,7 @@ public class SaveMicroskill {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name = "saved_microskills",
+            name = "save_microskill",
             joinColumns = @JoinColumn(name = "save_microskill_id"),
             inverseJoinColumns = @JoinColumn(name = "microskill_id")
     )

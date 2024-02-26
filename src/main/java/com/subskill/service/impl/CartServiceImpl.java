@@ -17,10 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -52,7 +49,7 @@ public class CartServiceImpl implements CartService {
     public void deleteMicroSkillFromCart(long cartId) {
         Optional<Cart> cart = cartRepository.findCartByUserId(cartId);
         if (cart.isPresent()) {
-            List<MicroSkill> listOfMicroSkills = cart.get().getListOfMicroSkills();
+            Set<MicroSkill> listOfMicroSkills = cart.get().getListOfMicroSkills();
             Iterator<MicroSkill> iterator = listOfMicroSkills.iterator();
             while (iterator.hasNext()) {
                 MicroSkill microSkill = iterator.next();
