@@ -35,28 +35,18 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public CartDto addMicroSkillToCart(long microSkillId) {
         long userId = userService.getAuthenticatedUser().getId();
-        Optional<MicroSkill> optionalMicroSkill = microSkillRepository.findById(microSkillId);
-        if (optionalMicroSkill.isEmpty()) {
-            throw new MicroSkillNotFoundException();
-        }
-
-        MicroSkill microSkill = optionalMicroSkill.get();
-        Optional<Cart> optionalCart = cartRepository.findByUserId(userId);
-
-        if (optionalCart.isEmpty()) {
-            Cart newCart = new Cart();
-            newCart.setUserId(userId);
-            newCart.getListOfMicroSkills().add(microSkill);
-            cartRepository.save(newCart);
-            return modelMapper.map(optionalCart.get(), CartDto.class);
-        }
-
-        Cart cart = optionalCart.get();
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId)
+                .orElseThrow(MicroSkillNotFoundException::new);
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseGet(() -> {
+                    Cart newCart = new Cart();
+                    newCart.setUserId(userId);
+                    return cartRepository.save(newCart);
+                });
         cart.getListOfMicroSkills().add(microSkill);
         cartRepository.save(cart);
         return modelMapper.map(cart, CartDto.class);
     }
-
     @Override
     @Transactional
     public void deleteMicroSkillFromCart(long cartId) {
@@ -90,4 +80,5 @@ public class CartServiceImpl implements CartService {
         }
         return newCart;
     }
+
 }
