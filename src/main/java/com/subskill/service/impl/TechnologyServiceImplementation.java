@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.subskill.service.TechnologyService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.subskill.exception.TechnologyNotFoundException;
@@ -23,6 +24,7 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "technologies")
     public List<Technology> getAllTechnology() {
         log.debug("All technologies");
         return technologyRepository.findAll();
@@ -30,6 +32,7 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "technology", key = "#name", cacheManager = "objectCacheManager")
     public Technology getByName(String name) {
         return technologyRepository.findByName(name).
                 orElseThrow(TechnologyNotFoundException::new);
@@ -37,6 +40,7 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "technology", key = "#technologyId", cacheManager = "objectCacheManager")
     public Technology getByID(long technologyId) {
         return technologyRepository.findById(technologyId)
                 .orElseThrow(TechnologyNotFoundException::new);
@@ -44,6 +48,7 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "technologies", key = "#name")
     public List<Technology> getByProfessionName(String name) {
         List<Technology> technology = technologyRepository.findByProfessionName(name);
         log.debug("All technology {} for profession", name);

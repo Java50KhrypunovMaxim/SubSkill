@@ -1,24 +1,20 @@
 package com.subskill.service.impl;
 
 import com.subskill.api.ValidationConstants;
-import com.subskill.dto.AuthDto.JwtResponse;
-import com.subskill.dto.AuthDto.LoginDto;
-import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.dto.UserDto;
-import com.subskill.enums.Roles;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.UserExistingEmailExeption;
-import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +33,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     @Override
     @Transactional
+    @CachePut(value = "users", key = "#userDto.email()", cacheManager = "objectCacheManager")
     public UserDto updateUser(UserDto userDto) throws NotFoundException {
         if (userDto == null || userDto.email() == null) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
@@ -68,13 +65,16 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     @Override
     @Transactional
+    @CacheEvict(value = "user", key = "#email", cacheManager = "objectCacheManager")
     public void deleteUser(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(NoUserInRepositoryException::new);
         userRepository.deleteById(user.getId());
         log.debug("user with email {} has been deleted", user.getEmail());
     }
+
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "users")
     public List<UserDto> allUsers() {
         List<User> users = userRepository.findAll();
         List<UserDto> userDto = users.stream()
