@@ -1,22 +1,21 @@
 package com.subskill.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
+import com.subskill.dto.ArticleDto;
+import com.subskill.exception.ArticleNotFoundException;
+import com.subskill.models.Article;
 import com.subskill.models.MicroSkill;
+import com.subskill.repository.ArticleRepository;
+import com.subskill.repository.MicroSkillRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.subskill.dto.ArticleDto;
-import com.subskill.dto.MicroSkillDto;
-import com.subskill.exception.ArticleNotFoundException;
-import com.subskill.models.Article;
-import com.subskill.repository.ArticleRepository;
-import com.subskill.repository.MicroSkillRepository;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 @SpringBootTest
 @Sql(scripts = {"classpath:data_for_the_database.sql"})
