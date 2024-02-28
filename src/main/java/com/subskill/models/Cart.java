@@ -22,19 +22,19 @@ public class Cart {
     @Column(name = "cart_id", nullable = false)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id")
-//    private User user;
+
 
     @Column(name = "user_id")
     private Long userId;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "cart",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "cart_microskill",
+            joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "microskill_id")
     )
     private Set<MicroSkill> listOfMicroSkills;
 }
+
