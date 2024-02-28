@@ -26,10 +26,10 @@ public class CartController {
         return cartService.addMicroSkillToCart(microSkillId);
     }
     @Operation(summary = "Remove MicroSkills from cart")
-    @DeleteMapping("/delete/{id}")
-    void deleteMicroSkillFromCart(@PathVariable  long id) {
-        log.debug("remove microSkill: remove cart microskill {} from data", id);
-         cartService.deleteMicroSkillFromCart(id);
+    @DeleteMapping("/delete/{microSkillId}")
+    void deleteMicroSkillFromCart(@PathVariable  long cartId) {
+        log.debug("remove microSkill: remove cart microskill {} from data", cartId);
+         cartService.deleteMicroSkillFromCart(cartId);
     }
     @Operation(summary = "List of MicroSkills in Cart")
     @GetMapping("/all")
