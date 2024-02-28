@@ -18,14 +18,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.any;
@@ -186,30 +188,31 @@ private static final String USERNAME1 = "MAX";
             .aboutSkill("This course covers advanced Machine Learning concepts.")
             .lastUpdateTime(LocalDateTime.now())
             .build();
+
+    public SubSkillCartServiceTest() {
+    }
+
     @Test
     @DisplayName(CART_SERVICE_TEST)
     void testAddMicroSkillToCart() {
-
-        long userId = 1L;
-        String email = "user@example.com";
-
-
-
-
-        when(userRepository.findByEmail(user1.getEmail())).thenReturn(Optional.of(user1));
+        Cart cart = new Cart();
+        cart.setId(1L);
+        cart.setUserId(user1.getId());
+        Set<MicroSkill> microSkills = new HashSet<>();
+        microSkills.add(microskill1);
+        cart.setListOfMicroSkills(microSkills);
 
 
 
-        when(microSkillRepository.findById(microskill1.getId())).thenReturn(Optional.of(microskill1));
-        when(cartRepository.findByUserId(user1.getId())).thenReturn(Optional.empty());
-        when(cartRepository.save(any(Cart.class))).thenAnswer(invocation -> invocation.getArgument(0));
+//            when(userService.getAuthenticatedUser()).thenReturn(user1);
+//            when(microSkillRepository.findById(microskill1.getId())).thenReturn(Optional.of(microskill1));
+//            when(cartRepository.findByUserId(user1.getId())).thenReturn(Optional.empty());
+//            when(cartRepository.save(any(Cart.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+            CartDto result = cartService.addMicroSkillToCart(microskill1.getId());
 
-        CartDto result = cartService.addMicroSkillToCart(microskill1.getId());
-
-
-        assertEquals(user1.getId(), result.userId());
-        assertEquals(1, result.listOfMicroSkills().size());
+            assertEquals(user1.getId(), result.userId());
+            assertEquals(1, result.listOfMicroSkills().size());
     }
 
 }
