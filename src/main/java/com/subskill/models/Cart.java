@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,14 +22,19 @@ public class Cart {
     @Column(name = "cart_id", nullable = false)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id")
-//    private User user;
+
 
     @Column(name = "user_id")
     private Long userId;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<MicroSkill> listOfMicroSkills;
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "cart_microskill",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "microskill_id")
+    )
+    private Set<MicroSkill> listOfMicroSkills;
 }
+
