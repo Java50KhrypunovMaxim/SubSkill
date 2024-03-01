@@ -1,5 +1,6 @@
 package com.subskill.service;
 
+import com.subskill.dto.CartDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Roles;
 import com.subskill.enums.Tags;
@@ -29,8 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -143,7 +144,7 @@ private static final String USERNAME1 = "MAX";
             .creationDate(LocalDate.now())
             .description("Introduction to Java programming language")
             .learningTime("20 hours")
-            .tags(List.of(Tags.FRONTEND, Tags.BACKEND))
+            .tags(List.of(Tags.DESIGN, Tags.BUSINESS))
             .level(Level.ADVANCED)
             .rating(4.5)
             .popularity(100.0)
@@ -161,7 +162,7 @@ private static final String USERNAME1 = "MAX";
             .creationDate(LocalDate.now())
             .description("Introduction to Python programming language")
             .learningTime("15 hours")
-            .tags(List.of(Tags.DEVOPS))
+            .tags(List.of(Tags.DEVELOPMENT))
             .level(Level.INTERMEDIATE)
             .rating(4.2)
             .popularity(80.0)
@@ -179,7 +180,7 @@ private static final String USERNAME1 = "MAX";
             .creationDate(LocalDate.now())
             .description("Introduction to Machine Learning")
             .learningTime("30 hours")
-            .tags(List.of(Tags.TESTING,Tags.FRONTEND))
+            .tags(List.of(Tags.IT_SOFTWARE,Tags.BUSINESS))
             .level(Level.BASIC)
             .rating(4.8)
             .popularity(150.0)
@@ -190,7 +191,7 @@ private static final String USERNAME1 = "MAX";
             .lastUpdateTime(LocalDateTime.now())
             .build();
 
-
+//
 //    @Test
 //    @DisplayName(CART_SERVICE_TEST)
 //    void testAddMicroSkillToCart() {

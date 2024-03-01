@@ -21,16 +21,16 @@ VALUES (1, 'Java', 1),
 
 INSERT INTO micro_skills (microskill_id, name, photo, creationdate, description, learningtime, tags, level, rating,
                           views, technology_id)
-VALUES (1, 'Java Programming', 'java.jpg', '2022-01-01', 'Learn Java programming language', '2 weeks', 'BACKEND',
+VALUES (1, 'Java Programming', 'java.jpg', '2022-01-01', 'Learn Java programming language', '2 weeks', 'DEVELOPMENT',
         'INTERMEDIATE', 4.5, 100, 1),
-       (2, 'Python Programming', 'python.jpg', '2022-02-01', 'Learn Python programming language', '3 weeks', 'BACKEND',
+       (2, 'Python Programming', 'python.jpg', '2022-02-01', 'Learn Python programming language', '3 weeks', 'DEVELOPMENT',
         'INTERMEDIATE', 4.0, 120, 2),
-       (3, 'React.js', 'react.jpg', '2022-03-01', 'Building user interfaces with React', '4 weeks', 'BACKEND',
+       (3, 'React.js', 'react.jpg', '2022-03-01', 'Building user interfaces with React', '4 weeks', 'DEVELOPMENT',
         'INTERMEDIATE', 4.8, 150, 3),
        (4, 'Data Science Fundamentals', 'data-science.jpg', '2022-04-01', 'Fundamental concepts of data science',
-        '5 weeks', 'BACKEND', 'INTERMEDIATE', 4.2, 80, 4),
+        '5 weeks', 'DEVELOPMENT', 'INTERMEDIATE', 4.2, 80, 4),
        (5, 'Flutter App Development', 'flutter.jpg', '2022-05-01', 'Building cross-platform mobile apps with Flutter',
-        '6 weeks', 'BACKEND', 'INTERMEDIATE', 4.6, 110, 5);
+        '6 weeks', 'DEVELOPMENT', 'INTERMEDIATE', 4.6, 110, 5);
 
 INSERT INTO articles (id, articlename, textofarticle, microskill_id)
 VALUES (1, 'Introduction to Java', 'This is a Java introduction article', 1),

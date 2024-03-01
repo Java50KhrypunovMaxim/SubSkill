@@ -1,5 +1,6 @@
 DELETE FROM cart;
-INSERT INTO cart (user_id)
+
+INSERT INTO cart (user_id);
 VALUES
     (1),
     (2),

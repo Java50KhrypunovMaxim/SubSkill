@@ -22,8 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -134,29 +136,27 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
-    public MicroSkillDto findLevelFromMicroSkill(Level level) {
+    public List<MicroSkill> findLevelFromMicroSkill(Level level) {
         log.debug("finding level {} of MicroSkill", level);
-        return microSkillRepository.findByLevel(level).orElseThrow(MicroSkillNotFoundException::new);
-
+        return microSkillRepository.findByLevel(level);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public MicroSkillDto findTagFromMicroSkill(Tags tags) {
-        log.debug("finding level {} of MicroSkill", tags);
-        return microSkillRepository.findByTags(tags).orElseThrow(MicroSkillNotFoundException::new);
-
+    public List<MicroSkill> findMicroSkillByTag(Tags tags) {
+        log.debug("finding tags {} of MicroSkill", tags);
+        return microSkillRepository.findByTags(tags);
     }
 
     @Override
-    public MicroSkillDto getBestDealsByToday(MicroSkillDto microSkillDto) {
+    public List<MicroSkill> findTechnology(String name) {
+        return microSkillRepository.findByTechnologyName(name);
+    }
+
+
+    @Override
+    public List<MicroSkill> getBestDealsByToday() {
         LocalDate twentyFourHoursAgo = LocalDate.now().minusDays(1);
-        List<MicroSkill> deals = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        if (!deals.isEmpty()) {
-            return modelMapper.map(deals.get(0), MicroSkillDto.class);
-        } else {
-            return null;
-        }
+        return microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
     }
 }
