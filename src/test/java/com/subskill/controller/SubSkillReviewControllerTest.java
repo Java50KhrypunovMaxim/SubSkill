@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -49,7 +48,7 @@ class SubSkillReviewControllerTest {
 
 	MicroSkill microSkill = new MicroSkill();
 
-	ReviewDto reviewDto = new ReviewDto(TEXT1, 4.5, new MicroSkill(), new User());
+	ReviewDto reviewDto = new ReviewDto(1L, TEXT1, 4.5, new MicroSkill(), new User());
 
 	@Test
 	void testAddReview() throws Exception {
