@@ -17,10 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -50,9 +47,10 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void deleteMicroSkillFromCart(long cartId) {
-        Optional<Cart> cart = cartRepository.findCartByUserId(cartId);
-        if (cart.isPresent()) {
-            List<MicroSkill> listOfMicroSkills = cart.get().getListOfMicroSkills();
+        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            Set<MicroSkill> listOfMicroSkills = cart.getListOfMicroSkills();
             Iterator<MicroSkill> iterator = listOfMicroSkills.iterator();
             while (iterator.hasNext()) {
                 MicroSkill microSkill = iterator.next();
@@ -61,7 +59,10 @@ public class CartServiceImpl implements CartService {
                     break;
                 }
             }
+            cart.setListOfMicroSkills(listOfMicroSkills);
+            cartRepository.save(cart);
         }
+
     }
 
     @Transactional(readOnly = true)
