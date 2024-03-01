@@ -9,6 +9,6 @@ import java.util.List;
 @Service
 public interface CartService {
     CartDto addMicroSkillToCart( long microskill_id);
-    void deleteMicroSkillFromCart(long cart_id);
+    void deleteMicroSkillFromCart(long cartId);
     List<CartDto> allMicroSkillsInCart();
 }
