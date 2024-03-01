@@ -4,12 +4,10 @@ import com.subskill.dto.ReviewDto;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -35,9 +33,10 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    
+
     public static Review of(ReviewDto reviewDto) {
-    	Review review = new Review();
+        Review review = new Review();
+        review.id = reviewDto.id();
         review.text = reviewDto.text();
         review.rating = reviewDto.rating();
         review.microSkill = reviewDto.microSkill();
@@ -46,7 +45,7 @@ public class Review {
     }
 
     public ReviewDto build() {
-        return new ReviewDto(text, rating, microSkill, user);
+        return new ReviewDto(id, text, rating, microSkill, user);
     }
 
 }

@@ -11,6 +11,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record ReviewDto(
+		@NotEmpty(message = MISSING_ID_OF_REVIEW)
+		Long id,
 		
 		@NotEmpty (message=MISSING_TEXT_REVIEW_MESSAGE)
 		String text,

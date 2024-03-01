@@ -16,10 +16,14 @@ import com.subskill.service.MicroSkillService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +40,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
+    @CachePut(value = "microSkill", key = "#microSkillDto.name()")
     public MicroSkillDto addMicroskill(MicroSkillDto microSkillDto) {
         if (microSkillRepository.existsByName(microSkillDto.name())) {
             throw new IllegalMicroSkillStateException();
@@ -52,6 +57,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
+    @CachePut(value = "microSkill", key = "#microSkillDto.name()", cacheManager = "objectCacheManager")
     public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
         MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
                 .orElseThrow(MicroSkillNotFoundException::new);
@@ -61,25 +67,28 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         microSkillRepository.save(existingMicroSkill);
     }
 
-
     @Override
     @Transactional
-    public void deleteMicroSkill(Long microSkill_id) {
-        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
+    @CacheEvict(value = "microSkill", key = "#microSkillId", cacheManager = "objectCacheManager")
+    public void deleteMicroSkill(Long microSkillId) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId)
+                .orElseThrow(MicroSkillNotFoundException::new);
         microSkillRepository.delete(microSkill);
-        log.debug("Microskill with ID {} has been deleted", microSkill_id);
+        log.debug("Microskill with ID {} has been deleted", microSkillId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public long getViewsCount(long microSkill_id) {
-        MicroSkill microSkill = microSkillRepository.findById(microSkill_id).orElseThrow(MicroSkillNotFoundException::new);
-        log.debug("All views {}", microSkill_id);
+    public long getViewsCount(long microSkillId) {
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId)
+                .orElseThrow(MicroSkillNotFoundException::new);
+        log.debug("All views {}", microSkillId);
         return microSkill.getViews();
     }
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkills", key = "#rating")
     public Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, Double rating) {
         Page<MicroSkill> microskillPage = microSkillRepository.findByRating(rating, paging);
         log.debug("find MicroSkills description by page rating: {}", paging);
@@ -88,6 +97,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkills", key = "#name")
     public Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name) {
         log.debug("find MicroSkills description by page name: {}", paging);
         return microSkillRepository.findByName(name, paging);
@@ -95,6 +105,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkills")
     public Page<MicroSkill> findMicroSkillByPage(Pageable paging) {
         Page<MicroSkill> microskillPage;
         microskillPage = microSkillRepository.findAll(paging);
@@ -105,6 +116,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkill", key = "#id", cacheManager = "objectCacheManager")
     public MicroSkill findMicroSkillPopularity(long id) {
         Optional<MicroSkill> microSkillByPopularity = microSkillRepository.findById(id);
         if (microSkillByPopularity.isPresent()) {
@@ -118,6 +130,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkill", key = "#microSkillId", cacheManager = "objectCacheManager")
     public MicroSkill findMicroSkill(long microSkillId) {
         log.debug("Get MicroSkill by id : {}", microSkillId);
         return microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
@@ -125,8 +138,10 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
+    @CachePut(value = "microSkill", key = "#microSkillId", cacheManager = "objectCacheManager")
     public void updatePriceMicroSkill(long microSkillId, Double price) {
-        MicroSkill microSkill = microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId)
+                .orElseThrow(MicroSkillNotFoundException::new);
         microSkill.setPrice(price);
         microSkillRepository.save(microSkill);
         log.debug("Microskill {} has been changed price to {}", microSkillId, price);
@@ -134,21 +149,27 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkill", key = "#level", cacheManager = "objectCacheManager")
     public MicroSkillDto findLevelFromMicroSkill(Level level) {
         log.debug("finding level {} of MicroSkill", level);
-        return microSkillRepository.findByLevel(level).orElseThrow(MicroSkillNotFoundException::new);
+        return microSkillRepository.findByLevel(level)
+                .orElseThrow(MicroSkillNotFoundException::new);
 
     }
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "microSkill", key = "#tags", cacheManager = "objectCacheManager")
     public MicroSkillDto findTagFromMicroSkill(Tags tags) {
         log.debug("finding level {} of MicroSkill", tags);
-        return microSkillRepository.findByTags(tags).orElseThrow(MicroSkillNotFoundException::new);
+        return microSkillRepository.findByTags(tags)
+                .orElseThrow(MicroSkillNotFoundException::new);
 
     }
 
     @Override
+    @Transactional
+    @Cacheable(value = "microSkill", key = "#microSkillDto.name()", cacheManager = "objectCacheManager")
     public MicroSkillDto getBestDealsByToday(MicroSkillDto microSkillDto) {
         LocalDate twentyFourHoursAgo = LocalDate.now().minusDays(1);
         List<MicroSkill> deals = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
