@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "micro_skills")
 @Entity
 @Setter
-
+@Builder
 public class MicroSkill {
 
     @Id
