@@ -5,6 +5,7 @@ import com.subskill.models.Profession;
 import com.subskill.repository.ProfessionRepository;
 import com.subskill.service.ProfessionService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "professions")
     public List<ProfessionDto> findAll() {
         List<Profession> professions = professionRepository.findAll();
         return professions.stream()

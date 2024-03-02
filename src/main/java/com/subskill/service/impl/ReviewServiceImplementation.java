@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.subskill.service.ReviewService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.subskill.dto.ReviewDto;
 import com.subskill.exception.ReviewNotFoundException;
@@ -25,6 +28,7 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional
+    @CachePut(value = "review", key = "#reviewDto.id")
     public ReviewDto addReview(ReviewDto reviewDto) {
         Review review = Review.of(reviewDto);
         reviewRepo.save(review);
@@ -35,6 +39,7 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
     public void deleteReview(Long reviewId) {
         Review review = reviewRepo.findByid(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewRepo.deleteById(review.getId());
@@ -44,6 +49,7 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
+    @Cacheable(value = "reviews", key = "#microSkillName")
     public List<Review> findByMicroSkillName(String microSkillName) {
         List<Review> technology = reviewRepo.findByMicroSkillName(microSkillName);
         log.debug("All reviews  for {} ", microSkillName);

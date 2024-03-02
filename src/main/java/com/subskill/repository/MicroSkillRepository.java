@@ -18,6 +18,7 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
     List<MicroSkill> findByLevel(Level level);
 
+
     List<MicroSkill> findByTags(Tags tags);
     List<MicroSkill> findByTechnologyName(String name);
 
