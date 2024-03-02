@@ -34,10 +34,10 @@ public class SubSkillArticleServiceTest {
 
 	private static final String ARTICLE_SERVICE_TEST = "Article Service Test: ";
 
-	private static final String ARTICLENAME1 = "About Java";
+	private static final String ARTICLENAME1 = "About Java 1 part";
 	private static final String ARTICLENAME2 = "About C++";
 	private static final String ARTICLENAME3 = "About Python";
-	private static final String TEXT1 = "Rambo";
+	private static final String TEXT1 = "Rambo 123";
 
 	public static final List<String> ALLARTICLES = List.of();
 
@@ -50,6 +50,7 @@ public class SubSkillArticleServiceTest {
 		assertEquals(ALLARTICLES, articleService.allArticles());
 	}
 
+	
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.ADD_ARTICLE)
 	void testAddArticle() {
