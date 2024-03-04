@@ -6,10 +6,16 @@ import com.subskill.models.Article;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.ArticleRepository;
 import com.subskill.repository.MicroSkillRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
@@ -20,7 +26,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@ActiveProfiles("test")
 @Sql(scripts = {"classpath:data_for_the_database.sql"})
 public class SubSkillArticleServiceTest {
 	@Autowired
@@ -90,12 +98,11 @@ public class SubSkillArticleServiceTest {
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.UPDATE_ARTICLE)
 	void testUpdateArticle() {
 		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill2);
-		MicroSkill micro = new MicroSkill();
-				if (optionalMicro.isPresent()) {
-					 micro = optionalMicro.get();}
+        MicroSkill micro = optionalMicro.orElseThrow(() -> new EntityNotFoundException("MicroSkill not found"));
 		ArticleDto articleDto1 = new ArticleDto("Python Basics", "Test", micro);
 		articleService.updateArticle(articleDto1);
-		assertEquals(articleDto1,articleRepo.findByArticleName("Python Basics").get());
+
+        assertEquals(articleDto1,articleRepo.findByArticleName("Python Basics").get());
 	}
 
 }
