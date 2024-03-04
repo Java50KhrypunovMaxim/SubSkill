@@ -21,11 +21,13 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -179,5 +181,12 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<MicroSkill> sortByPopularityMicroSkill() {
+        List<MicroSkill> microSkills = microSkillRepository.findAll();
+        microSkills.sort(Comparator.comparing(MicroSkill::getPopularity));
+        return microSkills;
     }
 }

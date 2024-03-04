@@ -149,4 +149,11 @@ public class MicroSkillController {
         log.debug("get best deals of {}  ", microSkillDto);
         return microSkillService.getBestDealsByToday(microSkillDto);
     }
+    
+    @Operation(summary = "Sort of MicroSkill by popularity")
+    @GetMapping("/sortByPopularityMicroSkill")
+    private List<MicroSkill> sortByPopularityMicroSkill() {
+        log.info("We have sorted microskills by popularity ");
+        return microSkillService.sortByPopularityMicroSkill();
+    }
 }
