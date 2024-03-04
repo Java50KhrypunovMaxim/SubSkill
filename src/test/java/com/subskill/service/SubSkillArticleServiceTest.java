@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -22,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 public class SubSkillArticleServiceTest {
 	@Autowired
 	ArticleRepository articleRepo;
+
 
 	@Autowired
 	MicroSkillRepository microSkillRepo;
@@ -38,8 +42,16 @@ public class SubSkillArticleServiceTest {
 	private static final String ARTICLENAME2 = "About C++";
 	private static final String ARTICLENAME3 = "About Python";
 	private static final String TEXT1 = "Rambo 123";
+	private static final long idOfMicroskill1 = 1;
+	private static final long idOfMicroskill2 = 2;
 
-	public static final List<String> ALLARTICLES = List.of();
+	 List<String> nameArticles = new ArrayList<>(List.of(
+             "Introduction to Java",
+             "Python Basics",
+             "Web Development with React",
+             "Data Science Essentials",
+             "Mobile App Development"
+     ));
 
 	private MicroSkill microSkill;
 	private ArticleDto articleDto1;
@@ -47,55 +59,47 @@ public class SubSkillArticleServiceTest {
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_ARTICLES)
 	void testShowAllArticles() {
-		assertEquals(ALLARTICLES, articleService.allArticles());
+		List <ArticleDto> listOfArticles = articleService.allArticles();
+		List<String> articleNames = listOfArticles.stream().map(ArticleDto::articleName)
+                .collect(Collectors.toList());
+		assertEquals(nameArticles, articleNames);
 	}
 
 	
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.ADD_ARTICLE)
 	void testAddArticle() {
-		
-
-		ArticleDto articleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, microSkill);
+		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill1);
+		MicroSkill micro = new MicroSkill();
+				if (optionalMicro.isPresent()) {
+					 micro = optionalMicro.get();}
+		ArticleDto articleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, micro);
 		ArticleDto savedArticleDto = articleService.addArticle(articleDto1);
-
 		assertEquals(articleDto1, savedArticleDto);
-		deleteArticleAndMicroSkill(ARTICLENAME1);
 	}
 
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.DELETE_ARTICLE)
 	void testDeleteArticle() {
-		microSkillRepo.save(microSkill);
-		microSkill = microSkillRepo.findById(microSkill.getId()).orElseThrow();
-		articleService.deleteArticle("Article2");
-		assertThrowsExactly(ArticleNotFoundException.class, () -> articleService.deleteArticle("Article2"));
-		deleteArticleAndMicroSkill(ARTICLENAME1);
+		articleService.deleteArticle("Introduction to Java");
+		assertThrowsExactly(ArticleNotFoundException.class, () -> articleService.deleteArticle("Introduction to Java"));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.UPDATE_ARTICLE)
 	void testUpdateArticle() {
-		microSkillRepo.save(microSkill);
-		microSkill = microSkillRepo.findById(microSkill.getId()).orElseThrow();
-
-		ArticleDto articleDtoUpdate = new ArticleDto(ARTICLENAME2, TEXT1, microSkill);
-		assertEquals(articleDtoUpdate, articleService.updateArticle(articleDtoUpdate));
-		assertEquals(TEXT1, articleRepo.findByArticleName(ARTICLENAME2).get().getTextOfArticle());
-		deleteArticleAndMicroSkill(ARTICLENAME2);
+		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill2);
+		MicroSkill micro = new MicroSkill();
+				if (optionalMicro.isPresent()) {
+					 micro = optionalMicro.get();}
+		ArticleDto articleDto1 = new ArticleDto("Python Basics", "Test", micro);
+		articleService.updateArticle(articleDto1);
+		assertEquals(articleDto1,articleRepo.findByArticleName("Python Basics").get());
 	}
 
-
-	private void deleteArticleAndMicroSkill(String... articleNames) {
-		for (String articleName : articleNames) {
-			Article article = articleRepo.findByArticleName(articleName).orElse(null);
-			if (article != null) {
-				MicroSkill microSkill = article.getMicroSkill();
-				articleRepo.delete(article);
-				if (microSkill != null) {
-					microSkillRepo.delete(microSkill);
-				}
-			}
-		}
-	}
 }
+	
+
+
+	

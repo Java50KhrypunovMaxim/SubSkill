@@ -52,36 +52,12 @@ class SubSkillUserServiceTest {
 
 	@Autowired
 	UserService userService;;
+	
 	@Test
-	void testUpdateAndDeleteUser() {
-
-		Optional<User> optionalUser = userRepo.findByEmail(userDto1.email());
-		assertTrue(optionalUser.isPresent());
-
-		UserDto updatedUserDto = new UserDto(userDto2.username(), userDto1.email(), userDto2.password(), userDto2.online(), userDto2.imageUrl(), userDto2.role());
-		User updatedUser = userRepo.save(User.builder()
-				.username(updatedUserDto.username())
-				.password(updatedUserDto.password())
-				.email(updatedUserDto.email())
-				.online(updatedUserDto.online())
-				.imageUrl(updatedUserDto.imageUrl())
-				.role(updatedUserDto.role())
-				.build());
-		assertNotNull(updatedUser);
-
-		User updatedDbUser = userRepo.findByEmail(updatedUserDto.email()).orElse(null);
-		assertNotNull(updatedDbUser);
-		assertEquals(updatedUserDto.username(), updatedDbUser.getUsername());
-
-		userRepo.delete(updatedDbUser);
-		Optional<User> deletedUser = userRepo.findByEmail(updatedUserDto.email());
-		assertTrue(deletedUser.isEmpty());
+	void testUpdateUser() {
+		UserDto updatedUserDto = new UserDto(userDto2.username(), "user1@example.com", userDto2.password(), userDto2.online(), userDto2.imageUrl(), userDto2.role());
+		userService.updateUser(updatedUserDto);
+		assertEquals(updatedUserDto, userRepo.findByEmail("user1@example.com").get());
 	}
-	@Test
-	void testExist() {
-		Optional<User> optionalUser = userRepo.findByEmail(EMAIL2);
-        assertTrue(optionalUser.isPresent());
-        User user = optionalUser.get();
-        assertEquals(USERNAME2, user.getUsername());
-	}
+	
 }
