@@ -11,10 +11,15 @@ import java.util.List;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Profession;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +29,9 @@ import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import com.subskill.service.TechnologyService;
 
-@WebMvcTest(TechnologyController.class)
+@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
+@WebMvcTest(controllers = TechnologyController.class)
 public class SubSkillTechnologyControllerTest {
 
     @MockBean

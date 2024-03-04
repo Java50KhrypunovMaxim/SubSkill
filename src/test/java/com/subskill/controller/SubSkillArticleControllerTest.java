@@ -10,14 +10,18 @@ import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.service.ArticleService;
 import com.subskill.service.MicroSkillService;
+import com.subskill.service.impl.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URLEncoder;
@@ -32,22 +36,24 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Profile("test")
-@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 @WebMvcTest(ArticleController.class)
-public class SubSkillArticleControllerTest {
+class SubSkillArticleControllerTest {
     @MockBean
     ArticleService articleService;
 
     @MockBean
     MicroSkillService microSkillService;
 
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
     MockMvc mockMvc;
 
     @Autowired
     ObjectMapper mapper;
-
+    
     private static final String ARTICLE_NAME3 = "About Pyton";
 
     private static final String TEXT1 = "Rambo";
@@ -63,7 +69,7 @@ public class SubSkillArticleControllerTest {
     void testRegisterArticle() throws Exception {
         when(articleService.addArticle(ArticleDto1)).thenReturn(ArticleDto1);
         String jsonArticleDto = mapper.writeValueAsString(ArticleDto1);
-        String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/articles").contentType(MediaType.APPLICATION_JSON)
+        String actualJSON = mockMvc.perform(post("api/v1/articles").contentType(MediaType.APPLICATION_JSON)
                         .content(jsonArticleDto)).andExpect(status().isOk()).andReturn().getResponse()
                 .getContentAsString();
         assertEquals(jsonArticleDto, actualJSON);

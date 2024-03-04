@@ -1,13 +1,19 @@
 package com.subskill.service;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.repository.MicroSkillRepository;
 import com.subskill.repository.TechnologyRepository;
 
 @SpringBootTest
+@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 @Sql(scripts = {"classpath:users.sql"})
 public class SubskillTechnologyServiceTest {
 

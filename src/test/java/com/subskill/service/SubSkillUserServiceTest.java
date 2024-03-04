@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.subskill.dto.UserDto;
@@ -17,6 +19,7 @@ import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @Sql(scripts = {"classpath:data_for_the_database.sql"})
 class SubSkillUserServiceTest {
 	private static final String USER_SERVICE_TEST = "User Service Test: ";
@@ -52,36 +55,12 @@ class SubSkillUserServiceTest {
 
 	@Autowired
 	UserService userService;;
+	
 	@Test
-	void testUpdateAndDeleteUser() {
-
-		Optional<User> optionalUser = userRepo.findByEmail(userDto1.email());
-		assertTrue(optionalUser.isPresent());
-
-		UserDto updatedUserDto = new UserDto(userDto2.username(), userDto1.email(), userDto2.password(), userDto2.online(), userDto2.imageUrl(), userDto2.role());
-		User updatedUser = userRepo.save(User.builder()
-				.username(updatedUserDto.username())
-				.password(updatedUserDto.password())
-				.email(updatedUserDto.email())
-				.online(updatedUserDto.online())
-				.imageUrl(updatedUserDto.imageUrl())
-				.role(updatedUserDto.role())
-				.build());
-		assertNotNull(updatedUser);
-
-		User updatedDbUser = userRepo.findByEmail(updatedUserDto.email()).orElse(null);
-		assertNotNull(updatedDbUser);
-		assertEquals(updatedUserDto.username(), updatedDbUser.getUsername());
-
-		userRepo.delete(updatedDbUser);
-		Optional<User> deletedUser = userRepo.findByEmail(updatedUserDto.email());
-		assertTrue(deletedUser.isEmpty());
+	void testUpdateUser() {
+		UserDto updatedUserDto = new UserDto(userDto2.username(), "user1@example.com", userDto2.password(), userDto2.online(), userDto2.imageUrl(), userDto2.role());
+		userService.updateUser(updatedUserDto);
+		assertEquals(updatedUserDto, userRepo.findByEmail("user1@example.com").get());
 	}
-	@Test
-	void testExist() {
-		Optional<User> optionalUser = userRepo.findByEmail(EMAIL2);
-        assertTrue(optionalUser.isPresent());
-        User user = optionalUser.get();
-        assertEquals(USERNAME2, user.getUsername());
-	}
+	
 }

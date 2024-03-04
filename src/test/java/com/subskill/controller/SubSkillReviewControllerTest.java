@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,9 +33,9 @@ import com.subskill.models.Review;
 import com.subskill.models.User;
 import com.subskill.service.ReviewService;
 
-
+@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
-@WebMvcTest(ReviewController.class)
+@WebMvcTest(controllers = ReviewController.class)
 class SubSkillReviewControllerTest {
 
 	@MockBean
@@ -49,7 +51,7 @@ class SubSkillReviewControllerTest {
 
 	MicroSkill microSkill = new MicroSkill();
 
-	ReviewDto reviewDto = new ReviewDto(TEXT1, 4.5, new MicroSkill(), new User());
+	ReviewDto reviewDto = new ReviewDto(1L, TEXT1, 4.5, new MicroSkill(), new User());
 
 	@Test
 	void testAddReview() throws Exception {

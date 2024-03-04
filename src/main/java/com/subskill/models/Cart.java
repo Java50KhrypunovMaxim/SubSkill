@@ -1,6 +1,5 @@
 package com.subskill.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,14 +21,10 @@ public class Cart {
     @Column(name = "cart_id", nullable = false)
     private Long id;
 
-
-
     @Column(name = "user_id")
     private Long userId;
 
-
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "cart_microskill",
             joinColumns = @JoinColumn(name = "cart_id"),
