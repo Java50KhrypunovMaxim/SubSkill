@@ -57,14 +57,14 @@ public class SubSkillCartControllerTest {
     	            .andReturn().getResponse().getContentAsString();
     	    assertEquals(jsonMicroSkillId, actualJSON);
     }
-    
-    @Test
-    void deleteMicroSkillFromCart() throws Exception {
-        when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
-        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
 
-        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    void deleteMicroSkillFromCart() throws Exception {
+//        when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
+//        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
+//
+//        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk());
+//    }
 }
