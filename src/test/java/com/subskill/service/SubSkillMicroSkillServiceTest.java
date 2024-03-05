@@ -3,7 +3,9 @@ package com.subskill.service;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import com.subskill.models.MicroSkill;
+import com.subskill.models.Technology;
 import com.subskill.repository.MicroSkillRepository;
+import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.impl.MicroSkillServiceImplementation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,6 +33,9 @@ class SubSkillMicroSkillServiceTest {
 
 	@Mock
 	private MicroSkillRepository microSkillRepository;
+
+	@Mock
+	private TechnologyRepository technologyRepository;
 
 	@InjectMocks
 	private MicroSkillServiceImplementation microSkillService;
@@ -43,43 +49,47 @@ class SubSkillMicroSkillServiceTest {
 
 	@Test
 	void testFindLevelFromMicroSkill() {
+		Level level = Level.INTERMEDIATE;
+		List<MicroSkill> expectedMicroSkills = MyMicroSkill();
 
-		List<MicroSkill> testMicroSkills = MyMic();
-		for (MicroSkill microSkill : testMicroSkills) {
-			microSkill.setLevel(Level.INTERMEDIATE);
-		}
+		when(microSkillRepository.findByLevel(level)).thenReturn(expectedMicroSkills);
 
-		Mockito.lenient().when(microSkillRepository.findByLevel(Level.INTERMEDIATE)).thenReturn(testMicroSkills);
-
-		List<MicroSkill> result = microSkillService.findLevelFromMicroSkill(Level.INTERMEDIATE);
+		List<MicroSkill> result = microSkillService.findLevelFromMicroSkill(level);
 
 		assertNotNull(result);
-
-
-		for (MicroSkill microSkill : result) {
-			assertEquals(Level.INTERMEDIATE, microSkill.getLevel());
-		}
+		assertEquals(expectedMicroSkills, result);
+		verify(microSkillRepository, times(1)).findByLevel(level);
 	}
 
-	private List<MicroSkill> MyMic (){
-		MicroSkill microSkill = new MicroSkill();
-		microSkill.setName("Java Programming");
-		microSkill.setDescription("Learn Java programming language");
-		microSkill.setLevel(Level.INTERMEDIATE);
-		MicroSkill microSkill2 = new MicroSkill();
-		microSkill2.setName("Python Programming");
-		microSkill2.setDescription("Learn Python programming language");
-		microSkill2.setLevel(Level.INTERMEDIATE);
-		MicroSkill microSkill3 = new MicroSkill();
-		microSkill3.setName("React.js");
-		microSkill3.setDescription("Building user interfaces with React");
-		microSkill3.setLevel(Level.INTERMEDIATE);
-		return List.of(microSkill,microSkill2,microSkill3);
+
+	@Test
+	void testFindTechnology() {
+		String technologyName = "Java";
+		List<MicroSkill> expectedMicroSkills = MyMicroSkill();
+		MicroSkill firstMicroSkill = expectedMicroSkills.get(0);
+
+		List<MicroSkill> testMicroSkill = new ArrayList<>();
+		testMicroSkill.add(firstMicroSkill);
+		Technology technology = firstMicroSkill.getTechnology();
+		technology.setName("Java");
+
+		Mockito.lenient().when(technologyRepository.findById(1L)).thenReturn(Optional.of(technology));
+
+
+
+		Mockito.lenient().when(microSkillRepository.findByTechnologyName(technology.getName())).thenReturn(testMicroSkill);
+
+		List<MicroSkill> actualMicroSkills = microSkillService.findTechnology(technologyName);
+
+		assertNotNull(actualMicroSkills, "Not Null");
+		assertFalse(actualMicroSkills.isEmpty(), "At least 1 microskill");
+
+
 	}
 	@Test
 	void testFindMicroSkillByTag() {
 		Tags tag = Tags.DEVELOPMENT;
-		List<MicroSkill> expectedMicroSkills = Collections.singletonList(new MicroSkill());
+		List<MicroSkill> expectedMicroSkills = MyMicroSkill();
 
 		when(microSkillRepository.findByTags(tag)).thenReturn(expectedMicroSkills);
 
@@ -93,16 +103,51 @@ class SubSkillMicroSkillServiceTest {
 
 	@Test
 	void testGetBestDealsByToday() {
-		List<MicroSkill> expectedMicroSkills = Collections.singletonList(new MicroSkill());
+		List<MicroSkill> expectedMicroSkills = MyMicroSkill();
 
 		when(microSkillRepository.findByCreationDateAfter(any())).thenReturn(expectedMicroSkills);
 
 		List<MicroSkill> actualMicroSkills = microSkillService.getBestDealsByToday();
 
-		assertNotNull(actualMicroSkills);
-		assertEquals(expectedMicroSkills.size(), actualMicroSkills.size());
-		assertEquals(expectedMicroSkills.get(0), actualMicroSkills.get(0));
+		assertNotNull(actualMicroSkills, "Not Null");
+		assertFalse(actualMicroSkills.isEmpty(), "At least 1 microskill");
 		verify(microSkillRepository, times(1)).findByCreationDateAfter(any());
 	}
+	private List<MicroSkill> MyMicroSkill (){
+		Technology javaTechnology = new Technology();
+		javaTechnology.setId(1L);
+		javaTechnology.setName("Java");
 
+		MicroSkill microSkill = new MicroSkill();
+		microSkill.setName("Java Programming");
+		microSkill.setDescription("Learn Java programming language");
+		microSkill.setLevel(Level.INTERMEDIATE);
+		microSkill.setViews(100);
+		microSkill.setTechnology(javaTechnology);
+
+
+		Technology javaTechnology2 = new Technology();
+		javaTechnology2.setId(2L);
+		javaTechnology2.setName("Java");
+
+		MicroSkill microSkill2 = new MicroSkill();
+		microSkill2.setName("Python Programming");
+		microSkill2.setDescription("Learn Python programming language");
+		microSkill2.setLevel(Level.INTERMEDIATE);
+		microSkill2.setViews(120);
+		microSkill2.setTechnology(javaTechnology2);
+
+		Technology javaTechnology3 = new Technology();
+		javaTechnology3.setId(3L);
+		javaTechnology3.setName("React.js");
+
+		MicroSkill microSkill3 = new MicroSkill();
+		microSkill3.setName("React.js");
+		microSkill3.setDescription("Building user interfaces with React");
+		microSkill3.setLevel(Level.INTERMEDIATE);
+		microSkill3.setViews(150);
+		microSkill3.setTechnology(javaTechnology3);
+
+		return List.of(microSkill,microSkill2,microSkill3);
+	}
 }
