@@ -55,20 +55,20 @@ public class MicroSkill {
     private Level level;
 
     @Column(name = "rating")
-    private double rating;
+    private Double rating;
 
     @Column(name = "popularity")
     @ColumnDefault("0.0")
-    private double popularity;
+    private Double popularity;
 
     @Column(name = "views")
-    private int views;
+    private Integer views;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
 
     @Column(name = "lessonCount")
-    private int lessonCount;
+    private Integer lessonCount;
 
     @Column(name = "aboutSkill")
     private String aboutSkill;
