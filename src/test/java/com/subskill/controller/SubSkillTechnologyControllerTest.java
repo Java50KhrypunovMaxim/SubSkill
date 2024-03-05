@@ -8,16 +8,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import com.subskill.config.ObjectMapperConfig;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Profession;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,8 +29,9 @@ import com.subskill.service.MicroSkillService;
 import com.subskill.service.TechnologyService;
 
 @ActiveProfiles("test")
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers = TechnologyController.class)
+@AutoConfigureMockMvc
+@Import(ObjectMapperConfig.class)
+@SpringBootTest(classes = {TechnologyController.class})
 public class SubSkillTechnologyControllerTest {
 
     @MockBean

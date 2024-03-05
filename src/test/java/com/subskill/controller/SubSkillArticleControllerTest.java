@@ -2,6 +2,7 @@ package com.subskill.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.subskill.config.ObjectMapperConfig;
 import com.subskill.dto.ArticleDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
@@ -10,16 +11,12 @@ import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.service.ArticleService;
 import com.subskill.service.MicroSkillService;
-import com.subskill.service.impl.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,7 +34,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
-@WebMvcTest(ArticleController.class)
+@SpringBootTest(classes = {ArticleController.class})
+@Import(ObjectMapperConfig.class)
+@AutoConfigureMockMvc
 class SubSkillArticleControllerTest {
     @MockBean
     ArticleService articleService;
@@ -45,15 +44,12 @@ class SubSkillArticleControllerTest {
     @MockBean
     MicroSkillService microSkillService;
 
-    @MockBean
-    private UserDetailsServiceImpl userDetailsService;
-
     @Autowired
     MockMvc mockMvc;
 
     @Autowired
     ObjectMapper mapper;
-    
+
     private static final String ARTICLE_NAME3 = "About Pyton";
 
     private static final String TEXT1 = "Rambo";
