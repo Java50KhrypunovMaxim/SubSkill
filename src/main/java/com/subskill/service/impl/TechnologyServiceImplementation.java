@@ -57,4 +57,5 @@ public class TechnologyServiceImplementation implements TechnologyService {
                 .orElseThrow(TechnologyNotFoundException::new);
     }
 
+
 }

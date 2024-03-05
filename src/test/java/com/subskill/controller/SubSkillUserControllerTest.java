@@ -1,12 +1,11 @@
 package com.subskill.controller;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import com.subskill.config.ObjectMapperConfig;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 import static org.mockito.Mockito.doNothing;
@@ -30,8 +29,9 @@ import com.subskill.service.UserService;
 import java.util.List;
 
 @ActiveProfiles("test")
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers = UsersController.class)
+@AutoConfigureMockMvc
+@Import(ObjectMapperConfig.class)
+@SpringBootTest(classes = {UsersController.class})
 class SubSkillUserControllerTest {
 
     @MockBean
