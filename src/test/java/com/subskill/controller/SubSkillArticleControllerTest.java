@@ -13,6 +13,8 @@ import com.subskill.service.ArticleService;
 import com.subskill.service.MicroSkillService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -63,13 +65,13 @@ class SubSkillArticleControllerTest {
 
     @Test
     void testRegisterArticle() throws Exception {
-        when(articleService.addArticle(ArticleDto1)).thenReturn(ArticleDto1);
-        String jsonArticleDto = mapper.writeValueAsString(ArticleDto1);
-        String actualJSON = mockMvc.perform(post("api/v1/articles").contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonArticleDto)).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString();
-        assertEquals(jsonArticleDto, actualJSON);
-
+    	    String jsonArticleDto = mapper.writeValueAsString(ArticleDto1);
+    	    String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/articles")
+    	            .contentType(MediaType.APPLICATION_JSON)
+    	            .content(jsonArticleDto))
+    	            .andExpect(status().isOk())
+    	            .andReturn().getResponse().getContentAsString();
+    	    assertEquals(jsonArticleDto, actualJSON);
     }
 
     @Test
@@ -98,14 +100,12 @@ class SubSkillArticleControllerTest {
     void testGetAllArticle() throws Exception {
         List<ArticleDto> articlesList = Collections.singletonList(ArticleDto1);
         when(articleService.allArticles()).thenReturn(articlesList);
-
         String actualJSON = mockMvc.perform(get("http://localhost:8080/api/v1/articles/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-
         List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<>() {
         });
         assertEquals(articlesList, actualArticlesList);
