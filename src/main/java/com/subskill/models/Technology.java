@@ -18,10 +18,10 @@ public class Technology {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name",nullable = false)
     private String name;
 
     @ManyToOne
@@ -29,7 +29,8 @@ public class Technology {
     private Profession profession;
 
     @OneToMany(mappedBy = "technology")
-    @Column(name = "microSkills", nullable = false)
+    @Column(name = "microSkills")
     private List<MicroSkill> microSkills;
+
     
 }

@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
     }
 
 
-    @CacheEvict(value = "cart", key = "#cartId", cacheManager = "objectCacheManager")
+    @CacheEvict(value = "cart", key = "#microSkillId", cacheManager = "objectCacheManager")
     @Override
     @Transactional
     public void deleteMicroSkillFromCart(long microSkillId) {

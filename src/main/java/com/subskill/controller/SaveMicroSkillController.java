@@ -28,14 +28,14 @@ public class SaveMicroSkillController {
     @Operation(summary = "Save MicroSkills to User")
     @PostMapping("/add/microskill{microskillId}")
     SaveMicroskill addMicroSkillToUser(@PathVariable long microskillId) {
-        log.debug("Add MicroSkill ID: {} to User ID: {}", microskillId);
+        log.debug("Add MicroSkill ID: {} to User ID: ", microskillId);
         return savedMicroskillService.addMicroSkillToUser(microskillId);
     }
     
     @Operation(summary = "Remove MicroSkills from User")
     @DeleteMapping("/delete/microskill{microskillId}")
     void deleteMicroSkillFromCart(@PathVariable long microskillId) {
-        log.debug("remove microSkill: remove cart microskill {} from user ID {}", microskillId);
+        log.debug("remove microSkill: remove cart microskill {} from user ID ", microskillId);
         savedMicroskillService.deleteMicroSkillFromUser(microskillId);
     }
     

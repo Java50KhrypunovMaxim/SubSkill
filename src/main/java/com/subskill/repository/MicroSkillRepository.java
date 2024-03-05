@@ -24,6 +24,7 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
     List<MicroSkill> findByTechnologyName(String name);
 
     Page<MicroSkill> findAll(Pageable pageable);
+    List<MicroSkill> findAll();
 
     Page<MicroSkill> findByName(String name, Pageable pageable);
 

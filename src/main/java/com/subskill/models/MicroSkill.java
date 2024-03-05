@@ -24,7 +24,7 @@ public class MicroSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "microskill_id", nullable = false, unique = true)
+    @Column(name = "microskill_id")
     private Long id;
 
     @Column(name = "name")
@@ -105,7 +105,7 @@ public class MicroSkill {
         return microSkill;
     }
 
-    public double calculateAverageRating() {
+    public Double calculateAverageRating() {
         if (reviews.isEmpty()) {
             return 0.0;
         }

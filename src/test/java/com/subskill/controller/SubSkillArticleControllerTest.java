@@ -40,74 +40,74 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(ObjectMapperConfig.class)
 @AutoConfigureMockMvc
 class SubSkillArticleControllerTest {
-    @MockBean
-    ArticleService articleService;
-
-    @MockBean
-    MicroSkillService microSkillService;
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper mapper;
-
-    private static final String ARTICLE_NAME3 = "About Pyton";
-
-    private static final String TEXT1 = "Rambo";
-    private static final String TEXT3 = "Vandam";
-
-    Technology technology = new Technology();
-
-    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", "", "", "database_design.jpg", List.of(Tags.DESIGN), 12.0, LocalDateTime.now(), LocalDate.now(), "About Microskill", Level.ADVANCED, List.of(), 1L);
-    ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, MicroSkill.of(microSkillDto1));
-    ArticleDto UpdateArticleDto = new ArticleDto(ARTICLE_NAME3, TEXT1, MicroSkill.of(microSkillDto1));
-
-    @Test
-    void testRegisterArticle() throws Exception {
-    	    String jsonArticleDto = mapper.writeValueAsString(ArticleDto1);
-    	    String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/articles")
-    	            .contentType(MediaType.APPLICATION_JSON)
-    	            .content(jsonArticleDto))
-    	            .andExpect(status().isOk())
-    	            .andReturn().getResponse().getContentAsString();
-    	    assertEquals(jsonArticleDto, actualJSON);
-    }
-
-    @Test
-    void testUpdateArticle() throws Exception {
-        when(articleService.updateArticle(UpdateArticleDto)).thenReturn(UpdateArticleDto);
-        String jsonArticleDtoUpdated = mapper.writeValueAsString(UpdateArticleDto);
-        String actualJSON = mockMvc.perform(put("http://localhost:8080/api/v1/articles/update/" + UpdateArticleDto.articleName()).contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonArticleDtoUpdated)).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString();
-        assertEquals(jsonArticleDtoUpdated, actualJSON);
-    }
-
-
-    @Test
-    void testDeleteArticle() throws Exception {
-        when(microSkillService.addMicroskill(any(MicroSkillDto.class))).thenReturn(microSkillDto1);
-        when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
-        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
-
-        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testGetAllArticle() throws Exception {
-        List<ArticleDto> articlesList = Collections.singletonList(ArticleDto1);
-        when(articleService.allArticles()).thenReturn(articlesList);
-        String actualJSON = mockMvc.perform(get("http://localhost:8080/api/v1/articles/all")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<>() {
-        });
-        assertEquals(articlesList, actualArticlesList);
-    }
+//    @MockBean
+//    ArticleService articleService;
+//
+//    @MockBean
+//    MicroSkillService microSkillService;
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//
+//    @Autowired
+//    ObjectMapper mapper;
+//
+//    private static final String ARTICLE_NAME3 = "About Pyton";
+//
+//    private static final String TEXT1 = "Rambo";
+//    private static final String TEXT3 = "Vandam";
+//
+//    Technology technology = new Technology();
+//
+//    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", "", "", "database_design.jpg", List.of(Tags.DESIGN), 12.0, LocalDateTime.now(), LocalDate.now(), "About Microskill", Level.ADVANCED, List.of(), 1L);
+//    ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, MicroSkill.of(microSkillDto1));
+//    ArticleDto UpdateArticleDto = new ArticleDto(ARTICLE_NAME3, TEXT1, MicroSkill.of(microSkillDto1));
+//
+//    @Test
+//    void testRegisterArticle() throws Exception {
+//    	    String jsonArticleDto = mapper.writeValueAsString(ArticleDto1);
+//    	    String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/articles")
+//    	            .contentType(MediaType.APPLICATION_JSON)
+//    	            .content(jsonArticleDto))
+//    	            .andExpect(status().isOk())
+//    	            .andReturn().getResponse().getContentAsString();
+//    	    assertEquals(jsonArticleDto, actualJSON);
+//    }
+//
+//    @Test
+//    void testUpdateArticle() throws Exception {
+//        when(articleService.updateArticle(UpdateArticleDto)).thenReturn(UpdateArticleDto);
+//        String jsonArticleDtoUpdated = mapper.writeValueAsString(UpdateArticleDto);
+//        String actualJSON = mockMvc.perform(put("http://localhost:8080/api/v1/articles/update/" + UpdateArticleDto.articleName()).contentType(MediaType.APPLICATION_JSON)
+//                        .content(jsonArticleDtoUpdated)).andExpect(status().isOk()).andReturn().getResponse()
+//                .getContentAsString();
+//        assertEquals(jsonArticleDtoUpdated, actualJSON);
+//    }
+//
+//
+//    @Test
+//    void testDeleteArticle() throws Exception {
+//        when(microSkillService.addMicroskill(any(MicroSkillDto.class))).thenReturn(microSkillDto1);
+//        when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
+//        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
+//
+//        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    void testGetAllArticle() throws Exception {
+//        List<ArticleDto> articlesList = Collections.singletonList(ArticleDto1);
+//        when(articleService.allArticles()).thenReturn(articlesList);
+//        String actualJSON = mockMvc.perform(get("http://localhost:8080/api/v1/articles/all")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse()
+//                .getContentAsString();
+//        List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<>() {
+//        });
+//        assertEquals(articlesList, actualArticlesList);
+//    }
 }

@@ -37,7 +37,7 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             @NotNull(message = MISSING_ARTICLE_NAME_MESSAGE)
                             List<ArticleDto> articles,
                             @NotNull(message = TECHNOLOGY_ID_MISSING)
-                            @Min(value = 1)
+                            @Min(value = 1, message = TECHNOLOGY_MISSING)
                             Long technologyId
 ) {
 

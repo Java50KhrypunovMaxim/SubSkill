@@ -63,7 +63,7 @@ public class MicroSkillController {
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")
-    @GetMapping("/all")
+    @GetMapping("/findSixPages")
     public Page<MicroSkill> getAllMicroSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
@@ -75,7 +75,10 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByPage(paging);
     }
-
+//    @GetMapping("/all")
+//    public List<MicroSkill>  findAll(){
+//        return microSkillService.findAllMicroSkills();
+//    }
     @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
     List<MicroSkill> findTechnologyOfMicroSkill(@RequestParam String name) {
@@ -132,27 +135,27 @@ public class MicroSkillController {
 
     @Operation(summary = "Find MicroSkill by level")
     @GetMapping("/find-by-level")
-    public List<MicroSkill> findMicroSkillByLevel(@RequestParam Level level) {
+    public List<MicroSkillDto> findMicroSkillByLevel(@RequestParam Level level) {
         log.debug("finding level {} of MicroSkill", level);
         return microSkillService.findLevelFromMicroSkill(level);
     }
 
     @Operation(summary = "Find MicroSkill by tag")
     @GetMapping("/find-by-tags")
-    public List<MicroSkill> findMicroSkillByTag(@RequestParam Tags tags) {
+    public List<MicroSkillDto> findMicroSkillByTag(@RequestParam Tags tags) {
         log.debug("finding tags {} of MicroSkill", tags);
         return microSkillService.findMicroSkillByTag(tags);
     }
     @Operation(summary = "Get top MicroSkill deals")
     @GetMapping("/get-today-deals")
-    public List<MicroSkill> getTodayBestDeals() {
+    public List<MicroSkillDto> getTodayBestDeals() {
         return microSkillService.getBestDealsByToday();
     }
     
     @Operation(summary = "Sort of MicroSkill by popularity")
     @GetMapping("/sortByPopularityMicroSkill")
-    private List<MicroSkill> sortByPopularityMicroSkill() {
-        log.info("We have sorted microskills by popularity ");
+    private List<MicroSkillDto> sortByPopularityMicroSkill() {
+        log.info("We have sorted microSkills by popularity ");
         return microSkillService.sortByPopularityMicroSkill();
     }
 }

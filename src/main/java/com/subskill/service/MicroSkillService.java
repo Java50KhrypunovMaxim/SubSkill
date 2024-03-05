@@ -21,9 +21,9 @@ public interface MicroSkillService {
 
     void deleteMicroSkill(Long microSkill_id);
 
-    List<MicroSkill> findLevelFromMicroSkill(Level level);
+    List<MicroSkillDto> findLevelFromMicroSkill(Level level);
 
-    List<MicroSkill> findMicroSkillByTag(Tags tags);
+    List<MicroSkillDto> findMicroSkillByTag(Tags tags);
 
     List<MicroSkill> findTechnology(String name);
     Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, Double rating);
@@ -33,10 +33,10 @@ public interface MicroSkillService {
     Page<MicroSkill> findMicroSkillByPage(Pageable paging);
 
     long getViewsCount(long microskillId);
-
+    List<MicroSkillDto> sortByPopularityMicroSkill();
     MicroSkill findMicroSkillPopularity(long microskillId);
 
     MicroSkill findMicroSkill(long microskillId);
 
-    List<MicroSkill> getBestDealsByToday();
+    List<MicroSkillDto> getBestDealsByToday();
 }

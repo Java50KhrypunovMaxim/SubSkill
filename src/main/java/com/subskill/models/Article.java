@@ -2,10 +2,12 @@ package com.subskill.models;
 
 import com.subskill.dto.ArticleDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import static com.subskill.api.ValidationConstants.MISSING_ID_OF_SKILLS;
 
 @Data
 @AllArgsConstructor
@@ -27,13 +29,13 @@ public class Article {
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "microskill_id")
-    private MicroSkill microSkill;
+    private @NotNull(message = MISSING_ID_OF_SKILLS) Long microSkill;
 
     public static Article of(ArticleDto articleDto) {
         Article article = new Article();
         article.articleName = articleDto.articleName();
         article.textOfArticle = articleDto.textOfArticle();
-        article.microSkill = articleDto.microSkill();
+        article.microSkill = articleDto.microskillId();
         return article;
     }
 
