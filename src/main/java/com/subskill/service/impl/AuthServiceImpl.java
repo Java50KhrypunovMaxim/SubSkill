@@ -4,6 +4,7 @@ import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.enums.Roles;
+import com.subskill.enums.Status;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
@@ -50,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(registeredUserDto.password()))
                 .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
-                .online(true)
+                .online(Status.ONLINE)
                 .build();
         userRepository.save(user);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));

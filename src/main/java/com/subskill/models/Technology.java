@@ -18,7 +18,7 @@ public class Technology {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "technology_id")
     private Long id;
 
     @Column(name = "name",nullable = false)
@@ -29,8 +29,9 @@ public class Technology {
     private Profession profession;
 
     @OneToMany(mappedBy = "technology")
-    @Column(name = "microSkills")
+    @Column(name = "micro_skills")
     private List<MicroSkill> microSkills;
 
-    
+    @Transient
+    private Long professionId;
 }

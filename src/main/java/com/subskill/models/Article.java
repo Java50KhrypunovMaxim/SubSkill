@@ -26,10 +26,10 @@ public class Article {
 
     @Column(name = "textofarticle", nullable = false)
     private String textOfArticle;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "microskill_id")
-    private @NotNull(message = MISSING_ID_OF_SKILLS) Long microSkill;
+
+    @NotNull(message = MISSING_ID_OF_SKILLS)
+    @Column(name = "microskill_id")
+    private Long microSkill;
 
     public static Article of(ArticleDto articleDto) {
         Article article = new Article();

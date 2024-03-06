@@ -3,6 +3,7 @@ package com.subskill.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.subskill.dto.UserDto;
 import com.subskill.enums.Roles;
+import com.subskill.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "user_id", nullable = false, unique = true)
     private long id;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -37,8 +38,9 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "status", columnDefinition = "boolean default true")
-    private Boolean online;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status online;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -52,14 +54,14 @@ public class User {
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<SaveMicroskill> saveMicroskills;
+    private List<SaveMicroskill> saveMicroSkills;
 
     public static User of(UserDto userDto) {
         User user = new User();
         user.username = userDto.username();
         user.password = userDto.password();
         user.email = userDto.email();
-        user.online = true;
+        user.online = userDto.online();
         user.imageUrl = userDto.imageUrl();
         user.role = userDto.role();
         return user;

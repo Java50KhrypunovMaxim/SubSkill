@@ -3,10 +3,9 @@ package com.subskill.service;
 import com.subskill.dto.CartDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Roles;
+import com.subskill.enums.Status;
 import com.subskill.enums.Tags;
-import com.subskill.models.Cart;
-import com.subskill.models.MicroSkill;
-import com.subskill.models.User;
+import com.subskill.models.*;
 import com.subskill.repository.CartRepository;
 import com.subskill.repository.MicroSkillRepository;
 import com.subskill.repository.UserRepository;
@@ -27,10 +26,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,7 +35,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
-@Sql(scripts = {"classpath:cart.sql"})
+@Sql(scripts = {"classpath:data_for_the_database.sql"})
 public class SubSkillCartServiceTest {
     @Mock
     private CartRepository cartRepository;
@@ -114,7 +110,7 @@ private static final String USERNAME1 = "MAX";
             .username(USERNAME1)
             .email(EMAIL1)
             .password(PASSWORD1)
-            .online(true)
+            .online(Status.ONLINE)
             .imageUrl(IMAGEURL1)
             .role(Roles.USER)
             .build();
@@ -124,7 +120,7 @@ private static final String USERNAME1 = "MAX";
             .username(USERNAME2)
             .email(EMAIL2)
             .password(PASSWORD2)
-            .online(true)
+            .online(Status.ONLINE)
             .imageUrl(IMAGEURL2)
             .role(Roles.USER)
             .build();
@@ -134,30 +130,31 @@ private static final String USERNAME1 = "MAX";
             .username(USERNAME3)
             .email(EMAIL3)
             .password(PASSWORD3)
-            .online(true)
+            .online(Status.ONLINE)
             .imageUrl(IMAGEURL3)
             .role(Roles.USER)
             .build();
+
     MicroSkill microskill1 = MicroSkill.builder()
-            .id(1L)
-            .name("Java Programming")
-            .photo("https://example.com/java.jpg")
-            .creationDate(LocalDate.now())
+            .id(67L)
+            .name("Java Basics")
+            .photo("java.jpg")
+            .creationDate(LocalDate.of(2022, 1, 1))
             .description("Introduction to Java programming language")
-            .learningTime("20 hours")
+            .learningTime("2 weeks")
             .tags(List.of(Tags.DESIGN, Tags.BUSINESS))
-            .level(Level.ADVANCED)
+            .level(Level.BASIC)
             .rating(4.5)
-            .popularity(100.0)
-            .views(500)
-            .price(29.99)
+            .popularity(120.0)
+            .views(1500)
+            .price(19.99)
             .lessonCount(10)
-            .aboutSkill("This course covers basic Java programming concepts.")
-            .lastUpdateTime(LocalDateTime.now())
+            .aboutSkill("Learn the basics of Java programming language")
+            .lastUpdateTime(LocalDateTime.of(2022, 1, 31, 10, 15))
             .build();
 
     MicroSkill microskill2 = MicroSkill.builder()
-            .id(2L)
+            .id(68L)
             .name("Python Programming")
             .photo("https://example.com/python.jpg")
             .creationDate(LocalDate.now())
@@ -175,7 +172,7 @@ private static final String USERNAME1 = "MAX";
             .build();
 
     MicroSkill microskill3 = MicroSkill.builder()
-            .id(3L)
+            .id(69L)
             .name("Machine Learning")
             .photo("https://example.com/ml.jpg")
             .creationDate(LocalDate.now())
@@ -246,20 +243,27 @@ private static final String USERNAME1 = "MAX";
     @Test
     @DisplayName("Delete MicroSkill from Cart Test")
     void testDeleteMicroSkillFromCart() {
+        Profession profession = new Profession(89L, "DEVELOPMENT", new ArrayList<>());
+        Technology technology = new Technology(164L, "Java", profession, new ArrayList<>(), 89L);
+
         Cart cart = new Cart();
-        cart.setId(1L);
+        cart.setId(336L);
+
+        MicroSkill microskill1 = MicroSkill.builder()
+                .id(80L)
+                .cart(cart)
+                .build();
 
         Set<MicroSkill> microSkills = new HashSet<>();
         microSkills.add(microskill1);
         cart.setListOfMicroSkills(microSkills);
 
         when(cartRepository.findById(cart.getId())).thenReturn(Optional.of(cart));
+
         cartService.deleteMicroSkillFromCart(microskill1.getId());
 
         Optional<Cart> optionalCart = cartRepository.findById(cart.getId());
         assertTrue(optionalCart.isPresent(), "Cart not null");
-
-
-        assertTrue(cart.getListOfMicroSkills().contains(microskill1), "no microskill in cart");
+        assertFalse(optionalCart.get().getListOfMicroSkills().contains(microskill1), "Microskill still in cart");
     }
 }
