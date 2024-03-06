@@ -30,7 +30,6 @@ public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
 
     @Override
-    @Transactional
     public JwtResponse login(LoginDto request) {
         var user = userRepository.findByEmail(request.email()).orElseThrow(NoUserInRepositoryException::new);
         authenticationManager.authenticate(
@@ -44,7 +43,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
     public JwtResponse register(RegisteredUserDto registeredUserDto) {
         var user = User.builder()
                 .username(registeredUserDto.username())
