@@ -75,11 +75,12 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByPage(paging);
     }
-
-    //    @GetMapping("/all")
-//    public List<MicroSkill>  findAll(){
-//        return microSkillService.findAllMicroSkills();
-//    }
+  
+    @GetMapping("/all")
+    public List<MicroSkillDto>  findAll(){
+        return microSkillService.findAllMicroSkills();
+    }
+  
     @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
     List<MicroSkill> findTechnologyOfMicroSkill(@RequestParam String name) {
