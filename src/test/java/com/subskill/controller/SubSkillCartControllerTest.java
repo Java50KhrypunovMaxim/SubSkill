@@ -51,10 +51,9 @@ public class SubSkillCartControllerTest {
     @Autowired
     ObjectMapper mapper;
 
-    private static final long microSkillId = 1;
-    private static final long cartId = 2;
+    private static final long microSkillId = 10;
+    private static final long userId = 10;
     private static String authToken;
-
 
     @BeforeAll
     public static void setup() {
@@ -79,13 +78,18 @@ public class SubSkillCartControllerTest {
         assertEquals(jsonMicroSkillId, actualJSON);
     }
 
-//    @Test
-//    void deleteMicroSkillFromCart() throws Exception {
-//        when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
-//        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
-//
-//        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    void deleteMicroSkillFromCart() throws Exception {
+        mockMvc.perform(delete("http://localhost:8080/api/v1/cart/delete/" + microSkillId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void allMicroSkillsInCart() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/api/v1/cart/all/" + userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
+                .andExpect(status().isOk());
+    }
 }

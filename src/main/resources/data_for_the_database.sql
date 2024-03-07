@@ -21,37 +21,37 @@ FROM cart;
 
 
 
-CREATE SEQUENCE profession_id_seq START 10;
-CREATE SEQUENCE technology_id_seq START 10;
-CREATE SEQUENCE user_id_seq START 10;
-CREATE SEQUENCE cart_id_seq START 10;
-CREATE SEQUENCE micro_skill_id_seq START 10;
-CREATE SEQUENCE article_id_seq START 10;
-CREATE SEQUENCE review_id_seq START 10;
-CREATE SEQUENCE saved_microskill_id_seq START 10;
-CREATE SEQUENCE save_microskill_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS profession_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS technology_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS user_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS cart_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS micro_skill_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS article_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS review_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS saved_microskill_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS save_microskill_id_seq START 10;
 
 
-INSERT INTO professions (id, name)
+INSERT INTO professions (profession_id, name)
 VALUES (10, 'DEVELOPMENT'),
        (11, 'BUSINESS'),
        (12, 'IT_SOFTWARE'),
        (13, 'DESIGN');
 
-INSERT INTO technologies (id, profession_id, name)
+INSERT INTO technologies (technology_id, profession_id, name)
 VALUES (10, 10, 'Java'),
        (11, 10, 'Python'),
        (12, 11, 'React.js'),
        (13, 12, 'Data Science');
 
 
-INSERT INTO users (id, username, password, email, status, image_url, role)
+INSERT INTO users (user_id, username, password, email, status, image_url, role)
 VALUES (10, 'test_user', '$2a$12$X7yEccnTctNxzrsLI46Wn.U6zT7YZN9QaNheqpVHuYC9JXo2uL14a',
         'user1@example.com', 'ONLINE', 'user.jpg', 'USER'),
        (11, 'admin_user', '$2a$12$X7yEccnTctNxzrsLI46Wn.U6zT7YZN9QaNheqpVHuYC9JXo2uL14a',
         'admin@example.com', 'ONLINE', 'admin.jpg', 'ADMIN');
 
-INSERT INTO micro_skills (microskill_id, name, photo, creationDate, description, learning_time, level, rating,
+INSERT INTO micro_skills (microskill_id, name, photo, creation_date, description, learning_time, level, rating,
                           popularity, views, price, lesson_count, about_skill, last_update_time, technology_id)
 VALUES (10, 'Python Fundamentals', 'python.jpg', '2022-02-01',
         'Fundamental concepts of Python programming', '3 weeks', 'INTERMEDIATE', 4.2, 100.0, 2000, 29.99, 12,

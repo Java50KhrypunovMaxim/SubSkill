@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,20 +22,20 @@ public class CartController {
 
     @Operation(summary = "Add new MicroSkills to cart")
     @PostMapping("/add/{microSkillId}")
-    CartDto addMicroSkillToCart(@PathVariable long microSkillId) {
+    CartDto addMicroSkillToCart(@PathVariable Long microSkillId) {
         log.debug("Add MicroSkill to cart: received MicroSkill ID: {}", microSkillId);
         return cartService.addMicroSkillToCart(microSkillId);
     }
     @Operation(summary = "Remove MicroSkills from cart")
     @DeleteMapping("/delete/{microSkillId}")
-    void deleteMicroSkillFromCart(@PathVariable long microSkillId) {
+    void deleteMicroSkillFromCart(@PathVariable Long microSkillId) {
         log.debug("remove microSkill: remove cart microskill {} from data", microSkillId);
         cartService.deleteMicroSkillFromCart(microSkillId);
     }
     @Operation(summary = "List of MicroSkills in Cart")
-    @GetMapping("/all")
-    List<CartDto> listOMicroSkillInCart() {
+    @GetMapping("/all/{userId}")
+    CartDto listOMicroSkillInCart(@PathVariable Long userId) {
         log.debug("List of users have been received");
-        return cartService.allMicroSkillsInCart();
+        return cartService.allMicroSkillsInCart(userId);
     }
 }

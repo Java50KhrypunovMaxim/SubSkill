@@ -8,6 +8,7 @@ import com.subskill.models.Article;
 import com.subskill.repository.ArticleRepository;
 import com.subskill.service.ArticleService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,6 +25,8 @@ import com.subskill.dto.ArticleDto;
 public class ArticleServiceImplementation implements ArticleService {
 
     private final ArticleRepository articleRepository;
+
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -43,9 +46,8 @@ public class ArticleServiceImplementation implements ArticleService {
     @CachePut(value = "article", key = "#articleDto.articleName()", cacheManager = "objectCacheManager")
     public ArticleDto updateArticle(ArticleDto articleDto) {
         Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
-        article.setTextOfArticle(articleDto.textOfArticle());
-        article.setArticleName(articleDto.articleName());
-        article.setMicroSkill(articleDto.microskillId());
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.map(articleDto, article);
         log.debug("Article {} has been update", articleDto);
         return articleDto;
     }
@@ -58,7 +60,6 @@ public class ArticleServiceImplementation implements ArticleService {
         ArticleDto res = article.build();
         articleRepository.deleteById(article.getId());
         log.debug("article with name {} has been deleted", res.articleName());
-
     }
 
     @Override
@@ -70,7 +71,6 @@ public class ArticleServiceImplementation implements ArticleService {
                 .map(Article::build)
                 .toList();
         log.debug("All articles {}", articlesDto);
-
         return articlesDto;
     }
 }

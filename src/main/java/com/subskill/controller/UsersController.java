@@ -24,11 +24,7 @@ import static com.subskill.api.ValidationConstants.*;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class UsersController {
 
-
     private final UserService userService;
-
-
-
 
     @Operation(summary = "Update our User")
     @PutMapping("/update/{email}")
