@@ -23,7 +23,7 @@ public record UserDto (
 	String password,
 	
 	@NotNull (message= MISSING_STATUS_MESSAGE)
-	Status online,
+    Status online,
 	
 	@NotEmpty (message= MISSING_IMAGE_URL_MESSAGE)
 	String imageUrl,

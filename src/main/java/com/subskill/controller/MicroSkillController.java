@@ -75,10 +75,12 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByPage(paging);
     }
+  
     @GetMapping("/all")
     public List<MicroSkillDto>  findAll(){
         return microSkillService.findAllMicroSkills();
     }
+  
     @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
     List<MicroSkill> findTechnologyOfMicroSkill(@RequestParam String name) {
@@ -151,7 +153,7 @@ public class MicroSkillController {
     public List<MicroSkillDto> getTodayBestDeals() {
         return microSkillService.getBestDealsByToday();
     }
-    
+
     @Operation(summary = "Sort of MicroSkill by popularity")
     @GetMapping("/sortByPopularityMicroSkill")
     private List<MicroSkillDto> sortByPopularityMicroSkill() {

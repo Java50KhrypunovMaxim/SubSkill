@@ -42,7 +42,7 @@ import io.jsonwebtoken.security.Keys;
 @Import(ObjectMapperConfig.class)
 @AutoConfigureMockMvc
 public class SubSkillCartControllerTest {
-	@MockBean
+    @MockBean
     CartService cartService;
 
     @Autowired
@@ -50,42 +50,46 @@ public class SubSkillCartControllerTest {
 
     @Autowired
     ObjectMapper mapper;
-    
-    private static final long microSkillId = 1;
-    private static final long  cartId = 2;
+
+    private static final long microSkillId = 10;
+    private static final long userId = 10;
     private static String authToken;
-    
-    
-  @BeforeAll
-  public static void setup() {
-      LoginDto loginDto = new LoginDto("12345", "user@example.com");
-      authToken = Jwts.builder()
-              .setSubject(loginDto.email())
-              .setIssuedAt(new Date(System.currentTimeMillis()))
-              .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60L * 1000))
-              .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
-              .compact();
-  }
-    
-    @Test
-    void testAddMicroSkillToCart() throws Exception {
-    	    String jsonMicroSkillId = mapper.writeValueAsString(microSkillId);
-    	    String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/cart/add")
-    	            .contentType(MediaType.APPLICATION_JSON)
-    	            .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
-    	            .content(jsonMicroSkillId))
-    	            .andExpect(status().isOk())
-    	            .andReturn().getResponse().getContentAsString();
-    	    assertEquals(jsonMicroSkillId, actualJSON);
+
+    @BeforeAll
+    public static void setup() {
+        LoginDto loginDto = new LoginDto("12345", "user@example.com");
+        authToken = Jwts.builder()
+                .setSubject(loginDto.email())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60L * 1000))
+                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
+                .compact();
     }
 
-//    @Test
-//    void deleteMicroSkillFromCart() throws Exception {
-//        when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
-//        doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
-//
-//        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    void testAddMicroSkillToCart() throws Exception {
+        String jsonMicroSkillId = mapper.writeValueAsString(microSkillId);
+        String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/cart/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
+                        .content(jsonMicroSkillId))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertEquals(jsonMicroSkillId, actualJSON);
+    }
+
+    @Test
+    void deleteMicroSkillFromCart() throws Exception {
+        mockMvc.perform(delete("http://localhost:8080/api/v1/cart/delete/" + microSkillId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void allMicroSkillsInCart() throws Exception {
+        mockMvc.perform(post("http://localhost:8080/api/v1/cart/all/" + userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
+                .andExpect(status().isOk());
+    }
 }

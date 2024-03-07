@@ -47,7 +47,7 @@ public interface ValidationConstants {
     String PROFESSION_ID_MISSING = "Missing profession id";
     String MISSING_TECHNOLOGY_NAME_MESSAGE = "Missing technology name";
     String MISSING_PROFESSION_MESSAGE = "Missing profession";
-    String MISSING_MICROSKILLS_MESSAGE= "Missing microskill";
+    String MISSING_MICROSKILLS_MESSAGE = "Missing microskill";
     
     
 }

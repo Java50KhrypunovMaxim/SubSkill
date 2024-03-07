@@ -33,7 +33,7 @@ public class ReviewServiceImplementation implements ReviewService {
     @CachePut(value = "review", key = "#reviewDto.id")
     public ReviewDto addReview(ReviewDto reviewDto) {
         Review review = modelMapper.map(reviewDto, Review.class);
-        if(review.getRating() != null){
+        if (review.getRating() != null) {
             reviewRepo.save(review);
             log.debug("Review {} has been saved", reviewDto);
             updateMicroSkillAverageRating(review.getMicroSkill());

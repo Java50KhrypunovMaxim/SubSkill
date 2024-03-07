@@ -12,6 +12,6 @@ public interface TechnologyService {
 
 
     Technology getByID(long technology_id);
-	
-	List <TechnologyDto> getByProfessionName(String name);
+
+    List<TechnologyDto> getByProfessionName(String name);
 }

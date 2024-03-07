@@ -33,7 +33,9 @@ public interface MicroSkillService {
     Page<MicroSkill> findMicroSkillByPage(Pageable paging);
 
     long getViewsCount(long microskillId);
+
     List<MicroSkillDto> sortByPopularityMicroSkill();
+
     MicroSkill findMicroSkillPopularity(long microskillId);
 
     MicroSkill findMicroSkill(long microskillId);

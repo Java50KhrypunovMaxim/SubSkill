@@ -43,32 +43,30 @@ import com.subskill.service.ReviewService;
 @Import(ObjectMapperConfig.class)
 @SpringBootTest(classes = {ReviewController.class})
 class SubSkillReviewControllerTest {
-//
-//    @MockBean
-//    ReviewService reviewService;
-//
-//    @Autowired
-//    MockMvc mockMvc;
-//
-//    @Autowired
-//    ObjectMapper mapper;
-//
-//    private static final String TEXT1 = "Rambo";
-//    private static String authToken;
-//
-//    ReviewDto reviewDto = new ReviewDto(1L, TEXT1, 4.5, new MicroSkillDto(), new UserDto());
-//
-//    @BeforeAll
-//    public static void setup() {
-//        LoginDto loginDto = new LoginDto("12345", "user@example.com");
-//        authToken = Jwts.builder()
-//                .setSubject(loginDto.email())
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60L * 1000))
-//                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
-//                .compact();
-//    }
-//
+
+    @MockBean
+    ReviewService reviewService;
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper mapper;
+
+    private static final String TEXT1 = "Rambo";
+    private static String authToken;
+
+    @BeforeAll
+    public static void setup() {
+        LoginDto loginDto = new LoginDto("12345", "user@example.com");
+        authToken = Jwts.builder()
+                .setSubject(loginDto.email())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 60L * 1000))
+                .signWith(Keys.secretKeyFor(SignatureAlgorithm.HS256))
+                .compact();
+    }
+
 //    @Test
 //    void testAddReview() throws Exception {
 //        when(reviewService.addReview(reviewDto)).thenReturn(reviewDto);
@@ -85,17 +83,17 @@ class SubSkillReviewControllerTest {
 //
 //        assertEquals(jsonReviewDto, actualJSON);
 //    }
-//
-//    @Test
-//    void testDeleteReview() throws Exception {
-//        long id = 5;
-//        doNothing().when(reviewService).deleteReview(id);
-//        mockMvc.perform(delete("/api/v1/review/delete/" + id)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
-//                .andExpect(status().isOk());
-//    }
-//
+
+    @Test
+    void testDeleteReview() throws Exception {
+        long id = 5;
+        doNothing().when(reviewService).deleteReview(id);
+        mockMvc.perform(delete("/api/v1/review/delete/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
+                .andExpect(status().isOk());
+    }
+
 //    @Test
 //    void testFindByMicroSkillName() throws Exception {
 //        List<Review> expectedReview = new ArrayList<>(List.of(Review.of(reviewDto)));

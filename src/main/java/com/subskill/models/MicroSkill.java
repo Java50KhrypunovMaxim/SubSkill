@@ -107,11 +107,11 @@ public class MicroSkill {
         microSkill.price = microSkillDto.price();
         return microSkill;
     }
-    
+
     public MicroSkillDto build() {
-        return new MicroSkillDto(name, description, photo, learningTime, 
-        		tags, price, lastUpdateTime, creationDate, 
-        		aboutSkill, level, articles, technology.getId());
+        return new MicroSkillDto(name, description, photo, learningTime,
+                tags, price, lastUpdateTime, creationDate,
+                aboutSkill, level, articles, technology.getId());
     }
 
     public Double calculateAverageRating() {

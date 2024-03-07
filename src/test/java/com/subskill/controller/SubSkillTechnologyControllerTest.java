@@ -78,7 +78,7 @@ public class SubSkillTechnologyControllerTest {
     @Test
     void testGetTechnologyById() throws Exception {
         Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1,
-                new Profession(), microSkillRepository.findByViews(76766L),1L);
+                new Profession(), microSkillRepository.findByViews(76766L), 1L);
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologyService.getByID(TECHNOLOGY_ID_1)).thenReturn(expectedTechnology);
         String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1))
@@ -93,7 +93,7 @@ public class SubSkillTechnologyControllerTest {
     @Test
     void testGetTechnologyByName() throws Exception {
 
-        Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766L),1L);
+        Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766L), 1L);
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologyService.getByName(TECHNOLOGY_NAME_1)).thenReturn(expectedTechnology);
         String actualJSON = mockMvc.perform(get("/api/v1/technology/name/" + TECHNOLOGY_NAME_1).contentType(MediaType.APPLICATION_JSON))

@@ -44,9 +44,9 @@ class SubSkillUserServiceTest {
 	private static final String IMAGEURL2 = "https://example.com/image2.jpg";
 	private static final String IMAGEURL3 = "https://example.com/image3.jpg";
 
-	UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, IMAGEURL1, Roles.USER);
-	UserDto userDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD2, Status.ONLINE, IMAGEURL2, Roles.USER);
-	UserDto userDto3 = new UserDto(USERNAME3, EMAIL3, PASSWORD3, Status.ONLINE, IMAGEURL3, Roles.USER);
+    UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, IMAGEURL1, Roles.USER);
+    UserDto userDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD2, Status.ONLINE, IMAGEURL2, Roles.USER);
+    UserDto userDto3 = new UserDto(USERNAME3, EMAIL3, PASSWORD3, Status.ONLINE, IMAGEURL3, Roles.USER);
 
 	public static final List<String> ALLUSERS = Arrays.asList("user1@example.com", "user2@example.com",
 			"user3@example.com", "user4@example.com", "user5@example.com");

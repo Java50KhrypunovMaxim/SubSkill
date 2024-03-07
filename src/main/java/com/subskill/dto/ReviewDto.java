@@ -18,15 +18,15 @@ public record ReviewDto(
 		String text,
 		
 		@NotNull(message = MISSING_RATING_MESSAGE)
-		@Min(value = 1, message = MIN_RATING)
-		@Max(value = 5, message = MAX_RATING)
+        @Min(value = 1, message = MIN_RATING)
+        @Max(value = 5, message = MAX_RATING)
 		Double rating,
 		
 		@NotNull(message = MISSING_MICRO_SKILLS_MESSAGE)
-		MicroSkillDto microSkillDto,
+        MicroSkillDto microSkillDto,
 		
 		@NotNull(message = MISSING_USER_MESSAGE)
-		UserDto userDto
+        UserDto userDto
 		
 	) {
 

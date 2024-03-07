@@ -16,7 +16,7 @@ public record ArticleDto (
 		String textOfArticle,
 
 		@NotNull(message = MISSING_ID_OF_SKILLS)
-		long microskillId )
+        long microskillId)
 	
 	{
 		@Override
