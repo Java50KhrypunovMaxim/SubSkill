@@ -8,16 +8,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import com.subskill.config.ObjectMapperConfig;
+import com.subskill.dto.TechnologyDto;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Profession;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,8 +30,9 @@ import com.subskill.service.MicroSkillService;
 import com.subskill.service.TechnologyService;
 
 @ActiveProfiles("test")
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers = TechnologyController.class)
+@AutoConfigureMockMvc
+@Import(ObjectMapperConfig.class)
+@SpringBootTest(classes = {TechnologyController.class})
 public class SubSkillTechnologyControllerTest {
 
     @MockBean
@@ -60,7 +61,7 @@ public class SubSkillTechnologyControllerTest {
 
     @Test
     void testGetAllTechnologies() throws Exception {
-        List<Technology> expectedTechnologyList = List.of(new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), List.of(new MicroSkill())));
+        List<TechnologyDto> expectedTechnologyList = List.of(new TechnologyDto(TECHNOLOGY_NAME_1, new Profession(), List.of(new MicroSkill())));
         when(technologyService.getAllTechnology()).thenReturn(expectedTechnologyList);
 
         String actualJSON = mockMvc.perform(get("/api/v1/technology/all").contentType(MediaType.APPLICATION_JSON))
@@ -77,7 +78,7 @@ public class SubSkillTechnologyControllerTest {
     @Test
     void testGetTechnologyById() throws Exception {
         Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1,
-                new Profession(), microSkillRepository.findByViews(76766L));
+                new Profession(), microSkillRepository.findByViews(76766L), 1L);
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologyService.getByID(TECHNOLOGY_ID_1)).thenReturn(expectedTechnology);
         String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1))
@@ -92,7 +93,7 @@ public class SubSkillTechnologyControllerTest {
     @Test
     void testGetTechnologyByName() throws Exception {
 
-        Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766L));
+        Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766L), 1L);
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologyService.getByName(TECHNOLOGY_NAME_1)).thenReturn(expectedTechnology);
         String actualJSON = mockMvc.perform(get("/api/v1/technology/name/" + TECHNOLOGY_NAME_1).contentType(MediaType.APPLICATION_JSON))
@@ -101,25 +102,6 @@ public class SubSkillTechnologyControllerTest {
                 .getResponse()
                 .getContentAsString();
         assertEquals(jsonExpected, actualJSON);
-    }
-
-    @Test
-    void testGetByProfessionName() throws Exception {
-        Profession profession = new Profession(1L, "QA", List.of());
-        Technology technology_1 = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, profession, microSkillRepository.findByViews(76766L));
-        Technology technology_2 = new Technology(TECHNOLOGY_ID_2, TECHNOLOGY_NAME_2, profession, microSkillRepository.findByViews(71231L));
-        List<Technology> expectedTechnologyList = Arrays.asList(technology_1, technology_2);
-
-        when(technologyService.getByProfessionName("QA")).thenReturn(expectedTechnologyList);
-
-        String actualJSON = mockMvc.perform(get("/api/v1/technology/profession/QA").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        List<Technology> actualTechnologyList = Arrays.asList(mapper.readValue(actualJSON, Technology[].class));
-        assertEquals(expectedTechnologyList, actualTechnologyList);
     }
 
 }

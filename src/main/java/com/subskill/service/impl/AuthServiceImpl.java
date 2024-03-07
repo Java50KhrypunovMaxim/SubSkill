@@ -4,6 +4,7 @@ import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.enums.Roles;
+import com.subskill.enums.Status;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
@@ -30,7 +31,6 @@ public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
 
     @Override
-    @Transactional
     public JwtResponse login(LoginDto request) {
         var user = userRepository.findByEmail(request.email()).orElseThrow(NoUserInRepositoryException::new);
         authenticationManager.authenticate(
@@ -44,7 +44,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
     public JwtResponse register(RegisteredUserDto registeredUserDto) {
         var user = User.builder()
                 .username(registeredUserDto.username())
@@ -52,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(registeredUserDto.password()))
                 .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
-                .online(true)
+                .online(Status.ONLINE)
                 .build();
         userRepository.save(user);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));

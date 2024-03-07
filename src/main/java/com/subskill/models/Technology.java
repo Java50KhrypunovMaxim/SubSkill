@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.subskill.dto.ArticleDto;
+import com.subskill.dto.TechnologyDto;
+
 @Data
 @Getter
 @AllArgsConstructor
@@ -18,7 +21,7 @@ public class Technology {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "technology_id")
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -29,7 +32,21 @@ public class Technology {
     private Profession profession;
 
     @OneToMany(mappedBy = "technology")
-    @Column(name = "microSkills", nullable = false)
+    @Column(name = "micro_skills")
     private List<MicroSkill> microSkills;
-    
+
+    @Transient
+    private Long professionId;
+
+    public static Technology of(TechnologyDto technologyDto) {
+        Technology technology = new Technology();
+        technology.name = technologyDto.name();
+        technology.profession = technologyDto.profession();
+        technology.microSkills = technologyDto.microSkills();
+        return technology;
+    }
+
+    public TechnologyDto build() {
+        return new TechnologyDto(name, profession, microSkills);
+    }
 }

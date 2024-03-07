@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.subskill.service.ReviewService;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,18 +26,22 @@ public class ReviewServiceImplementation implements ReviewService {
 
     private final ReviewRepository reviewRepo;
     private final MicroSkillRepository microSkillRepo;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     @CachePut(value = "review", key = "#reviewDto.id")
     public ReviewDto addReview(ReviewDto reviewDto) {
-        Review review = Review.of(reviewDto);
-        reviewRepo.save(review);
-        log.debug("Review {} has been saved", reviewDto);
-        updateMicroSkillAverageRating(review.getMicroSkill());
+        Review review = modelMapper.map(reviewDto, Review.class);
+        if (review.getRating() != null) {
+            reviewRepo.save(review);
+            log.debug("Review {} has been saved", reviewDto);
+            updateMicroSkillAverageRating(review.getMicroSkill());
+            reviewDto = modelMapper.map(review, ReviewDto.class);
+        }
+
         return reviewDto;
     }
-
     @Override
     @Transactional
     @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
@@ -47,16 +52,20 @@ public class ReviewServiceImplementation implements ReviewService {
         updateMicroSkillAverageRating(review.getMicroSkill());
     }
 
-    @Transactional(readOnly = true)
+    @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
     @Override
-    @Cacheable(value = "reviews", key = "#microSkillName")
-    public List<Review> findByMicroSkillName(String microSkillName) {
-        List<Review> technology = reviewRepo.findByMicroSkillName(microSkillName);
-        log.debug("All reviews  for {} ", microSkillName);
-        return Optional.of(technology)
-                .filter(list -> !list.isEmpty())
-                .orElseThrow(ReviewNotFoundException::new);
+    @Transactional(readOnly = true)
+    public List<ReviewDto> findByMicroSkillName(String microSkillName) {
+        List<Review> reviews = reviewRepo.findByMicroSkillName(microSkillName);
+        log.debug("All reviews for micro skill: {}", microSkillName);
+        if (reviews.isEmpty()) {
+            throw new ReviewNotFoundException();
+        }
+        return reviews.stream()
+                .map(review -> modelMapper.map(review, ReviewDto.class))
+                .toList();
     }
+
 
     @Transactional
     public void updateMicroSkillAverageRating(MicroSkill microSkill) {

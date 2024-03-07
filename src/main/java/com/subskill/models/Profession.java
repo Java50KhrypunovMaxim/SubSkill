@@ -18,7 +18,7 @@ public class Profession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "profession_id")
     private Long id;
 
     @Column(name = "name", nullable = false)

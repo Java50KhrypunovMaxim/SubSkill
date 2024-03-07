@@ -27,9 +27,9 @@ public class CartController {
     }
     @Operation(summary = "Remove MicroSkills from cart")
     @DeleteMapping("/delete/{microSkillId}")
-    void deleteMicroSkillFromCart(@PathVariable  long cartId) {
-        log.debug("remove microSkill: remove cart microskill {} from data", cartId);
-         cartService.deleteMicroSkillFromCart(cartId);
+    void deleteMicroSkillFromCart(@PathVariable long microSkillId) {
+        log.debug("remove microSkill: remove cart microskill {} from data", microSkillId);
+        cartService.deleteMicroSkillFromCart(microSkillId);
     }
     @Operation(summary = "List of MicroSkills in Cart")
     @GetMapping("/all")

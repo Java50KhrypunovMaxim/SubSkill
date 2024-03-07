@@ -1,7 +1,9 @@
 package com.subskill.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.subskill.dto.ArticleDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.UserDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
@@ -12,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -24,7 +27,7 @@ public class MicroSkill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "microskill_id", nullable = false, unique = true)
+    @Column(name = "microskill_id")
     private Long id;
 
     @Column(name = "name")
@@ -55,20 +58,20 @@ public class MicroSkill {
     private Level level;
 
     @Column(name = "rating")
-    private double rating;
+    private Double rating;
 
     @Column(name = "popularity")
     @ColumnDefault("0.0")
-    private double popularity;
+    private Double popularity;
 
     @Column(name = "views")
-    private int views;
+    private Integer views;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
 
     @Column(name = "lessonCount")
-    private int lessonCount;
+    private Integer lessonCount;
 
     @Column(name = "aboutSkill")
     private String aboutSkill;
@@ -105,7 +108,13 @@ public class MicroSkill {
         return microSkill;
     }
 
-    public double calculateAverageRating() {
+    public MicroSkillDto build() {
+        return new MicroSkillDto(name, description, photo, learningTime,
+                tags, price, lastUpdateTime, creationDate,
+                aboutSkill, level, articles, technology.getId());
+    }
+
+    public Double calculateAverageRating() {
         if (reviews.isEmpty()) {
             return 0.0;
         }

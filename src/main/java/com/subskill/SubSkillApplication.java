@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@EnableCaching
 public class SubSkillApplication {
 
     public static void main(String[] args) {

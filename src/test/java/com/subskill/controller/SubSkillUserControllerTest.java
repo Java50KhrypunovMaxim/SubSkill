@@ -1,12 +1,12 @@
 package com.subskill.controller;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import com.subskill.config.ObjectMapperConfig;
+import com.subskill.enums.Status;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 import static org.mockito.Mockito.doNothing;
@@ -30,8 +30,9 @@ import com.subskill.service.UserService;
 import java.util.List;
 
 @ActiveProfiles("test")
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers = UsersController.class)
+@AutoConfigureMockMvc
+@Import(ObjectMapperConfig.class)
+@SpringBootTest(classes = {UsersController.class})
 class SubSkillUserControllerTest {
 
     @MockBean
@@ -60,9 +61,9 @@ class SubSkillUserControllerTest {
     private static final String IMAGEURLl = "https://example.com/image1.jpg";
     private static final String IMAGEURL2 = "https://example.com/image2.jpg";
 
-    UserDto userDto1 = new UserDto(USERNAME1,EMAIL1, PASSWORD1, true, "", Roles.USER);
-    UserDto userDtoUpdated = new UserDto(USERNAME1, EMAIL1,PASSWORD1, true, "", Roles.USER);
-    UserDto changePasswordUserDto2 = new UserDto(USERNAME2,EMAIL2, PASSWORD3, true, "", Roles.USER);
+    UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, "", Roles.USER);
+    UserDto userDtoUpdated = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, "", Roles.USER);
+    UserDto changePasswordUserDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD3, Status.ONLINE, "", Roles.USER);
 
 //    @Test
 //    void testRegisterUser() throws Exception {

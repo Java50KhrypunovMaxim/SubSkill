@@ -9,6 +9,7 @@ import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
+import com.subskill.service.TechnologyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,6 @@ import java.util.List;
 public class MicroSkillController {
 
     private final MicroSkillService microSkillService;
-    private final TechnologyRepository technologyRepository;
 
     @Operation(summary = "Add new MicroSkill card")
     @PostMapping("/add")
@@ -63,7 +63,7 @@ public class MicroSkillController {
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")
-    @GetMapping("/all")
+    @GetMapping("/findSixPages")
     public Page<MicroSkill> getAllMicroSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
@@ -76,11 +76,15 @@ public class MicroSkillController {
         return microSkillService.findMicroSkillByPage(paging);
     }
 
+    //    @GetMapping("/all")
+//    public List<MicroSkill>  findAll(){
+//        return microSkillService.findAllMicroSkills();
+//    }
     @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
-    private List<Technology> findByProfessionName(@RequestParam String name) {
+    List<MicroSkill> findTechnologyOfMicroSkill(@RequestParam String name) {
         log.info("We get technology microskill: ");
-        return technologyRepository.findByProfessionName(name);
+        return microSkillService.findTechnology(name);
     }
 
     @GetMapping("/byRating")
@@ -131,22 +135,28 @@ public class MicroSkillController {
     }
 
     @Operation(summary = "Find MicroSkill by level")
-    @GetMapping("find-by-level")
-    public MicroSkillDto findMicroSkillByLevel(@RequestParam Level level) {
+    @GetMapping("/find-by-level")
+    public List<MicroSkillDto> findMicroSkillByLevel(@RequestParam Level level) {
         log.debug("finding level {} of MicroSkill", level);
         return microSkillService.findLevelFromMicroSkill(level);
     }
 
     @Operation(summary = "Find MicroSkill by tag")
-    @GetMapping("find-by-tags")
-    public MicroSkillDto findMicroSkillByTag(@RequestParam Tags tags) {
+    @GetMapping("/find-by-tags")
+    public List<MicroSkillDto> findMicroSkillByTag(@RequestParam Tags tags) {
         log.debug("finding tags {} of MicroSkill", tags);
-        return microSkillService.findTagFromMicroSkill(tags);
+        return microSkillService.findMicroSkillByTag(tags);
     }
     @Operation(summary = "Get top MicroSkill deals")
-    @GetMapping("get-today-deals")
-    public MicroSkillDto getTodayBestDeals(@RequestBody MicroSkillDto microSkillDto) {
-        log.debug("get best deals of {}  ", microSkillDto);
-        return microSkillService.getBestDealsByToday(microSkillDto);
+    @GetMapping("/get-today-deals")
+    public List<MicroSkillDto> getTodayBestDeals() {
+        return microSkillService.getBestDealsByToday();
+    }
+
+    @Operation(summary = "Sort of MicroSkill by popularity")
+    @GetMapping("/sortByPopularityMicroSkill")
+    private List<MicroSkillDto> sortByPopularityMicroSkill() {
+        log.info("We have sorted microSkills by popularity ");
+        return microSkillService.sortByPopularityMicroSkill();
     }
 }

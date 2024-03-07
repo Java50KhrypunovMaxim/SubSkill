@@ -4,6 +4,8 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
+
+import com.subskill.dto.TechnologyDto;
 import com.subskill.models.Technology;
 import com.subskill.service.TechnologyService;
 
@@ -37,14 +39,14 @@ public class TechnologyController {
 
     @Operation(summary = "List of technologys for MicroSkill")
     @GetMapping("/all")
-    List<Technology> listOfTechnology() {
+    List<TechnologyDto> listOfTechnology() {
         log.debug("List of technologies have been received");
         return technologyService.getAllTechnology();
     }
 
     @GetMapping("/profession/{name}")
-    List<Technology> getByProfessionName(@PathVariable String name) {
-        log.debug("List of technologies by profession name have been received", name);
+    List<TechnologyDto> getByProfessionName(@PathVariable String name) {
+        log.debug("List of technologies by profession name {} have been received", name);
         return technologyService.getByProfessionName(name);
     }
 

@@ -4,13 +4,12 @@ import static com.subskill.api.ValidationConstants.*;
 
 import java.util.List;
 
+import com.subskill.dto.MicroSkillDto;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.subskill.dto.ReviewDto;
-import com.subskill.models.Review;
 import com.subskill.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +38,9 @@ public class ReviewController {
     }
 
     @Operation(summary = "Find list of reviews based on microSkillName")
-    @GetMapping("/find-by-name/{name}")
-    List<Review> findByMicroSkillName(@PathVariable String name) {
-        log.debug("List of Review: received by microSkillName {}", name);
-        return reviewService.findByMicroSkillName(name);
+    @GetMapping("/find-by-name/{microSkillDtoName}")
+    List<ReviewDto> findByMicroSkillName(@PathVariable String microSkillDtoName) {
+        log.debug("List of Review: received by microSkillName {}", microSkillDtoName);
+        return reviewService.findByMicroSkillName(microSkillDtoName);
     }
 }

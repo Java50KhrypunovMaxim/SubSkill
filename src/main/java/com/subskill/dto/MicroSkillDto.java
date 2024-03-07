@@ -2,6 +2,8 @@ package com.subskill.dto;
 
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
+import com.subskill.models.Article;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -35,9 +37,9 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
                             Level level,
                             @NotNull(message = MISSING_ARTICLE_NAME_MESSAGE)
-                            List<ArticleDto> articles,
+                            List<Article> articles,
                             @NotNull(message = TECHNOLOGY_ID_MISSING)
-                            @Min(value = 1)
+                            @Min(value = 1, message = TECHNOLOGY_MISSING)
                             Long technologyId
 ) {
 

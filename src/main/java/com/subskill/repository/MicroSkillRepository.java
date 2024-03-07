@@ -1,6 +1,5 @@
 package com.subskill.repository;
 
-import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import com.subskill.models.MicroSkill;
@@ -17,11 +16,16 @@ import java.util.Optional;
 public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
     Optional<MicroSkill> findById(Long id);
 
-    Optional<MicroSkillDto> findByLevel(Level level);
+    List<MicroSkill> findByLevel(Level level);
 
-    Optional<MicroSkillDto> findByTags(Tags tags);
+
+    List<MicroSkill> findByTags(Tags tags);
+
+    List<MicroSkill> findByTechnologyName(String name);
 
     Page<MicroSkill> findAll(Pageable pageable);
+
+    List<MicroSkill> findAll();
 
     Page<MicroSkill> findByName(String name, Pageable pageable);
 

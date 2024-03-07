@@ -1,7 +1,5 @@
 package com.subskill.models;
 
-import com.subskill.dto.ReviewDto;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,19 +31,5 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public static Review of(ReviewDto reviewDto) {
-        Review review = new Review();
-        review.id = reviewDto.id();
-        review.text = reviewDto.text();
-        review.rating = reviewDto.rating();
-        review.microSkill = reviewDto.microSkill();
-        review.user = reviewDto.user();
-        return review;
-    }
-
-    public ReviewDto build() {
-        return new ReviewDto(id, text, rating, microSkill, user);
-    }
-
 }
+

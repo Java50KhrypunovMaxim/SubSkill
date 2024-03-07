@@ -26,6 +26,7 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_RATING_MESSAGE = "Missing rating in microsskill";
     String MISSING_MICROSKILL_PHOTO_MESSAGE = "Missing photo in microskill";
     String TECHNOLOGY_ID_MISSING = "Missing technology id";
+    String TECHNOLOGY_MISSING = "Missing technology";
     String MISSING_MICROSKILL_DESCRIPTION_MESSAGE = "Missing destription ";
     String MISSING_MICROSKILL_LEVEL_MESSAGE = "Missing Level message";
     String MISSING_MICROSKILL_TAGS_MESSAGE = "Missing tag message";
@@ -40,9 +41,14 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_CREATION_DATE = "Missing creation date for microSkill";
     String MISSING_MICROSKILL_ABOUT_SKILL = "Missing aboutSkill";
     String MISSING_MICROSKILL_LAST_UPDATE_TIME = "Missing last updated time";
-    String MIN_RARING = "Rating should be at least 1";
-    String MAX_RARING = "Rating should be at most 5";
+    String MIN_RATING = "Rating should be at least 1";
+    String MAX_RATING = "Rating should be at most 5";
     String PROFESSION_NAME_MISSING = "Missing profession name";
     String PROFESSION_ID_MISSING = "Missing profession id";
+    String MISSING_TECHNOLOGY_NAME_MESSAGE = "Missing technology name";
+    String MISSING_PROFESSION_MESSAGE = "Missing profession";
+    String MISSING_MICROSKILLS_MESSAGE = "Missing microskill";
+    
+    
 }
 

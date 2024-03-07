@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,32 +36,39 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @CachePut(value = "cart", key = "#microSkillId")
     public CartDto addMicroSkillToCart(long microSkillId) {
-        long userId = userService.getAuthenticatedUser().getId();
-        MicroSkill microSkill = microSkillRepository.findById(microSkillId)
-                .orElseThrow(MicroSkillNotFoundException::new);
-        Cart cart = cartRepository.findByUserId(userId)
-                .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    newCart.setUserId(userId);
-                    return cartRepository.save(newCart);
-                });
-        cart.getListOfMicroSkills().add(microSkill);
-        cartRepository.save(cart);
-        return modelMapper.map(cart, CartDto.class);
+        try {
+            long userId = userService.getAuthenticatedUser().getId();
+            MicroSkill microSkill = microSkillRepository.findById(microSkillId)
+                    .orElseThrow(MicroSkillNotFoundException::new);
+            Cart cart = cartRepository.findByUserId(userId)
+                    .orElseGet(() -> {
+                        Cart newCart = new Cart();
+                        newCart.setUserId(userId);
+                        return cartRepository.save(newCart);
+                    });
+            cart.getListOfMicroSkills().add(microSkill);
+            cartRepository.save(cart);
+            return modelMapper.map(cart, CartDto.class);
+        } catch (UsernameNotFoundException e) {
+            e.getStackTrace();
+
+        }
+        return new CartDto(1L, List.of());
     }
 
+
+    @CacheEvict(value = "cart", key = "#microSkillId", cacheManager = "objectCacheManager")
     @Override
     @Transactional
-    @CacheEvict(value = "cart", key = "#cartId", cacheManager = "objectCacheManager")
-    public void deleteMicroSkillFromCart(long cartId) {
-        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+    public void deleteMicroSkillFromCart(long microSkillId) {
+        Optional<Cart> cartOptional = cartRepository.findBMicroSkillById(microSkillId);
         if (cartOptional.isPresent()) {
             Cart cart = cartOptional.get();
             Set<MicroSkill> listOfMicroSkills = cart.getListOfMicroSkills();
             Iterator<MicroSkill> iterator = listOfMicroSkills.iterator();
             while (iterator.hasNext()) {
                 MicroSkill microSkill = iterator.next();
-                if (microSkill.getId() == cartId) {
+                if (microSkill.getId() == microSkillId) {
                     iterator.remove();
                     break;
                 }
@@ -70,6 +78,7 @@ public class CartServiceImpl implements CartService {
         }
 
     }
+
 
     @Transactional(readOnly = true)
     @Override
