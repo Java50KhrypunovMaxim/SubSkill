@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.subskill.dto.MicroSkillDto;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.SaveMicroskill;
 import com.subskill.service.SavedMicroskillService;
@@ -41,7 +43,7 @@ public class SaveMicroSkillController {
     
     @Operation(summary = "List of MicroSkills of User")
     @GetMapping("/all")
-    Set<MicroSkill> allMicroSkillsOfUser(@PathVariable long userId) {
+    Set<MicroSkillDto> allMicroSkillsOfUser(@PathVariable long userId) {
         log.debug("List of microslills of user id{}", userId);
         return savedMicroskillService.allMicroSkillsOfUser(userId);
     }

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.subskill.dto.ArticleDto;
+import com.subskill.dto.TechnologyDto;
+
 @Data
 @Getter
 @AllArgsConstructor
@@ -34,4 +37,16 @@ public class Technology {
 
     @Transient
     private Long professionId;
+    
+    public static Technology of(TechnologyDto technologyDto) {
+    	Technology technology = new Technology();
+    	technology.name = technologyDto.name();
+        technology.profession = technologyDto.profession();
+        technology.microSkills = technologyDto.microSkills();
+        return technology;
+    }
+
+    public TechnologyDto build() {
+        return new TechnologyDto (name, profession, microSkills);
+    }
 }

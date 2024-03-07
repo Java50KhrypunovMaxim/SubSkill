@@ -45,5 +45,10 @@ public interface ValidationConstants {
     String MAX_RATING = "Rating should be at most 5";
     String PROFESSION_NAME_MISSING = "Missing profession name";
     String PROFESSION_ID_MISSING = "Missing profession id";
+    String MISSING_TECHNOLOGY_NAME_MESSAGE = "Missing technology name";
+    String MISSING_PROFESSION_MESSAGE = "Missing profession";
+    String MISSING_MICROSKILLS_MESSAGE= "Missing microskill";
+    
+    
 }
 

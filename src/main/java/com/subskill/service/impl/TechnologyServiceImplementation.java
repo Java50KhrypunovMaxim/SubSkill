@@ -2,12 +2,15 @@ package com.subskill.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.subskill.service.TechnologyService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.subskill.dto.TechnologyDto;
 import com.subskill.exception.TechnologyNotFoundException;
+import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
 
@@ -25,9 +28,10 @@ public class TechnologyServiceImplementation implements TechnologyService {
     @Transactional(readOnly = true)
     @Override
     @Cacheable(value = "technologies")
-    public List<Technology> getAllTechnology() {
+    public List<TechnologyDto> getAllTechnology() {
         log.debug("All technologies");
-        return technologyRepository.findAll();
+        return technologyRepository.findAll().stream().map(Technology::build)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -49,12 +53,11 @@ public class TechnologyServiceImplementation implements TechnologyService {
     @Transactional(readOnly = true)
     @Override
     @Cacheable(value = "technologies", key = "#name")
-    public List<Technology> getByProfessionName(String name) {
+    public List<TechnologyDto> getByProfessionName(String name) {
         List<Technology> technology = technologyRepository.findByProfessionName(name);
         log.debug("All technology {} for profession", name);
-        return Optional.of(technology)
-                .filter(list -> !list.isEmpty())
-                .orElseThrow(TechnologyNotFoundException::new);
+        return technology.stream().map(Technology::build)
+                .collect(Collectors.toList());
     }
 
 

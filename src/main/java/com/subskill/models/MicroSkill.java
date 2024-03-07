@@ -1,7 +1,9 @@
 package com.subskill.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.subskill.dto.ArticleDto;
 import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.UserDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
@@ -12,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -103,6 +106,12 @@ public class MicroSkill {
         microSkill.level = microSkillDto.level();
         microSkill.price = microSkillDto.price();
         return microSkill;
+    }
+    
+    public MicroSkillDto build() {
+        return new MicroSkillDto(name, description, photo, learningTime, 
+        		tags, price, lastUpdateTime, creationDate, 
+        		aboutSkill, level, articles, technology.getId());
     }
 
     public Double calculateAverageRating() {

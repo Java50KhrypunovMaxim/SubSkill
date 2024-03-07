@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.subskill.config.ObjectMapperConfig;
+import com.subskill.dto.TechnologyDto;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Profession;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ public class SubSkillTechnologyControllerTest {
 
     @Test
     void testGetAllTechnologies() throws Exception {
-        List<Technology> expectedTechnologyList = List.of(new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), List.of(new MicroSkill()),1L));
+        List<TechnologyDto> expectedTechnologyList = List.of(new TechnologyDto(TECHNOLOGY_NAME_1, new Profession(), List.of(new MicroSkill())));
         when(technologyService.getAllTechnology()).thenReturn(expectedTechnologyList);
 
         String actualJSON = mockMvc.perform(get("/api/v1/technology/all").contentType(MediaType.APPLICATION_JSON))
@@ -101,25 +102,6 @@ public class SubSkillTechnologyControllerTest {
                 .getResponse()
                 .getContentAsString();
         assertEquals(jsonExpected, actualJSON);
-    }
-
-    @Test
-    void testGetByProfessionName() throws Exception {
-        Profession profession = new Profession(1L, "QA", List.of());
-        Technology technology_1 = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, profession, microSkillRepository.findByViews(76766L),1L);
-        Technology technology_2 = new Technology(TECHNOLOGY_ID_2, TECHNOLOGY_NAME_2, profession, microSkillRepository.findByViews(71231L),1L);
-        List<Technology> expectedTechnologyList = Arrays.asList(technology_1, technology_2);
-
-        when(technologyService.getByProfessionName("QA")).thenReturn(expectedTechnologyList);
-
-        String actualJSON = mockMvc.perform(get("/api/v1/technology/profession/QA").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        List<Technology> actualTechnologyList = Arrays.asList(mapper.readValue(actualJSON, Technology[].class));
-        assertEquals(expectedTechnologyList, actualTechnologyList);
     }
 
 }

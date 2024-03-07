@@ -10,6 +10,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import com.subskill.dto.MicroSkillDto;
 import com.subskill.exception.MicroSkillAlreadySavedException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.exception.NoUserInRepositoryException;
@@ -68,13 +70,14 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
 
     @Override
     @Cacheable(value = "saveMicroskills", key = "#userId")
-    public Set<MicroSkill> allMicroSkillsOfUser(long userId) {
+    public Set<MicroSkillDto> allMicroSkillsOfUser(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(NoUserInRepositoryException::new);
         List<SaveMicroskill> saveMicroskills = saveMicroskillRepository.findByUser(user);
         return saveMicroskills.stream()
                 .map(SaveMicroskill::getMicroSkills)
                 .flatMap(Set::stream)
+                .map(MicroSkill::build)
                 .collect(Collectors.toSet());
     }
 
