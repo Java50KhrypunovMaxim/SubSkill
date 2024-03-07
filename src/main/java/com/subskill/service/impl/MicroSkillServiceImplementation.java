@@ -58,6 +58,19 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     }
 
     @Override
+    public List<MicroSkillDto> findAllMicroSkills() {
+       List<MicroSkill>  allMicroSkill = microSkillRepository.findAll();
+
+        List<MicroSkillDto> allMicroSkillDto = new ArrayList<>();
+
+        for (MicroSkill microSkill : allMicroSkill) {
+            allMicroSkillDto.add(modelMapper.map(microSkill, MicroSkillDto.class));
+        }
+
+        return allMicroSkillDto;
+    }
+
+    @Override
     @Transactional
     @CachePut(value = "microSkill", key = "#microSkillDto.name()", cacheManager = "objectCacheManager")
     public void updateMicroSkill(EditMicroSkillDto microSkillDto) {

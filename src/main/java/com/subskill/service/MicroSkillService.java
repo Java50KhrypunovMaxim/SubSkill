@@ -14,7 +14,7 @@ import java.util.List;
 public interface MicroSkillService {
 
     MicroSkillDto addMicroskill(MicroSkillDto microSkillDto);
-
+    List<MicroSkillDto> findAllMicroSkills() ;
     void updateMicroSkill(EditMicroSkillDto microSkillDto);
     
     void updatePriceMicroSkill(long microSkill_id, Double price);
