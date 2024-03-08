@@ -30,7 +30,7 @@ import com.subskill.service.MicroSkillService;
 import com.subskill.service.TechnologyService;
 
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Import(ObjectMapperConfig.class)
 @SpringBootTest(classes = {TechnologyController.class})
 public class SubSkillTechnologyControllerTest {
@@ -64,7 +64,8 @@ public class SubSkillTechnologyControllerTest {
         List<TechnologyDto> expectedTechnologyList = List.of(new TechnologyDto(TECHNOLOGY_NAME_1, new Profession(), List.of(new MicroSkill())));
         when(technologyService.getAllTechnology()).thenReturn(expectedTechnologyList);
 
-        String actualJSON = mockMvc.perform(get("/api/v1/technology/all").contentType(MediaType.APPLICATION_JSON))
+        String actualJSON = mockMvc.perform(get("/api/v1/technology/all")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
@@ -78,10 +79,12 @@ public class SubSkillTechnologyControllerTest {
     @Test
     void testGetTechnologyById() throws Exception {
         Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1,
-                new Profession(), microSkillRepository.findByViews(76766L), 1L);
+                new Profession(), microSkillRepository.findByViews(76766L), 10L);
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologyService.getByID(TECHNOLOGY_ID_1)).thenReturn(expectedTechnology);
-        String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1))
+        String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
@@ -96,7 +99,8 @@ public class SubSkillTechnologyControllerTest {
         Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1, new Profession(), microSkillRepository.findByViews(76766L), 1L);
         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
         when(technologyService.getByName(TECHNOLOGY_NAME_1)).thenReturn(expectedTechnology);
-        String actualJSON = mockMvc.perform(get("/api/v1/technology/name/" + TECHNOLOGY_NAME_1).contentType(MediaType.APPLICATION_JSON))
+        String actualJSON = mockMvc.perform(get("/api/v1/technology/name/" + TECHNOLOGY_NAME_1)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()

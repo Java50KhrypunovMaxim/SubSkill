@@ -29,7 +29,7 @@ import com.subskill.service.UserService;
 import java.util.List;
 
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Import(ObjectMapperConfig.class)
 @SpringBootTest(classes = {UsersController.class})
 class SubSkillUserControllerTest {

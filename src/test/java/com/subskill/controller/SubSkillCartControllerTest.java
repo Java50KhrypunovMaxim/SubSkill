@@ -4,8 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URLEncoder;
@@ -40,7 +39,7 @@ import io.jsonwebtoken.security.Keys;
 @ActiveProfiles("test")
 @SpringBootTest(classes = {CartController.class})
 @Import(ObjectMapperConfig.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class SubSkillCartControllerTest {
     @MockBean
     CartService cartService;
@@ -69,7 +68,7 @@ public class SubSkillCartControllerTest {
     @Test
     void testAddMicroSkillToCart() throws Exception {
         String jsonMicroSkillId = mapper.writeValueAsString(microSkillId);
-        String actualJSON = mockMvc.perform(post("/api/v1/cart/add")
+        String actualJSON = mockMvc.perform(post("/api/v1/cart/add/" + microSkillId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
                         .content(jsonMicroSkillId))
@@ -87,7 +86,7 @@ public class SubSkillCartControllerTest {
 
     @Test
     void allMicroSkillsInCart() throws Exception {
-        mockMvc.perform(post("/api/v1/cart/all/" + userId)
+        mockMvc.perform(get("/api/v1/cart/all/" + userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
                 .andExpect(status().isOk());

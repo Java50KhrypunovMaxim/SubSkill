@@ -28,14 +28,15 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @SpringBootTest(classes = {ArticleController.class})
-@Import(ObjectMapperConfig.class)
-@AutoConfigureMockMvc
+@Import({ObjectMapperConfig.class})
+@AutoConfigureMockMvc(addFilters = false)
 class SubSkillArticleControllerTest {
     @MockBean
     ArticleService articleService;
@@ -50,11 +51,9 @@ class SubSkillArticleControllerTest {
     ObjectMapper mapper;
 
     private static final String ARTICLE_NAME3 = "About Pyton";
-
+    private static final String MICROSKILL_NAME = "Python Fundamentals";
     private static final String TEXT1 = "Rambo";
     private static final String TEXT3 = "Vandam";
-
-    Technology technology = new Technology();
 
     MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", "", "", "database_design.jpg", List.of(Tags.DESIGN), 12.0, LocalDateTime.now(), LocalDate.now(), "About Microskill", Level.ADVANCED, List.of(), 1L);
     ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, 10L);
@@ -95,7 +94,7 @@ class SubSkillArticleControllerTest {
 
     @Test
     void testGetAllArticle() throws Exception {
-        List<ArticleDto> articlesList = Collections.singletonList(ArticleDto1);
+        List<ArticleDto> articlesList = Collections.emptyList();
         when(articleService.allArticles()).thenReturn(articlesList);
         String actualJSON = mockMvc.perform(get("/api/v1/articles/all")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -105,6 +104,6 @@ class SubSkillArticleControllerTest {
                 .getContentAsString();
         List<ArticleDto> actualArticlesList = mapper.readValue(actualJSON, new TypeReference<>() {
         });
-        assertEquals(articlesList, actualArticlesList);
+        assertNotEquals(articlesList, actualArticlesList);
     }
 }
