@@ -9,7 +9,6 @@ import com.subskill.service.UserService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.subskill.dto.MicroSkillDto;
@@ -66,7 +65,7 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
         Optional<SaveMicroskill> saveMicroskill = saveMicroskillRepository.findByUserAndMicroSkills(
                 userRepository.findById(userId).orElseThrow(NoUserInRepositoryException::new),
                 microSkillRepository.findById(microskillId).orElseThrow(MicroSkillNotFoundException::new));
-        saveMicroskillRepository.deleteById(saveMicroskill.get().getId());
+        saveMicroskill.ifPresent(microskill -> saveMicroskillRepository.deleteById(microskill.getId()));
     }
 
     @Override

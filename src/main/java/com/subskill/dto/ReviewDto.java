@@ -2,8 +2,6 @@ package com.subskill.dto;
 
 
 import static com.subskill.api.ValidationConstants.*;
-import com.subskill.models.MicroSkill;
-import com.subskill.models.User;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,7 +21,7 @@ public record ReviewDto(
 		Double rating,
 		
 		@NotNull(message = MISSING_MICRO_SKILLS_MESSAGE)
-        MicroSkillDto microSkillDto,
+		Long microSkillId,
 		
 		@NotNull(message = MISSING_USER_MESSAGE)
         UserDto userDto

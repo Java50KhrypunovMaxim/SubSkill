@@ -59,15 +59,10 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     public List<MicroSkillDto> findAllMicroSkills() {
-       List<MicroSkill>  allMicroSkill = microSkillRepository.findAll();
-
-        List<MicroSkillDto> allMicroSkillDto = new ArrayList<>();
-
-        for (MicroSkill microSkill : allMicroSkill) {
-            allMicroSkillDto.add(modelMapper.map(microSkill, MicroSkillDto.class));
-        }
-
-        return allMicroSkillDto;
+        List<MicroSkill> allMicroSkill = microSkillRepository.findAll();
+        return allMicroSkill.stream()
+                .map(MicroSkill::build)
+                .toList();
     }
 
     @Override
@@ -171,7 +166,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         List<MicroSkill> microSkillByLvl = microSkillRepository.findByLevel(level);
         List<MicroSkillDto> microSkillDtoList = new ArrayList<>();
         for (MicroSkill microSkill : microSkillByLvl) {
-            microSkillDtoList.add(modelMapper.map(microSkill, MicroSkillDto.class));
+            microSkillDtoList.add(microSkill.build());
         }
         return microSkillDtoList;
     }
@@ -184,7 +179,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         List<MicroSkill> microSkillByTag = microSkillRepository.findByTags(tags);
         List<MicroSkillDto> microSkillDtoList = new ArrayList<>();
         for (MicroSkill microSkill : microSkillByTag) {
-            microSkillDtoList.add(modelMapper.map(microSkill, MicroSkillDto.class));
+            microSkillDtoList.add(microSkill.build());
         }
         return microSkillDtoList;
     }
@@ -207,7 +202,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         List<MicroSkillDto> microSkillDtoPopular = new ArrayList<>();
 
         for (MicroSkill microSkill : microSkills) {
-            microSkillDtoPopular.add(modelMapper.map(microSkill, MicroSkillDto.class));
+            microSkillDtoPopular.add(microSkill.build());
         }
         return microSkillDtoPopular;
     }
@@ -229,7 +224,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         List<MicroSkillDto> microSkillDtoBestDayDeals = new ArrayList<>();
 
         for (MicroSkill microSkill : microSkills) {
-            microSkillDtoBestDayDeals.add(modelMapper.map(microSkill, MicroSkillDto.class));
+            microSkillDtoBestDayDeals.add(microSkill.build());
         }
         return microSkillDtoBestDayDeals;
     }

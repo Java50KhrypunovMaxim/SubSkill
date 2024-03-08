@@ -6,15 +6,12 @@ import com.subskill.models.Cart;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.CartRepository;
 import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.UserRepository;
 import com.subskill.service.CartService;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +22,6 @@ import java.util.*;
 @AllArgsConstructor
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
-    private final ModelMapper modelMapper;
     private final MicroSkillRepository microSkillRepository;
     private final UserService userService;
 
@@ -45,7 +41,7 @@ public class CartServiceImpl implements CartService {
                     });
             cart.getListOfMicroSkills().add(microSkill);
             cartRepository.save(cart);
-            return modelMapper.map(cart, CartDto.class);
+            return cart.build();
         } catch (UsernameNotFoundException e) {
             e.getStackTrace();
 
@@ -60,7 +56,7 @@ public class CartServiceImpl implements CartService {
     public void deleteMicroSkillFromCart(Long microSkillId) {
         Optional<Cart> cartOptional = cartRepository.findBMicroSkillById(microSkillId);
         cartOptional.ifPresent(cart -> {
-            cart.getListOfMicroSkills().removeIf(microSkill -> microSkill.getId() == microSkillId);
+            cart.getListOfMicroSkills().removeIf(microSkill -> Objects.equals(microSkill.getId(), microSkillId));
             cartRepository.save(cart);
         });
     }
@@ -69,8 +65,8 @@ public class CartServiceImpl implements CartService {
     @Override
     @Cacheable(value = "carts")
     public CartDto allMicroSkillsInCart(Long userId) {
-        Optional<Cart> cart = cartRepository.findByUserId(userId);
-        return modelMapper.map(cart, CartDto.class);
+        Cart cart = cartRepository.findByUserId(userId).orElseThrow(NoSuchElementException::new);
+        return cart.build();
     }
 
 }

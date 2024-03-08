@@ -1,13 +1,11 @@
 package com.subskill.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.subskill.service.ReviewService;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.subskill.dto.ReviewDto;
 import com.subskill.exception.ReviewNotFoundException;
@@ -37,11 +35,11 @@ public class ReviewServiceImplementation implements ReviewService {
             reviewRepo.save(review);
             log.debug("Review {} has been saved", reviewDto);
             updateMicroSkillAverageRating(review.getMicroSkill());
-            reviewDto = modelMapper.map(review, ReviewDto.class);
         }
 
         return reviewDto;
     }
+
     @Override
     @Transactional
     @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
@@ -62,10 +60,9 @@ public class ReviewServiceImplementation implements ReviewService {
             throw new ReviewNotFoundException();
         }
         return reviews.stream()
-                .map(review -> modelMapper.map(review, ReviewDto.class))
+                .map(Review::build)
                 .toList();
     }
-
 
     @Transactional
     public void updateMicroSkillAverageRating(MicroSkill microSkill) {
@@ -73,5 +70,4 @@ public class ReviewServiceImplementation implements ReviewService {
         microSkill.setRating(averageRating);
         microSkillRepo.save(microSkill);
     }
-
 }

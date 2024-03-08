@@ -14,8 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,9 +45,8 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         }
         userRepository.save(existingUser);
         modelMapper.getConfiguration().setSkipNullEnabled(true);
-        UserDto updatedUser = modelMapper.map(existingUser, UserDto.class);
         log.debug("user with email {} has been updated", existingUser.getEmail());
-        return updatedUser;
+        return existingUser.build();
     }
 
     @Override
@@ -60,9 +57,8 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
         optionalExistingUser.setPassword(NewPassword);
         userRepository.save(optionalExistingUser);
-        UserDto userWithNewPassword = modelMapper.map(optionalExistingUser, UserDto.class);
         log.debug("Password in email {} has been changed", optionalExistingUser.getEmail());
-        return userWithNewPassword;
+        return optionalExistingUser.build();
     }
 
     @Override
