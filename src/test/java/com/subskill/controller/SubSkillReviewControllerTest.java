@@ -72,7 +72,7 @@ class SubSkillReviewControllerTest {
 //        when(reviewService.addReview(reviewDto)).thenReturn(reviewDto);
 //        String jsonReviewDto = mapper.writeValueAsString(reviewDto);
 //
-//        String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/review")
+//        String actualJSON = mockMvc.perform(post("/api/v1/review")
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
 //                        .content(jsonReviewDto))

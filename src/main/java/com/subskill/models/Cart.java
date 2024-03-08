@@ -1,5 +1,6 @@
 package com.subskill.models;
 
+import com.subskill.dto.CartDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,5 +32,11 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "microskill_id")
     )
     private Set<MicroSkill> listOfMicroSkills;
+
+    public CartDto build() {
+        return new CartDto(userId, listOfMicroSkills.stream()
+                .map(MicroSkill::build)
+                .toList());
+    }
 }
 

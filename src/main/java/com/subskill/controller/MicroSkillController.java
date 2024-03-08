@@ -5,11 +5,7 @@ import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
-import com.subskill.models.MicroSkill;
-import com.subskill.models.Technology;
-import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
-import com.subskill.service.TechnologyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +32,9 @@ public class MicroSkillController {
     @Operation(summary = "Add new MicroSkill card")
     @PostMapping("/add")
     @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
-    MicroSkillDto addMicroSkill(@RequestBody  MicroSkillDto microSkillDto) {
+    MicroSkillDto addMicroSkill(@RequestBody MicroSkillDto microSkillDto) {
         log.debug("add microskill: received microskill data: {}", microSkillDto);
-        return microSkillService.addMicroskill(microSkillDto);
+        return microSkillService.addMicroSkill(microSkillDto);
     }
 
     @Operation(summary = "Delete MicroSkill card with this id MicroSkill")
@@ -57,14 +53,14 @@ public class MicroSkillController {
 
     @Operation(summary = "Update MicroSkill card")
     @PutMapping("/update")
-    void updateMicroSkill(@RequestBody  EditMicroSkillDto microSkillDto) {
+    void updateMicroSkill(@RequestBody EditMicroSkillDto microSkillDto) {
         log.debug("update microskill: received new microskill data: {}", microSkillDto);
         microSkillService.updateMicroSkill(microSkillDto);
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")
-    @GetMapping("/findSixPages")
-    public Page<MicroSkill> getAllMicroSkills(
+    @GetMapping("/all-paging")
+    public Page<MicroSkillDto> getAllMicroSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -75,23 +71,29 @@ public class MicroSkillController {
 
         return microSkillService.findMicroSkillByPage(paging);
     }
-  
+
     @GetMapping("/all")
-    public List<MicroSkillDto>  findAll(){
+    public List<MicroSkillDto> findAll() {
         return microSkillService.findAllMicroSkills();
     }
-  
+
     @Operation(summary = "Find technology of MicroSkill")
     @GetMapping("/technology")
-    List<MicroSkill> findTechnologyOfMicroSkill(@RequestParam String name) {
+    Page<MicroSkillDto> findTechnologyOfMicroSkill(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size,
+                                                   @RequestParam String name,
+                                                   @RequestParam(defaultValue = "asc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable paging = PageRequest.of(page, size, sortDirection, "name");
         log.info("We get technology microskill: ");
-        return microSkillService.findTechnology(name);
+        return microSkillService.findTechnology(name, paging);
     }
 
-    @GetMapping("/byRating")
-    public Page<MicroSkill> getAllMicroSkillsByRating(
+    @GetMapping("/find-by-rating")
+    public Page<MicroSkillDto> getAllMicroSkillsByRating(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(defaultValue = "5") int size,
             @RequestParam Double rating,
             @RequestParam(defaultValue = "asc") String direction) {
 
@@ -102,10 +104,10 @@ public class MicroSkillController {
     }
 
     @Operation(summary = "Get all MicroSkill by name with pagination and sorting")
-    @GetMapping("/byName")
-    public Page<MicroSkill> getAllMicroSkillsByName(
+    @GetMapping("/find-by-name")
+    public Page<MicroSkillDto> getAllMicroSkillsByName(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(defaultValue = "5") int size,
             @RequestParam String name,
             @RequestParam(defaultValue = "asc") String direction) {
 
@@ -117,47 +119,56 @@ public class MicroSkillController {
 
     @Operation(summary = "Get popularity of  MicroSkill card by views and rating")
     @GetMapping("{id}/popularity")
-    public MicroSkill getByPopularity(@PathVariable long id) {
+    public MicroSkillDto getByPopularity(@PathVariable long id) {
         return microSkillService.findMicroSkillPopularity(id);
     }
 
     @Operation(summary = "Get MicroSkill card by id")
-    @GetMapping("{id}/find_microskill")
-    public MicroSkill findMicroSkill(@PathVariable long id) {
+    @GetMapping("find-by-id/{id}")
+    public MicroSkillDto findMicroSkill(@PathVariable long id) {
         return microSkillService.findMicroSkill(id);
     }
 
 
     @Operation(summary = "Update price of MicroSkill")
-    @PutMapping("/changePrice")
-    void updatePriceMicroSkill(@RequestParam long microSkill_id , @RequestParam Double price) {
-        log.debug("update price of  microskill within{}: received new microskill price: {}", microSkill_id , price);
-        microSkillService.updatePriceMicroSkill(microSkill_id , price);
+    @PutMapping("/change-price")
+    void updatePriceMicroSkill(@RequestParam long microSkill_id, @RequestParam Double price) {
+        log.debug("update price of  microskill within{}: received new microskill price: {}", microSkill_id, price);
+        microSkillService.updatePriceMicroSkill(microSkill_id, price);
     }
 
     @Operation(summary = "Find MicroSkill by level")
     @GetMapping("/find-by-level")
-    public List<MicroSkillDto> findMicroSkillByLevel(@RequestParam Level level) {
+    public Page<MicroSkillDto> findMicroSkillByLevel(@RequestParam Level level,
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "5") int size,
+                                                     @RequestParam(defaultValue = "asc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable paging = PageRequest.of(page, size, sortDirection, "level");
         log.debug("finding level {} of MicroSkill", level);
-        return microSkillService.findLevelFromMicroSkill(level);
+        return microSkillService.findLevelFromMicroSkill(level, paging);
     }
 
     @Operation(summary = "Find MicroSkill by tag")
     @GetMapping("/find-by-tags")
-    public List<MicroSkillDto> findMicroSkillByTag(@RequestParam Tags tags) {
+    public Page<MicroSkillDto> findMicroSkillByTag(@RequestParam Tags tags,
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size,
+                                                   @RequestParam(defaultValue = "asc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable paging = PageRequest.of(page, size, sortDirection, "tags");
         log.debug("finding tags {} of MicroSkill", tags);
-        return microSkillService.findMicroSkillByTag(tags);
-    }
-    @Operation(summary = "Get top MicroSkill deals")
-    @GetMapping("/get-today-deals")
-    public List<MicroSkillDto> getTodayBestDeals() {
-        return microSkillService.getBestDealsByToday();
+        return microSkillService.findMicroSkillByTag(tags, paging);
     }
 
-    @Operation(summary = "Sort of MicroSkill by popularity")
-    @GetMapping("/sortByPopularityMicroSkill")
-    private List<MicroSkillDto> sortByPopularityMicroSkill() {
-        log.info("We have sorted microSkills by popularity ");
-        return microSkillService.sortByPopularityMicroSkill();
+    @Operation(summary = "Get top MicroSkill deals")
+    @GetMapping("/get-today-deals")
+    public Page<MicroSkillDto> getTodayBestDeals(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "5") int size) {
+
+        Pageable paging = PageRequest.of(page, size, Sort.Direction.ASC, "tags");
+        return microSkillService.getBestDealsByToday(paging);
     }
 }

@@ -1,13 +1,9 @@
 package com.subskill.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.subskill.service.ReviewService;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.subskill.dto.ReviewDto;
 import com.subskill.exception.ReviewNotFoundException;
@@ -30,21 +26,19 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional
-    @CachePut(value = "review", key = "#reviewDto.id")
     public ReviewDto addReview(ReviewDto reviewDto) {
         Review review = modelMapper.map(reviewDto, Review.class);
         if (review.getRating() != null) {
             reviewRepo.save(review);
             log.debug("Review {} has been saved", reviewDto);
             updateMicroSkillAverageRating(review.getMicroSkill());
-            reviewDto = modelMapper.map(review, ReviewDto.class);
         }
 
         return reviewDto;
     }
+
     @Override
     @Transactional
-    @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
     public void deleteReview(Long reviewId) {
         Review review = reviewRepo.findByid(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewRepo.deleteById(review.getId());
@@ -52,7 +46,6 @@ public class ReviewServiceImplementation implements ReviewService {
         updateMicroSkillAverageRating(review.getMicroSkill());
     }
 
-    @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
     @Override
     @Transactional(readOnly = true)
     public List<ReviewDto> findByMicroSkillName(String microSkillName) {
@@ -62,10 +55,9 @@ public class ReviewServiceImplementation implements ReviewService {
             throw new ReviewNotFoundException();
         }
         return reviews.stream()
-                .map(review -> modelMapper.map(review, ReviewDto.class))
+                .map(Review::build)
                 .toList();
     }
-
 
     @Transactional
     public void updateMicroSkillAverageRating(MicroSkill microSkill) {
@@ -73,5 +65,4 @@ public class ReviewServiceImplementation implements ReviewService {
         microSkill.setRating(averageRating);
         microSkillRepo.save(microSkill);
     }
-
 }

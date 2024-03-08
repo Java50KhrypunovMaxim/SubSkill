@@ -1,9 +1,7 @@
 package com.subskill.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.subskill.dto.ArticleDto;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.dto.UserDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import jakarta.persistence.*;
@@ -14,7 +12,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -36,14 +33,14 @@ public class MicroSkill {
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     @CreationTimestamp
     private LocalDate creationDate;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "learningTime")
+    @Column(name = "learning_time")
     private String learningTime;
 
     @ElementCollection(targetClass = Tags.class)
@@ -70,13 +67,13 @@ public class MicroSkill {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "lessonCount")
+    @Column(name = "lesson_count")
     private Integer lessonCount;
 
-    @Column(name = "aboutSkill")
+    @Column(name = "about_skill")
     private String aboutSkill;
 
-    @Column(name = "lastUpdateTime")
+    @Column(name = "last_update_time")
     private LocalDateTime lastUpdateTime;
 
     @JsonIgnore
