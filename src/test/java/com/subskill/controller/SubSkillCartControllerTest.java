@@ -69,7 +69,7 @@ public class SubSkillCartControllerTest {
     @Test
     void testAddMicroSkillToCart() throws Exception {
         String jsonMicroSkillId = mapper.writeValueAsString(microSkillId);
-        String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/cart/add")
+        String actualJSON = mockMvc.perform(post("/api/v1/cart/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
                         .content(jsonMicroSkillId))
@@ -80,14 +80,14 @@ public class SubSkillCartControllerTest {
 
     @Test
     void deleteMicroSkillFromCart() throws Exception {
-        mockMvc.perform(delete("http://localhost:8080/api/v1/cart/delete/" + microSkillId)
+        mockMvc.perform(delete("/api/v1/cart/delete/" + microSkillId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void allMicroSkillsInCart() throws Exception {
-        mockMvc.perform(post("http://localhost:8080/api/v1/cart/all/" + userId)
+        mockMvc.perform(post("/api/v1/cart/all/" + userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
                 .andExpect(status().isOk());

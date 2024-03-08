@@ -7,14 +7,11 @@ import com.subskill.dto.ArticleDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
-import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.service.ArticleService;
 import com.subskill.service.MicroSkillService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -66,7 +63,7 @@ class SubSkillArticleControllerTest {
     @Test
     void testRegisterArticle() throws Exception {
         String jsonArticleDto = mapper.writeValueAsString(ArticleDto1);
-        String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/articles")
+        String actualJSON = mockMvc.perform(post("/api/v1/articles")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonArticleDto))
                 .andExpect(status().isOk())
@@ -78,7 +75,7 @@ class SubSkillArticleControllerTest {
     void testUpdateArticle() throws Exception {
         when(articleService.updateArticle(UpdateArticleDto)).thenReturn(UpdateArticleDto);
         String jsonArticleDtoUpdated = mapper.writeValueAsString(UpdateArticleDto);
-        String actualJSON = mockMvc.perform(put("http://localhost:8080/api/v1/articles/update/" + UpdateArticleDto.articleName()).contentType(MediaType.APPLICATION_JSON)
+        String actualJSON = mockMvc.perform(put("/api/v1/articles/update/" + UpdateArticleDto.articleName()).contentType(MediaType.APPLICATION_JSON)
                         .content(jsonArticleDtoUpdated)).andExpect(status().isOk()).andReturn().getResponse()
                 .getContentAsString();
         assertEquals(jsonArticleDtoUpdated, actualJSON);
@@ -87,11 +84,11 @@ class SubSkillArticleControllerTest {
 
     @Test
     void testDeleteArticle() throws Exception {
-        when(microSkillService.addMicroskill(any(MicroSkillDto.class))).thenReturn(microSkillDto1);
+        when(microSkillService.addMicroSkill(any(MicroSkillDto.class))).thenReturn(microSkillDto1);
         when(articleService.addArticle(any(ArticleDto.class))).thenReturn(ArticleDto1);
         doNothing().when(articleService).deleteArticle(ARTICLE_NAME3);
 
-        mockMvc.perform(delete("http://localhost:8080/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
+        mockMvc.perform(delete("/api/v1/articles/" + URLEncoder.encode(ARTICLE_NAME3, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -100,7 +97,7 @@ class SubSkillArticleControllerTest {
     void testGetAllArticle() throws Exception {
         List<ArticleDto> articlesList = Collections.singletonList(ArticleDto1);
         when(articleService.allArticles()).thenReturn(articlesList);
-        String actualJSON = mockMvc.perform(get("http://localhost:8080/api/v1/articles/all")
+        String actualJSON = mockMvc.perform(get("/api/v1/articles/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()

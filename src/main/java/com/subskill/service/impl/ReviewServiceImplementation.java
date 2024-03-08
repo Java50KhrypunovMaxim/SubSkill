@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.subskill.service.ReviewService;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import com.subskill.dto.ReviewDto;
 import com.subskill.exception.ReviewNotFoundException;
@@ -28,7 +26,6 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional
-    @CachePut(value = "review", key = "#reviewDto.id")
     public ReviewDto addReview(ReviewDto reviewDto) {
         Review review = modelMapper.map(reviewDto, Review.class);
         if (review.getRating() != null) {
@@ -42,7 +39,6 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
     public void deleteReview(Long reviewId) {
         Review review = reviewRepo.findByid(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewRepo.deleteById(review.getId());
@@ -50,7 +46,6 @@ public class ReviewServiceImplementation implements ReviewService {
         updateMicroSkillAverageRating(review.getMicroSkill());
     }
 
-    @CacheEvict(value = "review", key = "#reviewId", cacheManager = "objectCacheManager")
     @Override
     @Transactional(readOnly = true)
     public List<ReviewDto> findByMicroSkillName(String microSkillName) {

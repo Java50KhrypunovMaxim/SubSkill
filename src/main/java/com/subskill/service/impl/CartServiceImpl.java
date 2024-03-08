@@ -9,9 +9,6 @@ import com.subskill.repository.MicroSkillRepository;
 import com.subskill.service.CartService;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +24,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    @CachePut(value = "cart", key = "#microSkillId")
     public CartDto addMicroSkillToCart(Long microSkillId) {
         try {
             long userId = userService.getAuthenticatedUser().getId();
@@ -49,8 +45,6 @@ public class CartServiceImpl implements CartService {
         return new CartDto(1L, List.of());
     }
 
-
-    @CacheEvict(value = "cart", key = "#microSkillId", cacheManager = "objectCacheManager")
     @Override
     @Transactional
     public void deleteMicroSkillFromCart(Long microSkillId) {
@@ -63,7 +57,6 @@ public class CartServiceImpl implements CartService {
 
     @Transactional(readOnly = true)
     @Override
-    @Cacheable(value = "carts")
     public CartDto allMicroSkillsInCart(Long userId) {
         Cart cart = cartRepository.findByUserId(userId).orElseThrow(NoSuchElementException::new);
         return cart.build();

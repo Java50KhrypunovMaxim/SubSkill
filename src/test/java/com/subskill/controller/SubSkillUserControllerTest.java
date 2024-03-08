@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -69,7 +68,7 @@ class SubSkillUserControllerTest {
 //    void testRegisterUser() throws Exception {
 //        when(userService.registerUser(userDto1)).thenReturn(userDto1);
 //        String jsonUserDto = mapper.writeValueAsString(userDto1);
-//        String actualJSON = mockMvc.perform(post("http://localhost:8080/api/v1/users").contentType(MediaType.APPLICATION_JSON)
+//        String actualJSON = mockMvc.perform(post("/api/v1/users").contentType(MediaType.APPLICATION_JSON)
 //                        .content(jsonUserDto)).andExpect(status().isOk()).andReturn().getResponse()
 //                .getContentAsString();
 //        assertEquals(jsonUserDto, actualJSON);
@@ -80,7 +79,7 @@ class SubSkillUserControllerTest {
     void testUpdateUser() throws Exception {
         when(userService.updateUser(userDtoUpdated)).thenReturn(userDtoUpdated);
         String jsonUserDtoUpdated = mapper.writeValueAsString(userDtoUpdated);
-        String actualJSON = mockMvc.perform(put("http://localhost:8080/api/v1/users/update/" + userDtoUpdated.email()).contentType(MediaType.APPLICATION_JSON)
+        String actualJSON = mockMvc.perform(put("/api/v1/users/update/" + userDtoUpdated.email()).contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUserDtoUpdated)).andExpect(status().isOk()).andReturn().getResponse()
                 .getContentAsString();
         assertEquals(jsonUserDtoUpdated, actualJSON);
@@ -89,7 +88,7 @@ class SubSkillUserControllerTest {
     @Test
     void testDeleteUser() throws Exception {
         doNothing().when(userService).deleteUser(EMAIL1);
-        mockMvc.perform(delete("http://localhost:8080/api/v1/users/delete/" + EMAIL1)
+        mockMvc.perform(delete("/api/v1/users/delete/" + EMAIL1)
                 .param("email", EMAIL1)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
@@ -98,7 +97,7 @@ class SubSkillUserControllerTest {
     void testChangePassword() throws Exception {
         when(userService.changePassword(EMAIL2, PASSWORD3)).thenReturn(changePasswordUserDto2);
         String jsonChangePasswordDto = mapper.writeValueAsString(changePasswordUserDto2);
-        String actualJSON = mockMvc.perform(put("http://localhost:8080/api/v1/users/password/" + EMAIL2)
+        String actualJSON = mockMvc.perform(put("/api/v1/users/password/" + EMAIL2)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonChangePasswordDto))
                 .andExpect(status().isOk())
@@ -113,7 +112,7 @@ class SubSkillUserControllerTest {
         List<UserDto> userList = userService.allUsers();
         when(userService.allUsers()).thenReturn(userList);
         String jsonUserList = mapper.writeValueAsString(userList);
-        String actualJSON = mockMvc.perform(get("http://localhost:8080/api/v1/users")
+        String actualJSON = mockMvc.perform(get("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()

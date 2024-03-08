@@ -11,9 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -42,7 +40,7 @@ public class User {
     @Column(name = "status")
     private Status online;
 
-    @Column(name = "image_url")
+    @Column(name = "image")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)

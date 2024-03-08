@@ -6,9 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.subskill.service.UserService;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.subskill.dto.MicroSkillDto;
@@ -36,7 +33,6 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
 
     @Override
     @Transactional
-    @CachePut(value = "saveMicroskill", key = "#microskillId")
     public SaveMicroskill addMicroSkillToUser(long microskillId) {
         Long userId = userService.getAuthenticatedUser().getId();
         boolean alreadySaved = saveMicroskillRepository.existsByUserAndMicroSkills(
@@ -59,7 +55,6 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
 
     @Override
     @Transactional
-    @CacheEvict(value = "saveMicroskill", key = "#microskillId", cacheManager = "objectCacheManager")
     public void deleteMicroSkillFromUser(long microskillId) {
         Long userId = userService.getAuthenticatedUser().getId();
         Optional<SaveMicroskill> saveMicroskill = saveMicroskillRepository.findByUserAndMicroSkills(
@@ -69,7 +64,6 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
     }
 
     @Override
-    @Cacheable(value = "saveMicroskills", key = "#userId")
     public Set<MicroSkillDto> allMicroSkillsOfUser(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(NoUserInRepositoryException::new);

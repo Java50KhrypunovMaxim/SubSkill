@@ -21,10 +21,10 @@ public class Article {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "articlename", nullable = false)
+    @Column(name = "article_name", nullable = false)
     private String articleName;
 
-    @Column(name = "textofarticle", nullable = false)
+    @Column(name = "text", nullable = false)
     private String textOfArticle;
 
     @NotNull(message = MISSING_ID_OF_SKILLS)

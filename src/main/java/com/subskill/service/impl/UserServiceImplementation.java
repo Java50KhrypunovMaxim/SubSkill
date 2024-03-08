@@ -11,9 +11,6 @@ import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +30,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     @Override
     @Transactional
-    @CachePut(value = "users", key = "#userDto.email()", cacheManager = "objectCacheManager")
     public UserDto updateUser(UserDto userDto) throws NotFoundException {
         if (userDto == null || userDto.email() == null) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
@@ -63,7 +59,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     @Override
     @Transactional
-    @CacheEvict(value = "user", key = "#email", cacheManager = "objectCacheManager")
     public void deleteUser(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(NoUserInRepositoryException::new);
         userRepository.deleteById(user.getId());
@@ -72,7 +67,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     @Transactional(readOnly = true)
     @Override
-    @Cacheable(value = "users")
     public List<UserDto> allUsers() {
         List<User> users = userRepository.findAll();
         List<UserDto> userDto = users.stream()

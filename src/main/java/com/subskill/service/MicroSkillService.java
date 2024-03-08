@@ -5,7 +5,6 @@ import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
-import com.subskill.models.MicroSkill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,32 +12,33 @@ import java.util.List;
 
 public interface MicroSkillService {
 
-    MicroSkillDto addMicroskill(MicroSkillDto microSkillDto);
-    List<MicroSkillDto> findAllMicroSkills() ;
+    MicroSkillDto addMicroSkill(MicroSkillDto microSkillDto);
+
+    List<MicroSkillDto> findAllMicroSkills();
+
     void updateMicroSkill(EditMicroSkillDto microSkillDto);
-    
+
     void updatePriceMicroSkill(long microSkill_id, Double price);
 
     void deleteMicroSkill(Long microSkill_id);
 
-    List<MicroSkillDto> findLevelFromMicroSkill(Level level);
+    Page<MicroSkillDto> findLevelFromMicroSkill(Level level, Pageable paging);
 
-    List<MicroSkillDto> findMicroSkillByTag(Tags tags);
+    Page<MicroSkillDto> findMicroSkillByTag(Tags tags, Pageable paging);
 
-    List<MicroSkill> findTechnology(String name);
-    Page<MicroSkill> findMicroSkillByRatingWithPage(Pageable paging, Double rating);
+    Page<MicroSkillDto> findTechnology(String name, Pageable paging);
 
-    Page<MicroSkill> findMicroSkillByNameWithPage(Pageable paging, String name);
+    Page<MicroSkillDto> findMicroSkillByRatingWithPage(Pageable paging, Double rating);
 
-    Page<MicroSkill> findMicroSkillByPage(Pageable paging);
+    Page<MicroSkillDto> findMicroSkillByNameWithPage(Pageable paging, String name);
+
+    Page<MicroSkillDto> findMicroSkillByPage(Pageable paging);
 
     long getViewsCount(long microskillId);
 
-    List<MicroSkillDto> sortByPopularityMicroSkill();
+    MicroSkillDto findMicroSkillPopularity(long microskillId);
 
-    MicroSkill findMicroSkillPopularity(long microskillId);
+    MicroSkillDto findMicroSkill(long microskillId);
 
-    MicroSkill findMicroSkill(long microskillId);
-
-    List<MicroSkillDto> getBestDealsByToday();
+    Page<MicroSkillDto> getBestDealsByToday(Pageable paging);
 }
