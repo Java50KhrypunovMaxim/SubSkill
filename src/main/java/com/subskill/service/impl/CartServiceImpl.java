@@ -7,7 +7,6 @@ import com.subskill.models.MicroSkill;
 import com.subskill.repository.CartRepository;
 import com.subskill.repository.MicroSkillRepository;
 import com.subskill.service.CartService;
-import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,11 @@ import java.util.*;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final MicroSkillRepository microSkillRepository;
-    private final UserService userService;
 
     @Override
     @Transactional
-    public CartDto addMicroSkillToCart(Long microSkillId) {
+    public CartDto addMicroSkillToCart(Long microSkillId, Long userId) {
         try {
-            long userId = userService.getAuthenticatedUser().getId();
             MicroSkill microSkill = microSkillRepository.findById(microSkillId)
                     .orElseThrow(MicroSkillNotFoundException::new);
             Cart cart = cartRepository.findByUserId(userId)
@@ -42,7 +39,7 @@ public class CartServiceImpl implements CartService {
             e.getStackTrace();
 
         }
-        return new CartDto(1L, List.of());
+        return new CartDto(1L, userId, List.of());
     }
 
     @Override
