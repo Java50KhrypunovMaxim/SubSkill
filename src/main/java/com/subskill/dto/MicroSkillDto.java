@@ -15,7 +15,10 @@ import java.util.Objects;
 
 import static com.subskill.api.ValidationConstants.*;
 
-public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
+public record MicroSkillDto(
+        @NotEmpty(message = PROFESSION_ID_MISSING)
+        Long id,
+        @NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String name,
                             @NotEmpty(message = MISSING_MICROSKILL_DESCRIPTION_MESSAGE)
                             String description,
@@ -35,8 +38,6 @@ public record MicroSkillDto(@NotEmpty(message = MISSING_MICROSKILL_NAME_MESSAGE)
                             String aboutSkill,
                             @NotNull(message = MISSING_MICROSKILL_LEVEL_MESSAGE)
                             Level level,
-                            @NotNull(message = MISSING_ARTICLE_NAME_MESSAGE)
-                            List<Article> articles,
                             @NotNull(message = TECHNOLOGY_ID_MISSING)
                             @Min(value = 1, message = TECHNOLOGY_MISSING)
                             Long technologyId

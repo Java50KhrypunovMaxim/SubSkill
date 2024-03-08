@@ -9,6 +9,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record ArticleDto (
+		@NotEmpty(message = PROFESSION_ID_MISSING)
+		Long id,
+
 		@NotEmpty (message=MISSING_ARTICLE_NAME_MESSAGE)
 		String articleName,
 		

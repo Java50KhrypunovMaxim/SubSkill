@@ -108,7 +108,7 @@ public class MicroSkill {
     public MicroSkillDto build() {
         return new MicroSkillDto(name, description, photo, learningTime,
                 tags, price, lastUpdateTime, creationDate,
-                aboutSkill, level, articles, technology.getId());
+                aboutSkill, level, technology.getId());
     }
 
     public Double calculateAverageRating() {
