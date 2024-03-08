@@ -39,7 +39,7 @@ import com.subskill.models.User;
 import com.subskill.service.ReviewService;
 
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Import(ObjectMapperConfig.class)
 @SpringBootTest(classes = {ReviewController.class})
 class SubSkillReviewControllerTest {

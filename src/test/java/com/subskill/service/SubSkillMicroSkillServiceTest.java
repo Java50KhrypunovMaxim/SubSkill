@@ -48,28 +48,6 @@ class SubSkillMicroSkillServiceTest {
     @InjectMocks
     private MicroSkillServiceImplementation microSkillService;
 
-
-
-//    @BeforeEach
-//    public void setup() {
-//        Mockito.reset(microSkillRepository);
-//        this.mockMvc = MockMvcBuilders
-//                .webAppContextSetup(context)
-//                .apply(springSecurity())
-//                .build();
-//    }
-//
-//    @BeforeEach
-//    public void authenticateUser() {
-//        String username = "testuser";
-//        String password = "12345";
-//        String encodedPassword = passwordEncoder.encode(password);
-//
-//        mockMvc.perform(formLogin("/login").user(username).password(password))
-//                .andExpect(authenticated());
-//    }
-
-
 //    @Test
 //    void testFindLevelFromMicroSkill() {
 //        Level level = Level.INTERMEDIATE;
