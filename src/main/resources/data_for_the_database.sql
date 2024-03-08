@@ -38,17 +38,11 @@ VALUES (10, 'DEVELOPMENT'),
        (12, 'IT_SOFTWARE'),
        (13, 'DESIGN');
 
--- INSERT INTO profession_technologies (profession_id, technology_id)
--- VALUES (10, 10),
---        (10, 11),
---        (11, 12),
---        (12, 13);
---
--- INSERT INTO technologies (profession_id, profession_id, name)
--- VALUES (10, 10, 'Java'),
---        (11, 10, 'Python'),
---        (12, 11, 'React.js'),
---        (13, 12, 'Data Science');
+INSERT INTO technologies (technology_id, profession_id, name)
+VALUES (10, 10, 'Java'),
+       (11, 10, 'Python'),
+       (12, 11, 'React.js'),
+       (13, 12, 'Data Science');
 
 
 INSERT INTO users (user_id, username, password, email, status, image, role)
