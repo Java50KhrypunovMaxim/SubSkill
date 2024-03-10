@@ -45,6 +45,6 @@ public class Technology {
     }
 
     public TechnologyDto build() {
-        return new TechnologyDto(name);
+        return new TechnologyDto(id, name);
     }
 }
