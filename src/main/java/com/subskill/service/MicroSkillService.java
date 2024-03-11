@@ -16,7 +16,7 @@ public interface MicroSkillService {
 
     List<MicroSkillDto> findAllMicroSkills();
 
-    void updateMicroSkill(EditMicroSkillDto microSkillDto);
+    void updateMicroSkill(EditMicroSkillDto editMicroSkillDto,Long id);
 
     void updatePriceMicroSkill(long microSkill_id, Double price);
 

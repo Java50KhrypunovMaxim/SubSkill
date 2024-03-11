@@ -32,7 +32,7 @@ public class MicroSkillController {
     @Operation(summary = "Add new MicroSkill card")
     @PostMapping("/add")
     @Parameter(name = "microSkillDto", description = "We use microSkillDto when adding new MicroSkill")
-    MicroSkillDto addMicroSkill(@RequestBody MicroSkillDto microSkillDto) {
+     public MicroSkillDto addMicroSkill(@RequestBody MicroSkillDto microSkillDto) {
         log.debug("add microskill: received microskill data: {}", microSkillDto);
         return microSkillService.addMicroSkill(microSkillDto);
     }
@@ -52,10 +52,10 @@ public class MicroSkillController {
 
 
     @Operation(summary = "Update MicroSkill card")
-    @PutMapping("/update")
-    void updateMicroSkill(@RequestBody EditMicroSkillDto microSkillDto) {
-        log.debug("update microskill: received new microskill data: {}", microSkillDto);
-        microSkillService.updateMicroSkill(microSkillDto);
+    @PutMapping("/update/{id}")
+    void updateMicroSkill(@PathVariable Long id,@RequestBody EditMicroSkillDto editMicroSkillDto) {
+        log.debug("update microskill: received new microskill data: {}", editMicroSkillDto);
+        microSkillService.updateMicroSkill(editMicroSkillDto,id);
     }
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")

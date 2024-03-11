@@ -34,7 +34,7 @@ public class Cart {
     private Set<MicroSkill> listOfMicroSkills;
 
     public CartDto build() {
-        return new CartDto(userId, listOfMicroSkills.stream()
+        return new CartDto(id,userId, listOfMicroSkills.stream()
                 .map(MicroSkill::build)
                 .toList());
     }

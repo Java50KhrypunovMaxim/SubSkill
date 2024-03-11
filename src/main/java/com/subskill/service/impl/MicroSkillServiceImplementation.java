@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final TechnologyRepository technologyRepository;
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -63,12 +62,11 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
-    public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
-        MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
+    public void updateMicroSkill(EditMicroSkillDto editMicroSkillDto, Long id) {
+        MicroSkill existingMicroSkill = microSkillRepository.findById(id)
                 .orElseThrow(MicroSkillNotFoundException::new);
         existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(microSkillDto, existingMicroSkill);
+        existingMicroSkill.updateMicroSkillFromDto(existingMicroSkill, editMicroSkillDto);
         microSkillRepository.save(existingMicroSkill);
     }
 

@@ -40,7 +40,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
             existingUser.setPassword(passwordEncoder.encode(userDto.password()));
         }
         userRepository.save(existingUser);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
         log.debug("user with email {} has been updated", existingUser.getEmail());
         return existingUser.build();
     }

@@ -61,7 +61,7 @@ public class SubSkillTechnologyControllerTest {
 
     @Test
     void testGetAllTechnologies() throws Exception {
-        List<TechnologyDto> expectedTechnologyList = List.of(new TechnologyDto(TECHNOLOGY_NAME_1, new Profession(), List.of(new MicroSkill())));
+        List<TechnologyDto> expectedTechnologyList = List.of(new TechnologyDto(1L,TECHNOLOGY_NAME_1));
         when(technologyService.getAllTechnology()).thenReturn(expectedTechnologyList);
 
         String actualJSON = mockMvc.perform(get("/api/v1/technology/all")

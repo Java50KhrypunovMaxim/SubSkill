@@ -55,9 +55,9 @@ class SubSkillArticleControllerTest {
     private static final String TEXT1 = "Rambo";
     private static final String TEXT3 = "Vandam";
 
-    MicroSkillDto microSkillDto1 = new MicroSkillDto("Database Design", "", "", "database_design.jpg", List.of(Tags.DESIGN), 12.0, LocalDateTime.now(), LocalDate.now(), "About Microskill", Level.ADVANCED, List.of(), 1L);
-    ArticleDto ArticleDto1 = new ArticleDto(ARTICLE_NAME3, TEXT3, 10L);
-    ArticleDto UpdateArticleDto = new ArticleDto(ARTICLE_NAME3, TEXT1, 11L);
+    MicroSkillDto microSkillDto1 = new MicroSkillDto(23L,"Database Design", "", "", "database_design.jpg", List.of(Tags.DESIGN), 12.0, LocalDateTime.now(), LocalDate.now(), "About Microskill", Level.ADVANCED, 1L);
+    ArticleDto ArticleDto1 = new ArticleDto(10L,ARTICLE_NAME3, TEXT3, 10L);
+    ArticleDto UpdateArticleDto = new ArticleDto(11L,ARTICLE_NAME3, TEXT1, 11L);
 
     @Test
     void testRegisterArticle() throws Exception {

@@ -1,6 +1,8 @@
 package com.subskill.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.subskill.dto.ArticleDto;
+import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
@@ -9,6 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -94,6 +97,7 @@ public class MicroSkill {
 
     public static MicroSkill of(MicroSkillDto microSkillDto) {
         MicroSkill microSkill = new MicroSkill();
+        microSkill.id = microSkillDto.id();
         microSkill.name = microSkillDto.name();
         microSkill.photo = microSkillDto.photo();
         microSkill.creationDate = LocalDate.now();
@@ -106,9 +110,21 @@ public class MicroSkill {
     }
 
     public MicroSkillDto build() {
-        return new MicroSkillDto(name, description, photo, learningTime,
+        return new MicroSkillDto(id,name, description, photo, learningTime,
                 tags, price, lastUpdateTime, creationDate,
                 aboutSkill, level, technology.getId());
+    }
+
+    public void updateMicroSkillFromDto(MicroSkill microSkill, EditMicroSkillDto dto) {
+        microSkill.setName(dto.name());
+        microSkill.setDescription(dto.description());
+        microSkill.setPhoto(dto.photo());
+        microSkill.setLearningTime(dto.learningTime());
+        microSkill.setAboutSkill(dto.aboutSkill());
+        microSkill.setLessonCount(dto.lessonCount());
+        microSkill.setTags(dto.tags());
+        microSkill.setLevel(dto.level());
+        microSkill.setPrice(dto.price());
     }
 
     public Double calculateAverageRating() {
