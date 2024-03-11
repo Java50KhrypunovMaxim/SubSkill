@@ -81,7 +81,7 @@ public class SubSkillArticleServiceTest {
 		if (optionalMicro.isPresent()) {
 			micro = optionalMicro.get();
 		}
-		ArticleDto articleDto1 = new ArticleDto(10L,ARTICLENAME1, TEXT1, 10L);
+		//ArticleDto articleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, 10L);
 		ArticleDto savedArticleDto = articleService.addArticle(articleDto1);
 		assertEquals(articleDto1, savedArticleDto);
 	}
@@ -99,7 +99,7 @@ public class SubSkillArticleServiceTest {
 	void testUpdateArticle() {
 		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill2);
 		MicroSkill micro = optionalMicro.orElseThrow(() -> new EntityNotFoundException("MicroSkill not found"));
-		ArticleDto articleDto1 = new ArticleDto(10L,"Python Basics", "Test", 10L);
+		//ArticleDto articleDto1 = new ArticleDto("Python Basics", "Test", 10L);
 		articleService.updateArticle(articleDto1);
 
 		assertEquals(articleDto1.articleName(), articleRepo.findByArticleName("Python Basics").get().getArticleName());

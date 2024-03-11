@@ -40,12 +40,11 @@ public class Technology {
 
     public static Technology of(TechnologyDto technologyDto) {
         Technology technology = new Technology();
-        technology.id = technologyDto.id();
         technology.name = technologyDto.name();
         return technology;
     }
 
     public TechnologyDto build() {
-        return new TechnologyDto(id,name);
+        return new TechnologyDto(id, name);
     }
 }
