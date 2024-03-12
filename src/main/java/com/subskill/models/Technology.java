@@ -43,7 +43,13 @@ public class Technology {
         technology.name = technologyDto.name();
         return technology;
     }
-
+    public Technology(Long id, Long profId, String name) {
+        this.id = id;
+        profId = profession.getId();
+        this.name = name;
+    }
+    
+    
     public TechnologyDto build() {
         return new TechnologyDto(id, name);
     }

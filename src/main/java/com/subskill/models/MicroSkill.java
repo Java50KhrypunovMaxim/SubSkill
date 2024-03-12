@@ -105,8 +105,8 @@ public class MicroSkill {
         return microSkill;
     }
 
-    public MicroSkillDto build() {
-        return new MicroSkillDto(name, description, photo, learningTime,
+    public MicroSkillDto build(Long id) {
+        return new MicroSkillDto(id, name, description, photo, learningTime,
                 tags, price, lastUpdateTime, creationDate,
                 aboutSkill, level, technology.getId());
     }

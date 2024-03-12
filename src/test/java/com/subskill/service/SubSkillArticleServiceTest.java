@@ -49,7 +49,6 @@ public class SubSkillArticleServiceTest {
 	private static final String ARTICLENAME1 = "About Java 1 part";
 	private static final String ARTICLENAME2 = "About C++";
 	private static final String ARTICLENAME3 = "About Python";
-	private static final String TEXT1 = "Rambo 123";
 	private static final long idOfMicroskill1 = 10;
 	private static final long idOfMicroskill2 = 12;
 
@@ -59,9 +58,6 @@ public class SubSkillArticleServiceTest {
 			"Data Science Essentials",
 			"Mobile App Development"
 	));
-
-	private MicroSkill microSkill;
-	private ArticleDto articleDto1;
 
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_ARTICLES)
@@ -76,14 +72,10 @@ public class SubSkillArticleServiceTest {
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.ADD_ARTICLE)
 	void testAddArticle() {
-		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill1);
-		MicroSkill micro = new MicroSkill();
-		if (optionalMicro.isPresent()) {
-			micro = optionalMicro.get();
-		}
-		//ArticleDto articleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, 10L);
-		ArticleDto savedArticleDto = articleService.addArticle(articleDto1);
-		assertEquals(articleDto1, savedArticleDto);
+		long idMicro = 21;
+		ArticleDto newArticalDto = new ArticleDto ("CSS", "Hello World", idMicro);
+		ArticleDto savedArticleDto = articleService.addArticle(newArticalDto);
+		assertEquals(newArticalDto, savedArticleDto);
 	}
 
 	@Test
@@ -93,16 +85,13 @@ public class SubSkillArticleServiceTest {
 		assertThrowsExactly(ArticleNotFoundException.class, () -> articleService.deleteArticle("Introduction to Java"));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	@DisplayName(ARTICLE_SERVICE_TEST + SubSkillTestNameService.UPDATE_ARTICLE)
 	void testUpdateArticle() {
-		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill2);
-		MicroSkill micro = optionalMicro.orElseThrow(() -> new EntityNotFoundException("MicroSkill not found"));
-		//ArticleDto articleDto1 = new ArticleDto("Python Basics", "Test", 10L);
+		long idMicro = 11;
+		ArticleDto articleDto1 = new ArticleDto("Web Development with React", "Hello World", idMicro);
 		articleService.updateArticle(articleDto1);
-
-		assertEquals(articleDto1.articleName(), articleRepo.findByArticleName("Python Basics").get().getArticleName());
+		assertEquals(articleDto1.textOfArticle(), articleRepo.findById(11l).get().getTextOfArticle());
 	}
 
 }
