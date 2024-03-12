@@ -147,11 +147,36 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         }
     }
 
+    @Override
+    public Page<MicroSkillDto> freshMicroSkills(Pageable paging) {
+        return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getCreationDate));
+    }
+
+    @Override
+    public Page<MicroSkillDto> findMostPopularMicroSkills(Pageable paging) {
+        return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getPopularity));
+    }
+    @Override
+    public Page<MicroSkillDto> mostVisitedMicroSkills(Pageable paging) {
+        return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getViews));
+    }
+
+    private Page<MicroSkillDto> getMicroSkillDtos(Pageable paging, Comparator<MicroSkill> comparing) {
+        Page<MicroSkill> microSkillsPageForPopular = microSkillRepository.findAll(paging);
+        List<MicroSkillDto> listOfPopularMicroSkillDto = microSkillsPageForPopular.getContent()
+                .stream()
+                .sorted(comparing.reversed())
+                .map(MicroSkill::build)
+                .toList();
+        return new PageImpl<>(listOfPopularMicroSkillDto, paging, microSkillsPageForPopular.getTotalElements());
+    }
+
     @Transactional(readOnly = true)
     @Override
-    public MicroSkillDto findMicroSkill(long microSkillId) {
+    public MicroSkillDto findMicroSkillById(long microSkillId) {
         log.debug("Get MicroSkill by id : {}", microSkillId);
-        return microSkillRepository.findById(microSkillId).get().build();
+        Optional<MicroSkill> microSkillOptional = microSkillRepository.findById(microSkillId);
+        return microSkillOptional.map(MicroSkill::build).orElseThrow(MicroSkillNotFoundException::new);
     }
 
     @Override

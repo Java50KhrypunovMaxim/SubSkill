@@ -1,13 +1,16 @@
 package com.subskill.models;
 
 import com.subskill.dto.CartDto;
+import com.subskill.dto.MicroSkillDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -34,9 +37,11 @@ public class Cart {
     private Set<MicroSkill> listOfMicroSkills;
 
     public CartDto build() {
-        return new CartDto(id,userId, listOfMicroSkills.stream()
+        List<MicroSkillDto> listOfMicroSkillDtos = listOfMicroSkills.stream()
                 .map(MicroSkill::build)
-                .toList());
+                .toList();
+
+        return new CartDto(id, userId, listOfMicroSkillDtos);
     }
 }
 

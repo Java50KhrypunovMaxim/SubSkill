@@ -58,7 +58,7 @@ VALUES (10, 'Python Fundamentals', 'python.jpg', '2022-02-01',
         'Learn the fundamental concepts of Python programming language', '2022-02-28 09:30:00', 10),
 
        (11, 'Web Development with React.js', 'react.jpg', '2022-03-01',
-        'Build modern web applications using React.js', '4 weeks', 'INTERMEDIATE', 4.8, 150.0, 1800, 39.99, 15,
+        'Build modern web applications using React.js', '4 weeks', 'INTERMEDIATE', 4.8, 800.0, 1800, 39.99, 15,
         'Learn how to build modern web applications using React.js framework', '2022-03-31 15:45:00', 10),
 
        (12, 'Introduction to Data Science', 'data-science.jpg', '2022-04-01',

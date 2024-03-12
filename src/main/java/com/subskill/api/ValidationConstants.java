@@ -19,6 +19,7 @@ public interface ValidationConstants {
     String CONFIRMED_PASSWORD_NOT_FOUND = "confirmed password not found";
     String TOKEN_NOT_FOUND = "token not found";
     String MISSING_ARTICLE_NAME_MESSAGE = "Missing name of article";
+    String MISSING_ID_OF_ARTICLE = "Missing id of article";
     String MISSING_TEXT_OF_ARTICLE_MESSAGE = "Missing text of article";
     String MISSING_ID_OF_SKILLS = "Missing id of skills";
     String MISSING_ID_OF_REVIEW = "Missing id of review";

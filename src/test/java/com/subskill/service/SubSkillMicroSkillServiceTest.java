@@ -44,8 +44,7 @@ class SubSkillMicroSkillServiceTest {
 
     @Autowired
     private MicroSkillRepository microSkillRepository;
-    @Autowired
-    private TechnologyRepository technologyRepository;
+
 
     @Autowired
     private MicroSkillService microSkillService;
@@ -77,6 +76,15 @@ class SubSkillMicroSkillServiceTest {
         List<String> myTestMicroSkillNames = myTestMicroSkills.stream().map(MicroSkillDto::name).toList();
 
         assertEquals(name, myTestMicroSkillNames.get(0), "Python Fundamentals");
+    }
+
+    @Test
+    public void testFindMicroSkillById() {
+        long microSkillId = 10;
+        MicroSkillDto microskillFromService = microSkillService.findMicroSkillById(microSkillId);
+        Optional<MicroSkill> microSkill = microSkillRepository.findById(microSkillId);
+        assertNotNull(microskillFromService);
+        assertEquals("Same MicroSkill object",microSkill.get().getId() , microskillFromService.id());
     }
 
     @Test
