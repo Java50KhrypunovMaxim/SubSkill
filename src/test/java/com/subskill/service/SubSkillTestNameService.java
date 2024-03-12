@@ -11,6 +11,8 @@ public interface SubSkillTestNameService {
     String DELETE_ARTICLE = "Deleting Article";
     String UPDATE_ARTICLE = "Updating Article";
     String GET_TECHNOLOGY_BY_ID = "Get technology by ID";
-
+    String SHOW_ALL_PROFESSION = "Showing all profession";
+    String SHOW_ALL_TECHNOLOGY = "Showing all technology";
+	String GET_TECHNOLOGY_BY_NAME = "Get technology by name";
 }
 

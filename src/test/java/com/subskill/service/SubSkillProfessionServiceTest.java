@@ -35,7 +35,7 @@ public class SubSkillProfessionServiceTest {
     );
 	
 	@Test
-	@DisplayName(PROFESSION_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_ARTICLES)
+	@DisplayName(PROFESSION_SERVICE_TEST + SubSkillTestNameService.SHOW_ALL_PROFESSION)
 	void testfindAllProfession() {
 		List<ProfessionDto> actualList = professionService.findAll();
 		assertIterableEquals(expectList, actualList);

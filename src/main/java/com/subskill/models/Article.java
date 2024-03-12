@@ -1,6 +1,8 @@
 package com.subskill.models;
 
 import com.subskill.dto.ArticleDto;
+import com.subskill.repository.ArticleRepository;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
