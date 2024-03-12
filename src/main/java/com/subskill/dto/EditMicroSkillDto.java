@@ -19,6 +19,7 @@ public record EditMicroSkillDto(@NotNull(message = MISSING_ID_OF_SKILLS)
                                 LocalDateTime lastUpdateTime,
                                 String aboutSkill,
                                 Integer lessonCount,
+                                Double price,
                                 List<Tags> tags,
                                 Level level,
                                 List<ArticleDto> articles,

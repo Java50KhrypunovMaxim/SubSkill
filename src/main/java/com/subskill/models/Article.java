@@ -1,6 +1,8 @@
 package com.subskill.models;
 
 import com.subskill.dto.ArticleDto;
+import com.subskill.repository.ArticleRepository;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,7 @@ public class Article {
 
     public static Article of(ArticleDto articleDto) {
         Article article = new Article();
+        article.id = articleDto.id();
         article.articleName = articleDto.articleName();
         article.textOfArticle = articleDto.textOfArticle();
         article.microSkill = articleDto.microskillId();
@@ -40,7 +43,7 @@ public class Article {
     }
 
     public ArticleDto build() {
-        return new ArticleDto(articleName, textOfArticle, microSkill);
+        return new ArticleDto(id,articleName, textOfArticle, microSkill);
     }
 
 }

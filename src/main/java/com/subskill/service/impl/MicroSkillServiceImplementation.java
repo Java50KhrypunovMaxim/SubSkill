@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final TechnologyRepository technologyRepository;
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -63,12 +62,11 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
     @Override
     @Transactional
-    public void updateMicroSkill(EditMicroSkillDto microSkillDto) {
-        MicroSkill existingMicroSkill = microSkillRepository.findById(microSkillDto.id())
+    public void updateMicroSkill(EditMicroSkillDto editMicroSkillDto, Long id) {
+        MicroSkill existingMicroSkill = microSkillRepository.findById(id)
                 .orElseThrow(MicroSkillNotFoundException::new);
         existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(microSkillDto, existingMicroSkill);
+        existingMicroSkill.updateMicroSkillFromDto(existingMicroSkill, editMicroSkillDto);
         microSkillRepository.save(existingMicroSkill);
     }
 
@@ -149,11 +147,36 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         }
     }
 
+    @Override
+    public Page<MicroSkillDto> freshMicroSkills(Pageable paging) {
+        return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getCreationDate));
+    }
+
+    @Override
+    public Page<MicroSkillDto> findMostPopularMicroSkills(Pageable paging) {
+        return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getPopularity));
+    }
+    @Override
+    public Page<MicroSkillDto> mostVisitedMicroSkills(Pageable paging) {
+        return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getViews));
+    }
+
+    private Page<MicroSkillDto> getMicroSkillDtos(Pageable paging, Comparator<MicroSkill> comparing) {
+        Page<MicroSkill> microSkillsPageForPopular = microSkillRepository.findAll(paging);
+        List<MicroSkillDto> listOfPopularMicroSkillDto = microSkillsPageForPopular.getContent()
+                .stream()
+                .sorted(comparing.reversed())
+                .map(MicroSkill::build)
+                .toList();
+        return new PageImpl<>(listOfPopularMicroSkillDto, paging, microSkillsPageForPopular.getTotalElements());
+    }
+
     @Transactional(readOnly = true)
     @Override
-    public MicroSkillDto findMicroSkill(long microSkillId) {
+    public MicroSkillDto findMicroSkillById(long microSkillId) {
         log.debug("Get MicroSkill by id : {}", microSkillId);
-        return microSkillRepository.findById(microSkillId).get().build();
+        Optional<MicroSkill> microSkillOptional = microSkillRepository.findById(microSkillId);
+        return microSkillOptional.map(MicroSkill::build).orElseThrow(MicroSkillNotFoundException::new);
     }
 
     @Override
@@ -201,7 +224,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 .getContent()
                 .stream()
                 .map(MicroSkill::build)
-                .collect(Collectors.toList());
+                .toList();
 
         log.debug("find MicroSkills description by page rating: {}", paging);
         return new PageImpl<>(microSkillDtos, paging, microSkillPage.getTotalElements());

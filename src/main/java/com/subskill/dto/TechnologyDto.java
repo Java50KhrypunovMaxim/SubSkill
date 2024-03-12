@@ -11,12 +11,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record TechnologyDto(
+        @NotEmpty(message = PROFESSION_ID_MISSING)
+        Long id,
         @NotEmpty(message = MISSING_TECHNOLOGY_NAME_MESSAGE)
-        String name,
-
-        @NotEmpty(message = MISSING_PROFESSION_MESSAGE)
-        Profession profession,
-
-        @NotNull(message = MISSING_MICROSKILLS_MESSAGE)
-        List<MicroSkill> microSkills) {
+        String name) {
 }

@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record ArticleDto (
+		@NotEmpty(message = MISSING_ID_OF_ARTICLE)
+		Long id,
 		@NotEmpty (message=MISSING_ARTICLE_NAME_MESSAGE)
 		String articleName,
 		
@@ -17,24 +19,4 @@ public record ArticleDto (
 
 		@NotNull(message = MISSING_ID_OF_SKILLS)
         long microskillId)
-	
-	{
-		@Override
-		public int hashCode() {
-			return Objects.hash(articleName);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ArticleDto  other = (ArticleDto) obj;
-			return Objects.equals(articleName, other.articleName);
-		}
-
-
-	}
+	{}
