@@ -42,7 +42,9 @@ public record MicroSkillDto(
                             @Min(value = 1, message = TECHNOLOGY_MISSING)
                             Long technologyId
 ) {
-
+    public MicroSkillDto(Long id, String name, String description) {
+        this(id, name, description, null, null, null, null, null, null, null, null, null);
+    }
 
     @Override
     public int hashCode() {

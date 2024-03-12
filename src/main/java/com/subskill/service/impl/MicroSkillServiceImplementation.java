@@ -199,7 +199,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 .getContent()
                 .stream()
                 .map(MicroSkill::build)
-                .collect(Collectors.toList());
+                .toList();
 
         log.debug("find MicroSkills description by page rating: {}", paging);
         return new PageImpl<>(microSkillDtos, paging, microSkillPage.getTotalElements());

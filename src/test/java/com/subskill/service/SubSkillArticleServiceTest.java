@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -81,7 +80,7 @@ public class SubSkillArticleServiceTest {
 		if (optionalMicro.isPresent()) {
 			micro = optionalMicro.get();
 		}
-		//ArticleDto articleDto1 = new ArticleDto(ARTICLENAME1, TEXT1, 10L);
+//		ArticleDto articleDto1 = new ArticleDto(1L,ARTICLENAME1, TEXT1, 	10L);
 		ArticleDto savedArticleDto = articleService.addArticle(articleDto1);
 		assertEquals(articleDto1, savedArticleDto);
 	}

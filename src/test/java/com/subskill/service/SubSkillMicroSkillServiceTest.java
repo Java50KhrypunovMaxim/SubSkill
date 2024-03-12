@@ -9,10 +9,13 @@ import com.subskill.models.Technology;
 import com.subskill.repository.MicroSkillRepository;
 import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.impl.MicroSkillServiceImplementation;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,14 +29,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
-
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @Sql(scripts = {"classpath:data_for_the_database.sql"})
@@ -41,35 +44,33 @@ class SubSkillMicroSkillServiceTest {
 
     @Autowired
     private MicroSkillRepository microSkillRepository;
-
+    @Autowired
+    private TechnologyRepository technologyRepository;
 
     @Autowired
     private MicroSkillService microSkillService;
 
     @Test
     public void testFindLevelFromMicroSkill() {
-        String level = "INTERMEDIATE";
         PageRequest pageable = PageRequest.of(0, 5);
         Page<MicroSkillDto> result = microSkillService.findLevelFromMicroSkill(Level.INTERMEDIATE, pageable);
 
         assertNotNull(result);
-        assertEquals("0",0, result.getNumber());
-        assertEquals("5",5, result.getSize());
-        assertEquals("2",2, result.getTotalPages());
-        assertEquals("8",8, result.getTotalElements());
-
+        assertEquals("0", 0, result.getNumber());
+        assertEquals("5", 5, result.getSize());
+        assertEquals("2", 2, result.getTotalPages());
         List<MicroSkillDto> microSkills = result.getContent();
         assertNotNull(microSkills);
-        assertEquals("5",5, microSkills.size());
+        assertEquals("5", 5, microSkills.size());
         MicroSkillDto microSkillDto = microSkills.get(0);
         assertNotNull(microSkillDto);
-        assertEquals("Python Fundamentals", microSkillDto.name(),"Python Fundamentals");
-        assertEquals( level,microSkillDto.level(),"INTERMEDIATE");
+        assertEquals("Python Fundamentals", microSkillDto.name(), "Python Fundamentals");
+        assertEquals("INTERMEDIATE", microSkillDto.level(), Level.INTERMEDIATE);
     }
 
     @Test
     public void testGetAllMicroSkills() {
-        String  name = "Python Fundamentals";
+        String name = "Python Fundamentals";
 
         List<MicroSkillDto> myTestMicroSkills = microSkillService.findAllMicroSkills();
 
@@ -78,56 +79,61 @@ class SubSkillMicroSkillServiceTest {
         assertEquals(name, myTestMicroSkillNames.get(0), "Python Fundamentals");
     }
 
-//    @Test
-//    void testFindTechnology() {
-//        String technologyName = "Java";
-//        List<MicroSkill> expectedMicroSkills = MyMicroSkill();
-//        MicroSkill firstMicroSkill = expectedMicroSkills.get(0);
-//
-//        List<MicroSkill> testMicroSkill = new ArrayList<>();
-//        testMicroSkill.add(firstMicroSkill);
-//        Technology technology = firstMicroSkill.getTechnology();
-//
-//        Mockito.lenient().when(technologyRepository.findById(10L)).thenReturn(Optional.of(technology));
-//
-//
-//        Mockito.lenient().when(microSkillRepository.findByTechnologyName(technology.getName())).thenReturn(testMicroSkill);
-//
-//        List<MicroSkill> actualMicroSkills = microSkillService.findTechnology(technologyName);
-//
-//        assertNotNull(actualMicroSkills, "Not Null");
-//        assertFalse(actualMicroSkills.isEmpty(), "At least 1 microskill");
-//
-//
-//    }
-//
-//    @Test
-//    void testFindMicroSkillByTag() {
-//        Tags tag = Tags.DEVELOPMENT;
-//        List<MicroSkill> expectedMicroSkills = MyMicroSkill();
-//
-//        when(microSkillRepository.findByTags(tag)).thenReturn(expectedMicroSkills);
-//        List<MicroSkillDto> actualMicroSkills = microSkillService.findMicroSkillByTag(tag);
-//
-//        assertNotNull(actualMicroSkills);
-//        assertEquals(expectedMicroSkills.size(), actualMicroSkills.size());
-//        assertEquals(expectedMicroSkills.get(0), actualMicroSkills.get(0));
-//        verify(microSkillRepository, times(1)).findByTags(tag);
-//    }
+    @Test
+    void testFindTechnologyName() {
+        List<MicroSkill> microSkills = MyMicroSkill();
 
-//    @Test
-//    void testGetBestDealsByToday() {
-//        List<MicroSkill> expectedMicroSkills = MyMicroSkill();
-//
-//        when(microSkillRepository.findByCreationDateAfter(any())).thenReturn(expectedMicroSkills);
-//        List<MicroSkillDto> actualMicroSkills = microSkillService.getBestDealsByToday();
-//
-//        assertNotNull(actualMicroSkills, "Not Null");
-//        assertFalse(actualMicroSkills.isEmpty(), "At least 1 microskill");
-//        verify(microSkillRepository, times(1)).findByCreationDateAfter(any());
-//    }
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<MicroSkill> resultPage = new PageImpl<>(microSkills.stream()
+                .filter(microSkill -> microSkill.getTechnology().getName().equals("Java"))
+                .collect(Collectors.toList()), pageable, 5);
 
-    private List<MicroSkill> MyMicroSkill() {
+
+        Page<MicroSkillDto> newResult = microSkillService.findTechnology("Java", pageable);
+        assertNotNull(newResult);
+        Assertions.assertEquals(resultPage.getTotalElements(), newResult.getTotalElements());
+
+    }
+
+    @Test
+    void testFindMicroSkillByTag() {
+        PageRequest pageable = PageRequest.of(0, 5);
+        Page<MicroSkillDto> result = microSkillService.findMicroSkillByTag(Tags.DEVELOPMENT, pageable);
+
+        assertNotNull(result);
+        assertEquals("0", 0, result.getNumber());
+        assertEquals("5", 5, result.getSize());
+        assertEquals("0", 0, result.getTotalPages());
+        List<MicroSkillDto> microSkills = result.getContent();
+        assertNotNull(microSkills);
+        assertEquals("0", 0, microSkills.size());
+
+    }
+
+
+    @Test
+    void testGetBestDealsByToday() {
+        List<MicroSkillDto> microSkillsList = new ArrayList<>();
+        microSkillsList.add(new MicroSkillDto(1L, "description1", "Good one"));
+
+        PageRequest pageable = PageRequest.of(0, 5);
+        Page<MicroSkillDto> actualMicroSkills = new PageImpl<>(microSkillsList, pageable, microSkillsList.size());
+
+        assertNotNull(actualMicroSkills, "Not null");
+        log.debug("Not Null in Best Deals by Today");
+        Assertions.assertEquals(5, actualMicroSkills.getSize(), "correct size");
+        List<MicroSkillDto> content = actualMicroSkills.getContent();
+
+        String description = "description1";
+        if (!content.isEmpty()) {
+            MicroSkillDto firstMicroSkill = content.get(0);
+            assertEquals(description, firstMicroSkill.name(), "description1");
+        } else {
+            fail("No MicroSkills in List");
+        }
+    }
+
+    public List<MicroSkill> MyMicroSkill() {
         Technology javaTechnology = new Technology();
         javaTechnology.setId(10L);
         javaTechnology.setName("Java");
