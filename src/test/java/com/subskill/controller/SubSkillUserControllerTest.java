@@ -64,16 +64,7 @@ class SubSkillUserControllerTest {
     UserDto userDtoUpdated = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, "", Roles.USER);
     UserDto changePasswordUserDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD3, Status.ONLINE, "", Roles.USER);
 
-//    @Test
-//    void testRegisterUser() throws Exception {
-//        when(userService.registerUser(userDto1)).thenReturn(userDto1);
-//        String jsonUserDto = mapper.writeValueAsString(userDto1);
-//        String actualJSON = mockMvc.perform(post("/api/v1/users").contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonUserDto)).andExpect(status().isOk()).andReturn().getResponse()
-//                .getContentAsString();
-//        assertEquals(jsonUserDto, actualJSON);
-//
-//    }
+
 
     @Test
     void testUpdateUser() throws Exception {

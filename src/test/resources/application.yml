@@ -1,0 +1,8 @@
+spring:
+  mail:
+    password: springboot
+    username: misha
+    host: 127.0.0.1
+    port: 3025
+    protocol: smtp
+    test-connection: false

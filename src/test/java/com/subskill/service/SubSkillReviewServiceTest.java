@@ -1,7 +1,8 @@
 package com.subskill.service;
 
-import com.subskill.repository.ProfessionRepository;
+import com.subskill.dto.ReviewDto;
 import com.subskill.repository.ReviewRepository;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,9 @@ public class SubSkillReviewServiceTest {
     @Autowired
     ReviewService reviewService;
 
+    @Test
+    void testAddReview() {
+
+
+    }
 }

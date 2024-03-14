@@ -26,7 +26,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional

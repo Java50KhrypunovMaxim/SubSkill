@@ -49,7 +49,9 @@ public interface ValidationConstants {
     String MISSING_TECHNOLOGY_NAME_MESSAGE = "Missing technology name";
     String MISSING_PROFESSION_MESSAGE = "Missing profession";
     String MISSING_MICROSKILLS_MESSAGE = "Missing microskill";
-    
+    String INTEREST_ID_MISSING = "Profile Interest id is missing";
+    String INTEREST_NAME_NOT_FOUND = "Profile Interest name is missing";
+
     
 }
 

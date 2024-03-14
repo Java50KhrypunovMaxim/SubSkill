@@ -11,7 +11,6 @@ import com.subskill.models.SaveMicroskill;
 import com.subskill.models.User;
 
 @Repository
-
 public interface SaveMicroskillRepository extends JpaRepository<SaveMicroskill, Long>  {
 	Optional <SaveMicroskill> findById(Long id);
     boolean existsByUserAndMicroSkills(User user, MicroSkill microSkill);

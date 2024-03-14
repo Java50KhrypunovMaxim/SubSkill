@@ -1,6 +1,6 @@
 package com.subskill.controller;
 
-import com.subskill.service.SendMail;
+import com.subskill.service.SendMailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @AllArgsConstructor
 public class SendMailController {
-    private final SendMail mailService;
+    private final SendMailService sendMailService;
 
     @PostMapping("/send")
     public String sendMail(@RequestParam String mail) {
-        return mailService.send(mail);
+        return sendMailService.send(mail);
     }
 }
