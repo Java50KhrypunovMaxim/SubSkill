@@ -54,6 +54,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<SaveMicroskill> saveMicroSkills;
 
+
     public static User of(UserDto userDto) {
         User user = new User();
         user.username = userDto.username();

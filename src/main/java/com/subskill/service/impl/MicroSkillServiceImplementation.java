@@ -15,7 +15,6 @@ import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -176,6 +178,12 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public MicroSkillDto findMicroSkillById(long microSkillId) {
         log.debug("Get MicroSkill by id : {}", microSkillId);
         Optional<MicroSkill> microSkillOptional = microSkillRepository.findById(microSkillId);
+        microSkillOptional.ifPresent(microSkill -> {
+            Integer views = microSkill.getViews();
+            views++;
+            microSkill.setViews(views);
+             microSkillRepository.save(microSkill);
+        });
         return microSkillOptional.map(MicroSkill::build).orElseThrow(MicroSkillNotFoundException::new);
     }
 
@@ -216,7 +224,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("find MicroSkills description by page rating: {}", paging);
         return new PageImpl<>(microSkillDtos, paging, microSkillPage.getTotalElements());
     }
-
+    @Transactional(readOnly = true)
     @Override
     public Page<MicroSkillDto> findTechnology(String name, Pageable paging) {
         Page<MicroSkill> microSkillPage = microSkillRepository.findByTechnologyName(name, paging);

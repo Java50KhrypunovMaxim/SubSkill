@@ -1,6 +1,6 @@
 package com.subskill.service.impl;
 
-import com.subskill.service.SendMail;
+import com.subskill.service.SendMailService;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class SendMailServiceImpl implements SendMail {
+public class SendMailServiceImpl implements SendMailService {
     private final JavaMailSender javaMailSender;
 
     @Override

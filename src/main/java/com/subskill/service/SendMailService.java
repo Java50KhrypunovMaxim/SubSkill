@@ -1,5 +1,5 @@
 package com.subskill.service;
 
-public interface SendMail {
+public interface SendMailService {
     String send(String mail);
 }

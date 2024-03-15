@@ -1,18 +1,18 @@
 package com.subskill.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.*;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.subskill.config.ObjectMapperConfig;
 import com.subskill.dto.AuthDto.LoginDto;
-import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.ReviewDto;
 import com.subskill.dto.UserDto;
+import com.subskill.enums.Level;
+import com.subskill.enums.Roles;
+import com.subskill.enums.Status;
+import com.subskill.enums.Tags;
+import com.subskill.models.MicroSkill;
+import com.subskill.models.Review;
+import com.subskill.models.User;
+import com.subskill.service.ReviewService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -28,15 +28,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import com.subskill.dto.ReviewDto;
-import com.subskill.models.MicroSkill;
-
-import com.subskill.models.Review;
-
-import com.subskill.models.User;
-import com.subskill.service.ReviewService;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
@@ -53,8 +56,28 @@ class SubSkillReviewControllerTest {
     @Autowired
     ObjectMapper mapper;
 
-    private static final String TEXT1 = "Rambo";
+    private static final UserDto USER_DTO = new UserDto("test_user", "user@example.com", "password123", Status.ONLINE, "user.jpg", Roles.USER);
+
+    private static final ReviewDto REVIEW_DTO = new ReviewDto(1L, "Great course", 4.5, 10L, USER_DTO);
+
     private static String authToken;
+    private static final MicroSkill MICROSKILL = MicroSkill.builder()
+            .name("Java Programming")
+            .photo("java.jpg")
+            .creationDate(LocalDate.now())
+            .description("Learn Java Programming from scratch")
+            .learningTime("3 months")
+            .tags(List.of(Tags.BUSINESS))
+            .level(Level.ADVANCED)
+            .rating(4.5)
+            .popularity(100.0)
+            .views(500)
+            .price(49.99)
+            .lessonCount(50)
+            .aboutSkill("Java is a powerful and versatile programming language")
+            .lastUpdateTime(LocalDateTime.now())
+            .build();
+    ;
 
     @BeforeAll
     public static void setup() {
@@ -67,22 +90,23 @@ class SubSkillReviewControllerTest {
                 .compact();
     }
 
-//    @Test
-//    void testAddReview() throws Exception {
-//        when(reviewService.addReview(reviewDto)).thenReturn(reviewDto);
-//        String jsonReviewDto = mapper.writeValueAsString(reviewDto);
-//
-//        String actualJSON = mockMvc.perform(post("/api/v1/review")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
-//                        .content(jsonReviewDto))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse()
-//                .getContentAsString();
-//
-//        assertEquals(jsonReviewDto, actualJSON);
-//    }
+    @Test
+    void testAddReview() throws Exception {
+
+        when(reviewService.addReview(REVIEW_DTO)).thenReturn(REVIEW_DTO);
+        String jsonReviewDto = mapper.writeValueAsString(REVIEW_DTO);
+
+        String actualJSON = mockMvc.perform(post("/api/v1/review")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
+                        .content(jsonReviewDto))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertEquals(jsonReviewDto, actualJSON);
+    }
 
     @Test
     void testDeleteReview() throws Exception {
@@ -94,18 +118,24 @@ class SubSkillReviewControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    void testFindByMicroSkillName() throws Exception {
-//        List<Review> expectedReview = new ArrayList<>(List.of(Review.of(reviewDto)));
-//        String jsonExpected = mapper.writeValueAsString(expectedReview);
-//        when(reviewService.findByMicroSkillName("Java")).thenReturn(expectedReview);
-//        String actualJSON = mockMvc.perform(get("/api/v1/review/find-by-name/" + "Java")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse()
-//                .getContentAsString();
-//        assertEquals(jsonExpected, actualJSON);
-//    }
+    @Test
+    void testFindByMicroSkillName() throws Exception {
+
+
+        Review review = new Review(
+                REVIEW_DTO.id(),
+                REVIEW_DTO.text(),
+                REVIEW_DTO.rating(),
+                MICROSKILL,
+                User.of(REVIEW_DTO.userDto())
+        );
+        List<Review> expectedReview = List.of(review);
+        when(reviewService.findByMicroSkillName("Java Programming")).thenReturn(List.of(REVIEW_DTO));
+
+        mockMvc.perform(get("/api/v1/review/find-by-name/Java")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json(mapper.writeValueAsString(expectedReview)));
+    }
 }

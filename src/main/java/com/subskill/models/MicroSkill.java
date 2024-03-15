@@ -10,6 +10,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.lang.reflect.Constructor;
 import java.time.LocalDate;
@@ -76,6 +78,7 @@ public class MicroSkill {
     @Column(name = "about_skill")
     private String aboutSkill;
 
+    @UpdateTimestamp
     @Column(name = "last_update_time")
     private LocalDateTime lastUpdateTime;
 
@@ -112,7 +115,7 @@ public class MicroSkill {
     public MicroSkillDto build() {
         return new MicroSkillDto(id,name, description, photo, learningTime,
                 tags, price, lastUpdateTime, creationDate,
-                aboutSkill, level, technology.getId());
+                aboutSkill, level,views, technology.getId());
     }
 
     public void updateMicroSkillFromDto(MicroSkill microSkill, EditMicroSkillDto dto) {
