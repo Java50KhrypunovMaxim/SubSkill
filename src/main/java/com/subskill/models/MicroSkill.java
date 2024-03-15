@@ -108,13 +108,15 @@ public class MicroSkill {
         microSkill.learningTime = microSkillDto.learningTime();
         microSkill.tags = microSkillDto.tags();
         microSkill.level = microSkillDto.level();
+        microSkill.views = microSkillDto.views();
         microSkill.price = microSkillDto.price();
+        microSkill.rating = microSkillDto.rating();
         return microSkill;
     }
 
     public MicroSkillDto build() {
         return new MicroSkillDto(id,name, description, photo, learningTime,
-                tags, price, lastUpdateTime, creationDate,
+                tags, price, lastUpdateTime, rating,creationDate,
                 aboutSkill, level,views, technology.getId());
     }
 

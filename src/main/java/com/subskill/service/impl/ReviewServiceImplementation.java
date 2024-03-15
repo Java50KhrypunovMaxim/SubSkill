@@ -1,7 +1,9 @@
 package com.subskill.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.service.ReviewService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,11 @@ public class ReviewServiceImplementation implements ReviewService {
 
     private final ReviewRepository reviewRepo;
     private final MicroSkillRepository microSkillRepo;
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     public ReviewDto addReview(ReviewDto reviewDto) {
-        Review review = modelMapper.map(reviewDto, Review.class);
+        Review review = Review.of(reviewDto);
         if (review.getRating() != null) {
             reviewRepo.save(review);
             log.debug("Review {} has been saved", reviewDto);
@@ -48,9 +49,10 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReviewDto> findByMicroSkillName(String microSkillName) {
-        List<Review> reviews = reviewRepo.findByMicroSkillName(microSkillName);
-        log.debug("All reviews for micro skill: {}", microSkillName);
+    public List<ReviewDto> findByMicroSkillId(Long microSkillId) {
+        MicroSkill microSkill = microSkillRepo.findById(microSkillId)
+                .orElseThrow(MicroSkillNotFoundException::new);
+        List<Review> reviews = microSkill.getReviews();
         if (reviews.isEmpty()) {
             throw new ReviewNotFoundException();
         }
@@ -58,7 +60,6 @@ public class ReviewServiceImplementation implements ReviewService {
                 .map(Review::build)
                 .toList();
     }
-
     @Transactional
     public void updateMicroSkillAverageRating(MicroSkill microSkill) {
         double averageRating = microSkill.calculateAverageRating();

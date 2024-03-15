@@ -37,10 +37,10 @@ public class ReviewController {
         reviewService.deleteReview(id);
     }
 
-    @Operation(summary = "Find list of reviews based on microSkillName")
-    @GetMapping("/find-by-name/{microSkillDtoName}")
-    List<ReviewDto> findByMicroSkillName(@PathVariable String microSkillDtoName) {
-        log.debug("List of Review: received by microSkillName {}", microSkillDtoName);
-        return reviewService.findByMicroSkillName(microSkillDtoName);
+    @Operation(summary = "Find list of reviews based on microSkillId")
+    @GetMapping("/find-by-name/{microskillId}")
+    List<ReviewDto> findByMicroSkillName(@PathVariable Long microskillId) {
+        log.debug("List of Review: received by microSkillName {}", microskillId);
+        return reviewService.findByMicroSkillId(microskillId);
     }
 }

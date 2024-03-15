@@ -33,6 +33,12 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public static Review of(ReviewDto reviewDto) {
+        Review review = new Review();
+        review.setText(reviewDto.text());
+        review.setRating(reviewDto.rating());
+        return review;
+    }
     public ReviewDto build() {
         return new ReviewDto(id, text, rating, microSkill.getId(), user.build());
     }
