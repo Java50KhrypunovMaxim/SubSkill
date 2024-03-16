@@ -4,18 +4,16 @@ import com.subskill.api.ValidationConstants;
 import com.subskill.dto.UserDto;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.NotFoundException;
-import com.subskill.exception.UserExistingEmailExeption;
+import com.subskill.exception.UserExistingEmailException;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +32,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
         User existingUser = userRepository.findByEmail(userDto.email())
-                .orElseThrow(UserExistingEmailExeption::new);
+                .orElseThrow(UserExistingEmailException::new);
         if (userDto.password() != null && !userDto.password().isEmpty()) {
             existingUser.setPassword(passwordEncoder.encode(userDto.password()));
         }
@@ -47,7 +45,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public UserDto changePassword(String email, String NewPassword) {
         User optionalExistingUser = userRepository.findByEmail(email)
-               .orElseThrow(UserExistingEmailExeption::new);
+                .orElseThrow(UserExistingEmailException::new);
 
         optionalExistingUser.setPassword(NewPassword);
         userRepository.save(optionalExistingUser);
@@ -73,6 +71,11 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         log.debug("Showing all users that already registered on site");
         return userDto;
 
+    }
+
+    @Override
+    public String nameUserByToken() {
+        return getAuthenticatedUser().getUsername();
     }
 
     @Override

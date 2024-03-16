@@ -11,5 +11,5 @@ public interface ReviewService {
 	ReviewDto addReview (ReviewDto reviewDto);
 	void deleteReview(Long review_id);
 
-    List<ReviewDto> findByMicroSkillName(String microSkillDtoId);
+    List<ReviewDto> findByMicroSkillId(Long microskillId);
 }

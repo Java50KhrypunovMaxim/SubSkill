@@ -130,7 +130,7 @@ class SubSkillReviewControllerTest {
                 User.of(REVIEW_DTO.userDto())
         );
         List<Review> expectedReview = List.of(review);
-        when(reviewService.findByMicroSkillName("Java Programming")).thenReturn(List.of(REVIEW_DTO));
+        when(reviewService.findByMicroSkillId(1L)).thenReturn(List.of(REVIEW_DTO));
 
         mockMvc.perform(get("/api/v1/review/find-by-name/Java")
                         .contentType(MediaType.APPLICATION_JSON)

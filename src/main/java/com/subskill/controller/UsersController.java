@@ -1,5 +1,6 @@
 package com.subskill.controller;
 
+import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
 import com.subskill.service.UserService;
@@ -32,7 +33,10 @@ public class UsersController {
         log.debug("update user: received new information about user: {}", userDto);
         return userService.updateUser(userDto);
     }
-
+    @GetMapping("/name")
+    public String getNameUserByToken() {
+        return userService.nameUserByToken();
+    }
     @Operation(summary = "Change password for User")
     @PutMapping("/password/{email}")
     UserDto changeUserPassword(@PathVariable String email,@RequestBody  UserDtoPassword userDtoPassword) {
