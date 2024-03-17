@@ -6,6 +6,7 @@ import com.subskill.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -38,4 +39,5 @@ public class CartController {
         log.debug("List of users have been received");
         return cartService.allMicroSkillsInCart(userId);
     }
+
 }
