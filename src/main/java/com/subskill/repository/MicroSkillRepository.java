@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
-
+    Optional<MicroSkill> findById(long id);
     Page<MicroSkill> findByLevel(Level level, Pageable pageable);
 
     Page<MicroSkill> findByTags(Tags tags, Pageable pageable);
@@ -30,4 +31,6 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
 
     boolean existsByName(String microSkillName);
+
+
 }
