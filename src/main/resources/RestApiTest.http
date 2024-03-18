@@ -10,6 +10,9 @@ GET http://localhost:8080/api/v1/microskill/technology?name=Java
 GET http://localhost:8080/api/v1/microskill/new
 
 ###
+GET http://localhost:8080/api/v1/microskill/get-today-deals?page=0&size=5
+
+###
 GET http://localhost:8080/api/v1/microskill/find-by-id/10
 
 ###
@@ -37,11 +40,11 @@ Content-Type: application/json
 ###
 POST http://localhost:8080/api/v1/microskill/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTcxMDcwNjI3OSwiZXhwIjoxNzEwNzI0Mjc5fQ.I8d4pbjTewclkKovi8vjqxB6ApOnbWDLmPmKB05mTH0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTcxMDc3NjQ4NCwiZXhwIjoxNzEwNzk0NDg0fQ.G3ivTXdrHEfLwOqmen3W611RFfGCBrPc0GvY5K1n4Oc
 
 {
 
-  "name": "Some Name5",
+  "name": "Some very new Name!",
   "photo": "new photo-url",
   "creationDate": "2024-03-18",
   "description": "Some description",

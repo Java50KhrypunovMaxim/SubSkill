@@ -62,6 +62,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 .toList();
     }
 
+
     @Override
     @Transactional
     public void updateMicroSkill(EditMicroSkillDto editMicroSkillDto, Long id) {
@@ -158,6 +159,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public Page<MicroSkillDto> findMostPopularMicroSkills(Pageable paging) {
         return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getPopularity));
     }
+
     @Override
     public Page<MicroSkillDto> mostVisitedMicroSkills(Pageable paging) {
         return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getViews));
@@ -173,6 +175,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         return new PageImpl<>(listOfPopularMicroSkillDto, paging, microSkillsPageForPopular.getTotalElements());
     }
 
+
     @Transactional(readOnly = true)
     @Override
     public MicroSkillDto findMicroSkillById(long microSkillId) {
@@ -182,7 +185,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
             Integer views = microSkill.getViews();
             views++;
             microSkill.setViews(views);
-             microSkillRepository.save(microSkill);
+            microSkillRepository.save(microSkill);
         });
         return microSkillOptional.map(MicroSkill::build).orElseThrow(MicroSkillNotFoundException::new);
     }
@@ -224,6 +227,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("find MicroSkills description by page rating: {}", paging);
         return new PageImpl<>(microSkillDtos, paging, microSkillPage.getTotalElements());
     }
+
     @Transactional(readOnly = true)
     @Override
     public Page<MicroSkillDto> findTechnology(String name, Pageable paging) {

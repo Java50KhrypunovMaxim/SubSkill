@@ -10,11 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
-    Optional<MicroSkill> findById(Long id);
+
 
     Page<MicroSkill> findByLevel(Level level, Pageable pageable);
 
@@ -22,9 +21,6 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
     Page<MicroSkill> findByTechnologyName(String name, Pageable pageable);
 
-    Page<MicroSkill> findAll(Pageable pageable);
-
-    List<MicroSkill> findAll();
 
     Page<MicroSkill> findByName(String name, Pageable pageable);
 
@@ -32,7 +28,6 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
     List<MicroSkill> findByCreationDateAfter(LocalDate date);
 
-    List<MicroSkill> findByViews(Long views);
 
     boolean existsByName(String microSkillName);
 }
