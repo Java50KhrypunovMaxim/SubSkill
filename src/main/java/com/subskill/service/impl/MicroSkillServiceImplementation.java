@@ -24,10 +24,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -61,6 +66,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 .map(MicroSkill::build)
                 .toList();
     }
+
 
     @Override
     @Transactional
@@ -158,6 +164,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public Page<MicroSkillDto> findMostPopularMicroSkills(Pageable paging) {
         return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getPopularity));
     }
+
     @Override
     public Page<MicroSkillDto> mostVisitedMicroSkills(Pageable paging) {
         return getMicroSkillDtos(paging, Comparator.comparing(MicroSkill::getViews));
@@ -173,6 +180,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         return new PageImpl<>(listOfPopularMicroSkillDto, paging, microSkillsPageForPopular.getTotalElements());
     }
 
+
     @Transactional(readOnly = true)
     @Override
     public MicroSkillDto findMicroSkillById(long microSkillId) {
@@ -182,7 +190,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
             Integer views = microSkill.getViews();
             views++;
             microSkill.setViews(views);
-             microSkillRepository.save(microSkill);
+            microSkillRepository.save(microSkill);
         });
         return microSkillOptional.map(MicroSkill::build).orElseThrow(MicroSkillNotFoundException::new);
     }
@@ -224,6 +232,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("find MicroSkills description by page rating: {}", paging);
         return new PageImpl<>(microSkillDtos, paging, microSkillPage.getTotalElements());
     }
+
     @Transactional(readOnly = true)
     @Override
     public Page<MicroSkillDto> findTechnology(String name, Pageable paging) {
@@ -244,15 +253,14 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         log.debug("Finding best deals by today's creation date");
 
         LocalDate twentyFourHoursAgo = LocalDate.now().minusDays(1);
-        List<MicroSkill> microSkills = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
 
+        List<MicroSkill> microSkills = microSkillRepository.findByCreationDateAfter(twentyFourHoursAgo);
         for (MicroSkill microSkill : microSkills) {
             microSkill.calculatePopularity();
         }
 
         microSkills.sort(Comparator.comparing(MicroSkill::getPopularity).reversed());
-        List<MicroSkillDto> microSkillDtoBestDayDeals = microSkills
-                .stream()
+        List<MicroSkillDto> microSkillDtoBestDayDeals = microSkills.stream()
                 .map(MicroSkill::build)
                 .collect(Collectors.toList());
 
@@ -261,7 +269,6 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         int startItem = currentPage * pageSize;
 
         List<MicroSkillDto> pagedMicroSkills;
-
         if (microSkillDtoBestDayDeals.size() < startItem) {
             pagedMicroSkills = Collections.emptyList();
         } else {
@@ -269,6 +276,6 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
             pagedMicroSkills = microSkillDtoBestDayDeals.subList(startItem, toIndex);
         }
 
-        return new PageImpl<>(pagedMicroSkills, PageRequest.of(currentPage, pageSize), microSkillDtoBestDayDeals.size());
+        return new PageImpl<>(pagedMicroSkills, paging, microSkillDtoBestDayDeals.size());
     }
 }

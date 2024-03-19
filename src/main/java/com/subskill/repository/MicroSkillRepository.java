@@ -14,17 +14,14 @@ import java.util.Optional;
 
 @Repository
 public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
-    Optional<MicroSkill> findById(Long id);
 
+    Optional<MicroSkill> findById(long id);
     Page<MicroSkill> findByLevel(Level level, Pageable pageable);
 
     Page<MicroSkill> findByTags(Tags tags, Pageable pageable);
 
     Page<MicroSkill> findByTechnologyName(String name, Pageable pageable);
 
-    Page<MicroSkill> findAll(Pageable pageable);
-
-    List<MicroSkill> findAll();
 
     Page<MicroSkill> findByName(String name, Pageable pageable);
 
@@ -32,7 +29,8 @@ public interface MicroSkillRepository extends JpaRepository<MicroSkill, Long> {
 
     List<MicroSkill> findByCreationDateAfter(LocalDate date);
 
-    List<MicroSkill> findByViews(Long views);
 
     boolean existsByName(String microSkillName);
+
+
 }

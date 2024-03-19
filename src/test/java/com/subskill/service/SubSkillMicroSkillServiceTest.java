@@ -1,21 +1,15 @@
 package com.subskill.service;
 
-import com.subskill.dto.ArticleDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Technology;
 import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.TechnologyRepository;
-import com.subskill.service.impl.MicroSkillServiceImplementation;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,21 +17,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 @SpringBootTest
 @Sql(scripts = {"classpath:data_for_the_database.sql"})
 class SubSkillMicroSkillServiceTest {
@@ -122,7 +116,7 @@ class SubSkillMicroSkillServiceTest {
     @Test
     void testGetBestDealsByToday() {
         List<MicroSkillDto> microSkillsList = new ArrayList<>();
-        microSkillsList.add(new MicroSkillDto(1L, "description1", "Good one"));
+        microSkillsList.add(new MicroSkillDto(10L, "Python Fundamentals", "Fundamental concepts of Python programming"));
 
         PageRequest pageable = PageRequest.of(0, 5);
         Page<MicroSkillDto> actualMicroSkills = new PageImpl<>(microSkillsList, pageable, microSkillsList.size());
@@ -135,7 +129,7 @@ class SubSkillMicroSkillServiceTest {
         String description = "description1";
         if (!content.isEmpty()) {
             MicroSkillDto firstMicroSkill = content.get(0);
-            assertEquals(description, firstMicroSkill.name(), "description1");
+            assertEquals(description, firstMicroSkill.name(), "Python Fundamentals");
         } else {
             fail("No MicroSkills in List");
         }

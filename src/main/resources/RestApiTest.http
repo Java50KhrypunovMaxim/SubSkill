@@ -1,0 +1,62 @@
+GET http://localhost:8080/api/v1/microskill/all
+
+###
+GET http://localhost:8080/api/v1/microskill/all-paging
+
+###
+GET http://localhost:8080/api/v1/microskill/technology?name=Java
+
+###
+GET http://localhost:8080/api/v1/microskill/new
+
+###
+GET http://localhost:8080/api/v1/microskill/get-today-deals?page=0&size=5
+
+###
+GET http://localhost:8080/api/v1/microskill/find-by-id/10
+
+###
+GET http://localhost:8080/api/v1/microskill/find-by-rating?rating=4.6
+
+###
+GET http://localhost:8080/api/v1/microskill/13/views
+
+###
+DELETE http://localhost:8080/api/v1/microskill/26
+
+###
+GET http://localhost:8080/api/v1/microskill/new?page=0&size=4&sortBy=creationDate&direction=desc
+
+###
+GET  http://localhost:8080/api/v1/microskill/mostViews?page=0&size=4&sortBy=views&direction=desc
+###
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "12345"
+}
+###
+POST http://localhost:8080/api/v1/microskill/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJzdWIiOiJ1c2VyMUBleGFtcGxlLmNvbSIsImlhdCI6MTcxMDc3NjQ4NCwiZXhwIjoxNzEwNzk0NDg0fQ.G3ivTXdrHEfLwOqmen3W611RFfGCBrPc0GvY5K1n4Oc
+
+{
+
+  "name": "Some very new Name!",
+  "photo": "new photo-url",
+  "creationDate": "2024-03-18",
+  "description": "Some description",
+  "learningTime": "Some learning time",
+  "tags": ["BUSINESS", "DESIGN"],
+  "level": "ADVANCED",
+  "rating": 4.6,
+  "popularity": 100.0,
+  "views": 1000,
+  "price": 50.0,
+  "lessonCount": 10,
+  "aboutSkill": "About this skill",
+  "lastUpdateTime": "2024-03-18T10:00:00",
+  "technologyId": 10
+}

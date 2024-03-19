@@ -207,7 +207,7 @@ public class MicroSkillController {
     public Page<MicroSkillDto> getTodayBestDeals(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "5") int size) {
 
-        Pageable paging = PageRequest.of(page, size, Sort.Direction.ASC );
+        Pageable paging = PageRequest.of(page, size );
         return microSkillService.getBestDealsByToday(paging);
     }
 }

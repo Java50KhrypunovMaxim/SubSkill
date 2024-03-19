@@ -10,7 +10,6 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -28,6 +27,10 @@ public class Cart {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "total")
+    private Double total;
+
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "cart_microskill",
@@ -41,7 +44,7 @@ public class Cart {
                 .map(MicroSkill::build)
                 .toList();
 
-        return new CartDto(id, userId, listOfMicroSkillDtos);
+        return new CartDto(id, userId,total, listOfMicroSkillDtos);
     }
 }
 

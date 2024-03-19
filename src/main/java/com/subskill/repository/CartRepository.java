@@ -9,11 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
-
-    Optional<Cart> findBMicroSkillById(long microSkillId);
+    Optional<Cart> findMicroSkillById(long microSkillId);
     Optional<Cart> findByUserId(long userId);
     Optional<Cart> findById(long cardId);
-
-
 
 }

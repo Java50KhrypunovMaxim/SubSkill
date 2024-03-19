@@ -10,5 +10,6 @@ public record CartDto(
         @NotEmpty(message = PROFESSION_ID_MISSING)
         Long id,
         Long userId,
+        Double total,
         List<MicroSkillDto> listOfMicroSkills
 ) {}

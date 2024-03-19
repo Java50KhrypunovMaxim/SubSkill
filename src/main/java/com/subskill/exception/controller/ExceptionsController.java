@@ -4,6 +4,7 @@ import com.subskill.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -30,7 +31,7 @@ public class ExceptionsController {
 
 	private ResponseEntity<String> returnResponse(String message, HttpStatus status) {
 		log.error(message);
-		return new ResponseEntity<String>(message, status);
+		return ResponseEntity.status(status).body(message);
 	}
 
 	@ExceptionHandler(IllegalStateException.class)
@@ -73,6 +74,11 @@ public class ExceptionsController {
 	@ExceptionHandler(TransactionSystemException.class)
 	ResponseEntity<String> transactionSystemExceptionHandler(TransactionSystemException e) {
 		return returnResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(DataAccessException.class)
+	ResponseEntity<String> dataAccessSystemExceptionHandler(DataAccessException e) {
+		return returnResponse(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
 }
 

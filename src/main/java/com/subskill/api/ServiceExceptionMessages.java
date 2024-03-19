@@ -11,5 +11,6 @@ public interface ServiceExceptionMessages {
 	String TRANSACTIONAL_ERROR = "Problem with data in DataBase";
 	String USER_EMAIL_ALREADY_EXISTS = "This email already taken";
 	String INTEREST_NOT_FOUND = "Interest not found";
+	String DATA_ACCESS_NOT_FOUND = "Interest not found";
 
 }
