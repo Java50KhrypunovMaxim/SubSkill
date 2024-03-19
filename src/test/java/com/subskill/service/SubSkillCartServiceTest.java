@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -62,7 +63,7 @@ public class SubSkillCartServiceTest {
                 .rating(4.5)
                 .popularity(120.0)
                 .views(1500)
-                .price(19.99)
+                .price(BigDecimal.valueOf(19.99))
                 .lessonCount(10)
                 .aboutSkill("Learn the basics of Java programming language")
                 .lastUpdateTime(LocalDateTime.of(2022, 1, 31, 10, 15))

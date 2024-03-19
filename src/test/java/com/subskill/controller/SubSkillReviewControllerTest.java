@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -72,7 +73,7 @@ class SubSkillReviewControllerTest {
             .rating(4.5)
             .popularity(100.0)
             .views(500)
-            .price(49.99)
+            .price(BigDecimal.valueOf(49.99))
             .lessonCount(50)
             .aboutSkill("Java is a powerful and versatile programming language")
             .lastUpdateTime(LocalDateTime.now())

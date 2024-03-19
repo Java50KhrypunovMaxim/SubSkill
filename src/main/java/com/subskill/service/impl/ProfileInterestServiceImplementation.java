@@ -1,6 +1,5 @@
 package com.subskill.service.impl;
 
-import com.google.gson.annotations.SerializedName;
 import com.subskill.dto.InterestDto;
 import com.subskill.exception.InterestNotFoundException;
 import com.subskill.models.Interest;

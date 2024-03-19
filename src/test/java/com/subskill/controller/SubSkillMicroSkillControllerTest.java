@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -73,7 +74,7 @@ public class SubSkillMicroSkillControllerTest {
             .rating(4.2)
             .popularity(100.0)
             .views(2000)
-            .price(29.99)
+            .price(BigDecimal.valueOf(29.99))
             .lessonCount(12)
             .aboutSkill("Learn the fundamental concepts of Python programming language")
             .lastUpdateTime(LocalDateTime.parse("2022-02-28T09:30:00"))
@@ -91,7 +92,7 @@ public class SubSkillMicroSkillControllerTest {
             .rating(4.9)
             .popularity(160.0)
             .views(2300)
-            .price(54.99)
+            .price(BigDecimal.valueOf(54.99))
             .lessonCount(15)
             .aboutSkill("Explore advanced Flutter techniques for cross-platform app development")
             .lastUpdateTime(LocalDateTime.parse("2022-08-10T14:45:00"))
