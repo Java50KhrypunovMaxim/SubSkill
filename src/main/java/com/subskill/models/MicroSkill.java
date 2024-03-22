@@ -68,7 +68,7 @@ public class MicroSkill {
 
     @Column(name = "views")
     private Integer views;
-    @JsonProperty("price")
+
     @Column(name = "price")
     private BigDecimal price;
 
