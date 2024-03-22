@@ -52,10 +52,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Set<OrderedMicroskill> orderedMicroskill;
-
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 
     public static User of(UserDto userDto) {
         User user = new User();

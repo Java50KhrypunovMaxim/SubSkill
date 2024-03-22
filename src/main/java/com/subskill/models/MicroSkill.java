@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -78,10 +77,9 @@ public class MicroSkill {
     @Column(name = "about_skill")
     private String aboutSkill;
 
-
-
     @Column(name = "what_in_this_skill")
     private String whatInThisSkill;
+
     @UpdateTimestamp
     @Column(name = "last_update_time")
     private LocalDateTime lastUpdateTime;
