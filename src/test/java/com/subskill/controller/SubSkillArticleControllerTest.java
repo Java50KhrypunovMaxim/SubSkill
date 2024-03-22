@@ -56,7 +56,7 @@ class SubSkillArticleControllerTest {
     private static final String TEXT1 = "Rambo";
     private static final String TEXT3 = "Vandam";
 
-    MicroSkillDto microSkillDto1 = new MicroSkillDto(10L,"Database Design", "", "","database_design.jpg", List.of(Tags.DESIGN),  BigDecimal.valueOf(12.0), LocalDateTime.now(),0.0,  LocalDate.now(), "About Microskill", Level.ADVANCED,200, 1L);
+    MicroSkillDto microSkillDto1 = new MicroSkillDto(10L,"Database Design", "", "","database_design.jpg", List.of(Tags.DESIGN),  BigDecimal.valueOf(12.0), LocalDateTime.now(),0.0,  LocalDate.now(), "About Microskill", Level.ADVANCED,200,10,"test", 1L);
     ArticleDto ArticleDto1 = new ArticleDto(10L,ARTICLE_NAME3, TEXT3, 10L);
     ArticleDto UpdateArticleDto = new ArticleDto(10L,ARTICLE_NAME3, TEXT1, 11L);
 

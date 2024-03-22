@@ -1,7 +1,10 @@
 package com.subskill.service;
 
 import com.subskill.dto.CartDto;
+import com.subskill.dto.MicroSkillDto;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public interface CartService {
@@ -9,5 +12,5 @@ public interface CartService {
 
     void deleteMicroSkillFromCart(Long cartId);
 
-    CartDto allMicroSkillsInCart(Long userId);
+    Set<MicroSkillDto> allMicroSkillsInCart(Long cartId);
 }

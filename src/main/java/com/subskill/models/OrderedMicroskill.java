@@ -7,35 +7,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "Ordered_Microskill")
 @Entity
+@Table(name = "Ordered_Microskill")
+@Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderedMicroskill {
 
     @Id
+    @Column(name = "ordered_microskill_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderedMicroSkillId;
 
-
-    @Column(name = "user_id")
-    private Long userId;
-
+    @Column(name = "order_Status")
     @Enumerated(EnumType.STRING)
-    @Column(name = "orderStatus")
-   private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.STARTED;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "ordered_microskills_microskills",
-            joinColumns = @JoinColumn(name = "ordered_microskill_id"),
-            inverseJoinColumns = @JoinColumn(name = "microskill_id")
-    )
-    private Set<MicroSkill> microSkills;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+//
+//    @OneToMany(mappedBy = "orderedMicroskill", cascade = CascadeType.ALL)
+//    private Set<MicroSkill> orderedMicroskill;
 
 
 }

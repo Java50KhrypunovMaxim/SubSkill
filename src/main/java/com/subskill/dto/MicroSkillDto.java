@@ -42,12 +42,16 @@ public record MicroSkillDto(
         Level level,
         @NotNull(message = MISSING_MICROSKILL_VIEWS_MESSAGE)
         Integer views,
+        @NotNull(message = MISSING_MICROSKILL_LESSON_COUNT_MESSAGE)
+        Integer lessonsCount,
+        @NotNull(message = MISSING_MICROSKILL_WHAT_IN_THIS_SKILL_MESSAGE)
+        String whatInThisSkill,
         @NotNull(message = TECHNOLOGY_ID_MISSING)
         @Min(value = 1, message = TECHNOLOGY_MISSING)
         Long technologyId
 ) {
     public MicroSkillDto(Long id, String name, String description) {
-        this(id, name, description, null,null, null, null, null, null, null, null, null, null, null);
+        this(id, name, description, null,null, null, null, null,null,null, null, null, null, null, null, null);
     }
 
     @Override

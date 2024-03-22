@@ -77,6 +77,8 @@ public class MicroSkillController {
         return microSkillService.mostVisitedMicroSkills(paging);
     }
     @Operation(summary = "Get most popular MicroSkills")
+
+//
     @GetMapping("/mostPopular")
     public Page<MicroSkillDto> mostPopularMicroSkills(
             @RequestParam(defaultValue = "0") int page,
@@ -201,7 +203,7 @@ public class MicroSkillController {
         log.debug("finding tags {} of MicroSkill", tags);
         return microSkillService.findMicroSkillByTag(tags, paging);
     }
-
+//
     @Operation(summary = "Get top MicroSkill deals")
     @GetMapping("/get-today-deals")
     public Page<MicroSkillDto> getTodayBestDeals(@RequestParam(defaultValue = "0") int page,

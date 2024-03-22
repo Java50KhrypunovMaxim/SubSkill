@@ -32,6 +32,7 @@ CREATE SEQUENCE IF NOT EXISTS saved_microskill_id_seq START 10;
 CREATE SEQUENCE IF NOT EXISTS save_microskill_id_seq START 10;
 
 
+
 INSERT INTO professions (profession_id, name)
 VALUES (10, 'DEVELOPMENT'),
        (11, 'BUSINESS'),
@@ -134,3 +135,6 @@ VALUES (10, 11),
        (11, 12),
        (12, 10),
        (13, 13);
+
+
+

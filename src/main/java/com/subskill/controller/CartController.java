@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -34,10 +35,10 @@ public class CartController {
         cartService.deleteMicroSkillFromCart(microSkillId);
     }
     @Operation(summary = "List of MicroSkills in Cart")
-    @GetMapping("/all/{userId}")
-    CartDto listOMicroSkillInCart(@PathVariable Long userId) {
+    @GetMapping("/all/{cartId}")
+    Set<MicroSkillDto> listOMicroSkillInCart(@PathVariable Long cartId) {
         log.debug("List of users have been received");
-        return cartService.allMicroSkillsInCart(userId);
+        return cartService.allMicroSkillsInCart(cartId);
     }
 
 }

@@ -105,6 +105,7 @@ CREATE TABLE IF NOT EXISTS users
     CONSTRAINT pk_users PRIMARY KEY (user_id)
 );
 
+
 ALTER TABLE users
     ADD CONSTRAINT uc_users_email UNIQUE (email);
 
@@ -150,6 +151,7 @@ ALTER TABLE save_microskill
 ALTER TABLE save_microskill
     ADD CONSTRAINT fk_savmic_on_save_microskill FOREIGN KEY (save_microskill_id) REFERENCES saved_microskill (save_microskill_id);
 
+
 DROP SEQUENCE article_id_seq CASCADE;
 
 DROP SEQUENCE cart_id_seq CASCADE;
@@ -167,3 +169,4 @@ DROP SEQUENCE saved_microskill_id_seq CASCADE;
 DROP SEQUENCE technology_id_seq CASCADE;
 
 DROP SEQUENCE user_id_seq CASCADE;
+

@@ -1,5 +1,6 @@
 package com.subskill.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -28,8 +30,10 @@ public class Cart {
     @Column(name = "user_id")
     private Long userId;
 
+    @JsonProperty("total")
     @Column(name = "total")
     private BigDecimal total;
+
 
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -40,10 +44,11 @@ public class Cart {
     )
     private Set<MicroSkill> listOfMicroSkills;
 
+
     public CartDto build() {
-        List<MicroSkillDto> listOfMicroSkillDtos = listOfMicroSkills.stream()
+        Set<MicroSkillDto> listOfMicroSkillDtos = listOfMicroSkills.stream()
                 .map(MicroSkill::build)
-                .toList();
+                .collect(Collectors.toSet());
 
         return new CartDto(id, userId,total, listOfMicroSkillDtos);
     }

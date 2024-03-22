@@ -1,6 +1,7 @@
 package com.subskill.service;
 
 import com.subskill.dto.CartDto;
+import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
 import com.subskill.models.*;
@@ -92,10 +93,10 @@ public class SubSkillCartServiceTest {
     @Test
     @DisplayName(CART_SERVICE_TEST + "All MicroSkills In Cart")
     void testAllMicroSkillsInCart() {
-        CartDto result = cartService.allMicroSkillsInCart(10L);
-        assertNotEquals(0, result.listOfMicroSkills().size());
-        assertEquals(1, result.listOfMicroSkills().size());
+        Set<MicroSkillDto> result = cartService.allMicroSkillsInCart(10L);
+        assertEquals(1, result.size());
     }
+
 
 
 }

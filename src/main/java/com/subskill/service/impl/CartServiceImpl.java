@@ -1,6 +1,8 @@
 package com.subskill.service.impl;
 
 import com.subskill.dto.CartDto;
+import com.subskill.dto.MicroSkillDto;
+import com.subskill.exception.CartIsEmptyException;
 import com.subskill.exception.CartNotFoundException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.Cart;
@@ -9,11 +11,9 @@ import com.subskill.repository.CartRepository;
 import com.subskill.repository.MicroSkillRepository;
 import com.subskill.service.CartService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -21,6 +21,7 @@ import java.util.*;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final MicroSkillRepository microSkillRepository;
+
 
     @Override
     @Transactional
@@ -51,9 +52,13 @@ public class CartServiceImpl implements CartService {
 
     @Transactional(readOnly = true)
     @Override
-    public CartDto allMicroSkillsInCart(Long userId) {
-        Cart cart = cartRepository.findByUserId(userId).orElseThrow(NoSuchElementException::new);
-        return cart.build();
+    public Set<MicroSkillDto> allMicroSkillsInCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(CartIsEmptyException::new);
+        if (cart.getListOfMicroSkills().isEmpty()) {
+            throw new MicroSkillNotFoundException();
+        }
+        return cart.build().listOfMicroSkills();
     }
 
 }

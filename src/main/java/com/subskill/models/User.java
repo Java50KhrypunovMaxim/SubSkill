@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -51,8 +52,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<SaveMicroskill> saveMicroSkills;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Set<OrderedMicroskill> orderedMicroskill;
+
 
 
     public static User of(UserDto userDto) {

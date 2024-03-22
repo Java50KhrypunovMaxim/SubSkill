@@ -1,10 +1,9 @@
 package com.subskill.service;
 
-import com.subskill.models.PaymentInfo;
-import org.springframework.http.ResponseEntity;
+import java.math.BigDecimal;
 
 public interface PaymentService {
 
-     ResponseEntity<PaymentInfo> addMicroSkillPriceInCart(Long cartId);
+     BigDecimal getTotalPaymentByUserId(Long userId);
 
 }
