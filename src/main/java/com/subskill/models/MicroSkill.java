@@ -14,6 +14,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,7 +71,7 @@ public class MicroSkill {
     private Integer views;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "lesson_count")
     private Integer lessonCount;
@@ -129,7 +130,7 @@ public class MicroSkill {
         microSkill.setLessonCount(dto.lessonCount());
         microSkill.setTags(dto.tags());
         microSkill.setLevel(dto.level());
-        microSkill.setPrice(dto.price());
+        microSkill.setPrice(BigDecimal.valueOf(dto.price()));
     }
 
     public Double calculateAverageRating() {

@@ -12,5 +12,6 @@ public interface ServiceExceptionMessages {
 	String USER_EMAIL_ALREADY_EXISTS = "This email already taken";
 	String INTEREST_NOT_FOUND = "Interest not found";
 	String DATA_ACCESS_NOT_FOUND = "Interest not found";
+	String CART_NOT_FOUND = "cart not found";
 
 }

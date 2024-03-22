@@ -1,6 +1,7 @@
 package com.subskill.service.impl;
 
 import com.subskill.dto.CartDto;
+import com.subskill.exception.CartNotFoundException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.Cart;
 import com.subskill.models.MicroSkill;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -23,23 +25,18 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public CartDto addMicroSkillToCart(Long microSkillId, Long cardId) {
-        try {
-          MicroSkill microSkill = microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
+        MicroSkill microSkill = microSkillRepository.findById(microSkillId).orElseThrow(MicroSkillNotFoundException::new);
 
-            Cart cart = cartRepository.findById(cardId)
-                    .orElseGet(() -> {
-                        Cart newCart = new Cart();
-                        newCart.setId(cardId);
-                        return cartRepository.save(newCart);
-                    });
-            cart.getListOfMicroSkills().add(microSkill);
-            cart.setTotal(cart.getTotal() + microSkill.getPrice());
-            cartRepository.save(cart);
-            return cart.build();
-        } catch (UsernameNotFoundException e) {
-            e.getStackTrace();
+        Cart cart = cartRepository.findById(cardId).orElseThrow(CartNotFoundException::new);
+        if (cart == null) {
+            cart = new Cart();
+            cart.setId(cardId);
         }
-        return new CartDto(1L, cardId, 0.0, List.of());
+        cart.getListOfMicroSkills().add(microSkill);
+        cart.setTotal(cart.getTotal().add(microSkill.getPrice()));
+        cartRepository.save(cart);
+
+        return cart.build();
     }
 
     @Override

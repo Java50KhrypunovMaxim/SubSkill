@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +29,7 @@ public record MicroSkillDto(
         @NotEmpty(message = MISSING_MICROSKILL_TAGS_MESSAGE)
         List<Tags> tags,
         @NotNull(message = MISSING_MICROSKILL_PRICE_MESSAGE)
-        Double price,
+        BigDecimal price,
         @NotNull(message = MISSING_MICROSKILL_LAST_UPDATE_TIME)
         LocalDateTime lastUpdateTime,
         @NotNull(message = MISSING_MICROSKILL_RATING_MESSAGE_TIME)

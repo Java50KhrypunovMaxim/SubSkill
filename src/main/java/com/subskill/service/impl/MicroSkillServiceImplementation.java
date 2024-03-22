@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -200,7 +201,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
     public void updatePriceMicroSkill(long microSkillId, Double price) {
         MicroSkill microSkill = microSkillRepository.findById(microSkillId)
                 .orElseThrow(MicroSkillNotFoundException::new);
-        microSkill.setPrice(price);
+        microSkill.setPrice(BigDecimal.valueOf(price));
         microSkillRepository.save(microSkill);
         log.debug("Microskill {} has been changed price to {}", microSkillId, price);
     }

@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -55,7 +56,7 @@ class SubSkillArticleControllerTest {
     private static final String TEXT1 = "Rambo";
     private static final String TEXT3 = "Vandam";
 
-    MicroSkillDto microSkillDto1 = new MicroSkillDto(10L,"Database Design", "", "","database_design.jpg", List.of(Tags.DESIGN), 12.0, LocalDateTime.now(),0.0,  LocalDate.now(), "About Microskill", Level.ADVANCED,200, 1L);
+    MicroSkillDto microSkillDto1 = new MicroSkillDto(10L,"Database Design", "", "","database_design.jpg", List.of(Tags.DESIGN),  BigDecimal.valueOf(12.0), LocalDateTime.now(),0.0,  LocalDate.now(), "About Microskill", Level.ADVANCED,200, 1L);
     ArticleDto ArticleDto1 = new ArticleDto(10L,ARTICLE_NAME3, TEXT3, 10L);
     ArticleDto UpdateArticleDto = new ArticleDto(10L,ARTICLE_NAME3, TEXT1, 11L);
 
