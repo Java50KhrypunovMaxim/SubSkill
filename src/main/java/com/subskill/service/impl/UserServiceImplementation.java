@@ -1,9 +1,13 @@
 package com.subskill.service.impl;
 
 import com.subskill.api.ValidationConstants;
+import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
-import com.subskill.exception.*;
+import com.subskill.exception.NoUserInRepositoryException;
+import com.subskill.exception.NotFoundException;
+import com.subskill.exception.UnauthorizedAccessException;
+import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
@@ -13,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +28,21 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtils jwtTokenUtils;
+
 
     @Override
     @Transactional
-    public UserDto updateUser(UserDto userDto) throws NotFoundException {
+    public UserDto updateUser(UserDto userDto, JwtResponse jwtResponse) throws NotFoundException {
+        String usernameFromToken = jwtTokenUtils.getUsernameFromToken(jwtResponse.token());
+
+        if (!userDto.username().equals(usernameFromToken)) {
+            throw new UnauthorizedAccessException();
+        }
+
         User user = getAuthenticatedUser();
-        if (userDto == null || user == null || !user.getEmail().equals(userDto.email())) {
+
+        if (user == null || !user.getEmail().equals(userDto.email())) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
 
@@ -61,10 +75,11 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public void deleteUser(String email) {
         User authenticatedUser = getAuthenticatedUser();
+
         if (!authenticatedUser.getEmail().equals(email)) {
             throw new UnauthorizedAccessException();
         }
-        userRepository.deleteById(authenticatedUser.getId());
+        userRepository.getReferenceById(authenticatedUser.getId());
         log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
     }
 
@@ -72,11 +87,11 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Override
     public List<UserDto> allUsers() {
         List<User> users = userRepository.findAll();
-        List<UserDto> userDto = users.stream()
+        List<UserDto> listOfUserDto = users.stream()
                 .map(User::build)
                 .toList();
         log.debug("Showing all users that already registered on site");
-        return userDto;
+        return listOfUserDto;
 
     }
 

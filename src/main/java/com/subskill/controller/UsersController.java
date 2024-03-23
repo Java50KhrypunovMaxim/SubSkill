@@ -3,14 +3,12 @@ package com.subskill.controller;
 import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
-import com.subskill.models.User;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +26,12 @@ public class UsersController {
 
     private final UserService userService;
 
+
     @Operation(summary = "Update our User")
     @PutMapping("/update")
-    UserDto updateUser(@RequestBody UserDto userDto) {
+    UserDto updateUser(@RequestBody UserDto userDto, JwtResponse jwtResponse) {
         log.debug("update user: received new information about user: {}", userDto);
-        return userService.updateUser(userDto);
+        return userService.updateUser(userDto,jwtResponse);
     }
     @GetMapping("/name")
     public String getNameUserByToken() {

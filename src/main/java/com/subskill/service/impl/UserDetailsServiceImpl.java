@@ -1,7 +1,9 @@
 package com.subskill.service.impl;
 
+import com.subskill.exception.UserNotFoundException;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
+import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +22,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+
     @Transactional()
     @Override
     public UserDetails loadUserByUsername(String email)  {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + "with this "+  email));
+                .orElseThrow(UserNotFoundException::new);
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

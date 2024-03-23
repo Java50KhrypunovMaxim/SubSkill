@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface PaymentRepository extends JpaRepository<PaymentInfo, Long> {
 
-    @Query("SELECT c FROM Cart c")
-    List<Cart> findAllCarts();
+//    @Query("SELECT c FROM Cart c")
+//    List<Cart> findAllCarts();
 
 }
