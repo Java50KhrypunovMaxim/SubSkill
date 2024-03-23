@@ -14,5 +14,7 @@ public interface ServiceExceptionMessages {
 	String DATA_ACCESS_NOT_FOUND = "Interest not found";
 	String CART_NOT_FOUND = "cart not found";
 	String CART_IS_EMPTY = "cart is empty ";
+	String MICROSKILL_ALREADY_SAVED = "MicroSkill already saved ";
+
 
 }

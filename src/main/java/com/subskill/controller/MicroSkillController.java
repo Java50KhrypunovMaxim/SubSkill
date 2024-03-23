@@ -91,12 +91,7 @@ public class MicroSkillController {
 
         return microSkillService.findMostPopularMicroSkills(paging);
     }
-    @Operation(summary = "Update MicroSkill card")
-    @PutMapping("/update/{id}")
-    void updateMicroSkill(@PathVariable Long id,@RequestBody EditMicroSkillDto editMicroSkillDto) {
-        log.debug("update microskill: received new microskill data: {}", editMicroSkillDto);
-        microSkillService.updateMicroSkill(editMicroSkillDto,id);
-    }
+
 
     @Operation(summary = "Get all MicroSkill with pagination and sorting")
     @GetMapping("/all-paging")

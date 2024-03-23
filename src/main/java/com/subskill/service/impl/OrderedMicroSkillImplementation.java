@@ -6,6 +6,7 @@ import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.exception.NotFoundException;
 import com.subskill.exception.RegistrationUserNotFoundException;
 import com.subskill.models.Cart;
+import com.subskill.models.MicroSkill;
 import com.subskill.models.OrderedMicroskill;
 import com.subskill.models.User;
 import com.subskill.repository.CartRepository;
@@ -18,14 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
 public class OrderedMicroSkillImplementation implements OrderedMicroSkillService {
 
     private final OrderedMicroSkillRepository orderedMicroSkillRepository;
-    private final CartRepository cartRepository;
-    private final UserRepository userRepository;
 
 
     @Override
@@ -45,6 +45,18 @@ public class OrderedMicroSkillImplementation implements OrderedMicroSkillService
 //        orderedMicroSkillRepository.save(orderedMicroskill);
     }
 
+    public void processPayment(User user, Set<MicroSkill> microskills){
+
+        for(MicroSkill microSkill : microskills) {
+            OrderedMicroskill orderedMicroskill = new OrderedMicroskill();
+            orderedMicroskill.setUser(user);
+            orderedMicroskill.setMicroSkill(microSkill);
+            orderedMicroskill.setPurchased(true);
+            orderedMicroSkillRepository.save(orderedMicroskill);
+
+        }
+
+    }
 
     @Override
     public List<OrderedMicroskill> allOrderedMicroskill() {

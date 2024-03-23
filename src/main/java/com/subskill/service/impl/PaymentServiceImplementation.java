@@ -1,8 +1,11 @@
 package com.subskill.service.impl;
 
 import com.subskill.models.Cart;
+import com.subskill.models.MicroSkill;
+import com.subskill.models.OrderedMicroskill;
 import com.subskill.models.User;
 import com.subskill.repository.CartRepository;
+import com.subskill.repository.OrderedMicroSkillRepository;
 import com.subskill.repository.PaymentRepository;
 import com.subskill.service.PaymentService;
 import com.subskill.service.UserService;
@@ -17,6 +20,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PaymentServiceImplementation implements PaymentService {
     private final PaymentRepository paymentRepository;
+    private final OrderedMicroSkillRepository orderedMicroSkillRepository;
+
 
     @Override
     public BigDecimal getTotalPaymentByUserId(Long userId) {
@@ -31,5 +36,6 @@ public class PaymentServiceImplementation implements PaymentService {
 //    return total;
         return null;
     }
+
 
 }

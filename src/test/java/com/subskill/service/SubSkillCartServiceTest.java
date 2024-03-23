@@ -76,7 +76,6 @@ public class SubSkillCartServiceTest {
     void testAddMicroSkillToCart() {
         Cart cart = new Cart();
         cart.setId(10L);
-        cart.setUserId(10L);
         Set<MicroSkill> microSkills = new HashSet<>();
         microSkills.add(microskill1);
         cart.setListOfMicroSkills(microSkills);

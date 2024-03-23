@@ -2,9 +2,8 @@ package com.subskill.service.impl;
 
 import com.subskill.api.ValidationConstants;
 import com.subskill.dto.UserDto;
-import com.subskill.exception.NoUserInRepositoryException;
-import com.subskill.exception.NotFoundException;
-import com.subskill.exception.UserExistingEmailException;
+import com.subskill.dto.UserDtoPassword;
+import com.subskill.exception.*;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.UserService;
@@ -28,37 +27,45 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Override
     @Transactional
     public UserDto updateUser(UserDto userDto) throws NotFoundException {
-        if (userDto == null || userDto.email() == null) {
+        User user = getAuthenticatedUser();
+        if (userDto == null || user == null || !user.getEmail().equals(userDto.email())) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
-        User existingUser = userRepository.findByEmail(userDto.email())
-                .orElseThrow(UserExistingEmailException::new);
-        if (userDto.password() != null && !userDto.password().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(userDto.password()));
-        }
-        userRepository.save(existingUser);
-        log.debug("user with email {} has been updated", existingUser.getEmail());
-        return existingUser.build();
+
+        user.setUsername(userDto.username());
+        user.setPassword(passwordEncoder.encode(userDto.password()));
+        user.setOnline(userDto.online());
+        user.setImageUrl(userDto.imageUrl());
+        user.setRole(userDto.role());
+
+        userRepository.save(user);
+        log.debug("User with email {} has been updated", user.getEmail());
+        return user.build();
     }
 
     @Override
     @Transactional
-    public UserDto changePassword(String email, String NewPassword) {
-        User optionalExistingUser = userRepository.findByEmail(email)
-                .orElseThrow(UserExistingEmailException::new);
+    public UserDto changePassword(UserDtoPassword newPassword) {
+        User user = getAuthenticatedUser();
+        if (user == null) {
+            throw new IllegalArgumentException(INVALID_INPUT_DATA);
+        }
 
-        optionalExistingUser.setPassword(NewPassword);
-        userRepository.save(optionalExistingUser);
-        log.debug("Password in email {} has been changed", optionalExistingUser.getEmail());
-        return optionalExistingUser.build();
+        user.setPassword(passwordEncoder.encode(newPassword.password()));
+        userRepository.save(user);
+        log.debug("Password for user with email {} has been changed", user.getEmail());
+        return user.build();
     }
 
     @Override
     @Transactional
     public void deleteUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(NoUserInRepositoryException::new);
-        userRepository.deleteById(user.getId());
-        log.debug("user with email {} has been deleted", user.getEmail());
+        User authenticatedUser = getAuthenticatedUser();
+        if (!authenticatedUser.getEmail().equals(email)) {
+            throw new UnauthorizedAccessException();
+        }
+        userRepository.deleteById(authenticatedUser.getId());
+        log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
     }
 
     @Transactional(readOnly = true)

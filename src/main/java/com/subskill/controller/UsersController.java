@@ -3,6 +3,7 @@ package com.subskill.controller;
 import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
+import com.subskill.models.User;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,8 +29,8 @@ public class UsersController {
     private final UserService userService;
 
     @Operation(summary = "Update our User")
-    @PutMapping("/update/{email}")
-    UserDto updateUser(@RequestBody  UserDto userDto) {
+    @PutMapping("/update")
+    UserDto updateUser(@RequestBody UserDto userDto) {
         log.debug("update user: received new information about user: {}", userDto);
         return userService.updateUser(userDto);
     }
@@ -38,22 +39,22 @@ public class UsersController {
         return userService.nameUserByToken();
     }
     @Operation(summary = "Change password for User")
-    @PutMapping("/password/{email}")
-    UserDto changeUserPassword(@PathVariable String email,@RequestBody  UserDtoPassword userDtoPassword) {
-        log.debug("The password has been changed {}", email);
-        return userService.changePassword(email, userDtoPassword.password());
+    @PutMapping("/password")
+    UserDto changeUserPassword(@RequestBody  UserDtoPassword userDtoPassword) {
+        log.debug("The password has been changed ");
+        return userService.changePassword(userDtoPassword);
     }
 
     @Operation(summary = "Delete our User based on email")
-    @DeleteMapping("delete/{email}")
+    @DeleteMapping("/delete")
     void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
-                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@PathVariable String email) {
+                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@RequestParam String email) {
         log.debug("delete user: user with email {}", email);
         userService.deleteUser(email);
     }
 
     @Operation(summary = "List of Users")
-    @GetMapping()
+    @GetMapping("/all")
     List<UserDto> listOfUsers() {
         log.debug("List of users have been received");
         return userService.allUsers();
