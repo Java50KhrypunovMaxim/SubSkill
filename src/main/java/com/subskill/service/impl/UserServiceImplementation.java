@@ -30,7 +30,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtils;
 
-
     @Override
     @Transactional
     public UserDto updateUser(UserDto userDto, JwtResponse jwtResponse) throws NotFoundException {
@@ -73,12 +72,8 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     @Override
     @Transactional
-    public void deleteUser(String email) {
+    public void deleteUser() {
         User authenticatedUser = getAuthenticatedUser();
-
-        if (!authenticatedUser.getEmail().equals(email)) {
-            throw new UnauthorizedAccessException();
-        }
         userRepository.getReferenceById(authenticatedUser.getId());
         log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
     }

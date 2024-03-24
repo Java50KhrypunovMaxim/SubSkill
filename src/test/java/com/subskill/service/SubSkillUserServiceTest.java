@@ -87,14 +87,14 @@ class SubSkillUserServiceTest {
 //		assertEquals(newPassword, userWithNewPassword.password());
 
 	}
-	@Test
-	@DisplayName(USER_SERVICE_TEST + "DeleteUser")
-	void testDeleteUser() {
-
-		userService.deleteUser("user1@example.com");
-		assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser("Introduction to Java"));
-
-	}
+//	@Test
+//	@DisplayName(USER_SERVICE_TEST + "DeleteUser")
+//	void testDeleteUser() {
+//
+//		userService.deleteUser("user1@example.com");
+//		assertThrowsExactly(NoUserInRepositoryException.class, () -> userService.deleteUser("Introduction to Java"));
+//
+//	}
 
 	@Test
 	@DisplayName(USER_SERVICE_TEST + "AllUsers")

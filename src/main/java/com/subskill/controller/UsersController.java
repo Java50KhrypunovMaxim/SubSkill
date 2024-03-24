@@ -29,7 +29,7 @@ public class UsersController {
 
     @Operation(summary = "Update our User")
     @PutMapping("/update")
-    UserDto updateUser(@RequestBody UserDto userDto, JwtResponse jwtResponse) {
+    UserDto updateUser(@RequestBody UserDto userDto, @RequestHeader("Authorization") JwtResponse jwtResponse) {
         log.debug("update user: received new information about user: {}", userDto);
         return userService.updateUser(userDto,jwtResponse);
     }
@@ -37,6 +37,7 @@ public class UsersController {
     public String getNameUserByToken() {
         return userService.nameUserByToken();
     }
+
     @Operation(summary = "Change password for User")
     @PutMapping("/password")
     UserDto changeUserPassword(@RequestBody  UserDtoPassword userDtoPassword) {
@@ -46,10 +47,8 @@ public class UsersController {
 
     @Operation(summary = "Delete our User based on email")
     @DeleteMapping("/delete")
-    void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
-                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@RequestParam String email) {
-        log.debug("delete user: user with email {}", email);
-        userService.deleteUser(email);
+    void deleteUser() {
+        userService.deleteUser();
     }
 
     @Operation(summary = "List of Users")
