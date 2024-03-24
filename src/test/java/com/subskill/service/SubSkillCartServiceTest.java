@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,10 +27,10 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@Log4j2
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@ExtendWith(MockitoExtension.class)
+@Sql(scripts = {"classpath:data_for_the_database.sql"})
 public class SubSkillCartServiceTest {
 
     @Mock
@@ -78,12 +79,9 @@ public class SubSkillCartServiceTest {
         Set<MicroSkill> microSkills = new HashSet<>();
         microSkills.add(microskill1);
         cart.setListOfMicroSkills(microSkills);
-
         when(microSkillRepository.findById(microskill1.getId())).thenReturn(Optional.of(microskill1));
         when(cartRepository.findByUserId(10L)).thenReturn(Optional.of(cart));
-
         CartDto result = cartService.addMicroSkillToCart(microskill1.getId(), 10L);
-
         assertEquals(10L, result.userId());
         assertEquals(2, result.listOfMicroSkills().size());
     }
@@ -94,6 +92,20 @@ public class SubSkillCartServiceTest {
         CartDto result = cartService.allMicroSkillsInCart(10L);
         assertNotEquals(0, result.listOfMicroSkills().size());
         assertEquals(1, result.listOfMicroSkills().size());
+    }
+    
+
+    @Test
+    @DisplayName(CART_SERVICE_TEST + "Delete MicroSkill From Cart")
+    void testDeleteMicroSkillToCart() {
+    	 Cart cart = new Cart();
+         cart.setId(10L);
+         cart.setUserId(10L);
+         Set<MicroSkill> microSkills = new HashSet<>();
+         microSkills.add(microskill1);
+    	cartService.deleteMicroSkillFromCart(microskill1.getId());
+    	CartDto result = cartService.allMicroSkillsInCart(10L);
+    	assertEquals(0, result.listOfMicroSkills().size());
     }
 
 

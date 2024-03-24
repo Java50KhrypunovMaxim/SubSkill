@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public interface CartService {
     CartDto addMicroSkillToCart(Long microskillId, Long userId);
 
-    void deleteMicroSkillFromCart(Long cartId);
+    void deleteMicroSkillFromCart(Long microskillId);
 
     CartDto allMicroSkillsInCart(Long userId);
 }

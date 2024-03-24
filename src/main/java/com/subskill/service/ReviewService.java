@@ -10,6 +10,5 @@ import com.subskill.models.Review;
 public interface ReviewService {
 	ReviewDto addReview (ReviewDto reviewDto);
 	void deleteReview(Long review_id);
-
     List<ReviewDto> findByMicroSkillId(Long microskillId);
 }
