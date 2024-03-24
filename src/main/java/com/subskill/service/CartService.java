@@ -12,7 +12,7 @@ public interface CartService {
 
     CartDto addMicroSkillToCart(Long microskillId, Long userId);
 
-    void deleteMicroSkillFromCart(Long cartId);
+    void deleteMicroSkillFromCart(Long microskillId);
 
     Set<MicroSkillDto> allMicroSkillsInCart(Long cartId);
 }

@@ -45,10 +45,6 @@ public class SubSkillArticleServiceTest {
 
 	private static final String ARTICLE_SERVICE_TEST = "Article Service Test: ";
 
-	private static final String ARTICLENAME1 = "About Java 1 part";
-	private static final String ARTICLENAME2 = "About C++";
-	private static final String ARTICLENAME3 = "About Python";
-	private static final String TEXT1 = "Rambo 123";
 	private static final long idOfMicroskill1 = 10;
 	private static final long idOfMicroskill2 = 12;
 
@@ -59,7 +55,6 @@ public class SubSkillArticleServiceTest {
 			"Mobile App Development"
 	));
 
-	private MicroSkill microSkill;
 	private ArticleDto articleDto1;
 
 	@Test
@@ -80,7 +75,6 @@ public class SubSkillArticleServiceTest {
 		if (optionalMicro.isPresent()) {
 			micro = optionalMicro.get();
 		}
-//		ArticleDto articleDto1 = new ArticleDto(1L,ARTICLENAME1, TEXT1, 	10L);
 		ArticleDto savedArticleDto = articleService.addArticle(articleDto1);
 		assertEquals(articleDto1, savedArticleDto);
 	}
@@ -98,9 +92,7 @@ public class SubSkillArticleServiceTest {
 	void testUpdateArticle() {
 		Optional<MicroSkill> optionalMicro = microSkillRepo.findById(idOfMicroskill2);
 		MicroSkill micro = optionalMicro.orElseThrow(() -> new EntityNotFoundException("MicroSkill not found"));
-		//ArticleDto articleDto1 = new ArticleDto("Python Basics", "Test", 10L);
 		articleService.updateArticle(articleDto1);
-
 		assertEquals(articleDto1.articleName(), articleRepo.findByArticleName("Python Basics").get().getArticleName());
 	}
 
