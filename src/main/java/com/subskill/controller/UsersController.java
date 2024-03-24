@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,33 +26,33 @@ public class UsersController {
 
     private final UserService userService;
 
+
     @Operation(summary = "Update our User")
-    @PutMapping("/update/{email}")
-    UserDto updateUser(@RequestBody  UserDto userDto) {
+    @PutMapping("/update")
+    UserDto updateUser(@RequestBody UserDto userDto, @RequestHeader("Authorization") JwtResponse jwtResponse) {
         log.debug("update user: received new information about user: {}", userDto);
-        return userService.updateUser(userDto);
+        return userService.updateUser(userDto,jwtResponse);
     }
     @GetMapping("/name")
     public String getNameUserByToken() {
         return userService.nameUserByToken();
     }
+
     @Operation(summary = "Change password for User")
-    @PutMapping("/password/{email}")
-    UserDto changeUserPassword(@PathVariable String email,@RequestBody  UserDtoPassword userDtoPassword) {
-        log.debug("The password has been changed {}", email);
-        return userService.changePassword(email, userDtoPassword.password());
+    @PutMapping("/password")
+    UserDto changeUserPassword(@RequestBody  UserDtoPassword userDtoPassword) {
+        log.debug("The password has been changed ");
+        return userService.changePassword(userDtoPassword);
     }
 
     @Operation(summary = "Delete our User based on email")
-    @DeleteMapping("delete/{email}")
-    void deleteUser(@NotEmpty(message = MISSING_PERSON_EMAIL)
-                    @Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)@PathVariable String email) {
-        log.debug("delete user: user with email {}", email);
-        userService.deleteUser(email);
+    @DeleteMapping("/delete")
+    void deleteUser() {
+        userService.deleteUser();
     }
 
     @Operation(summary = "List of Users")
-    @GetMapping()
+    @GetMapping("/all")
     List<UserDto> listOfUsers() {
         log.debug("List of users have been received");
         return userService.allUsers();

@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Pattern;
 
 
 public record UserDto (
-	@NotEmpty (message= MISSING_PERSON_USERNAME_MESSAGE)
+//	@NotEmpty (message= MISSING_PERSON_USERNAME_MESSAGE)
 	String username,
 	
 	@NotEmpty (message= MISSING_PERSON_EMAIL)
@@ -22,13 +22,13 @@ public record UserDto (
 	@Pattern(regexp = PASSWORD_REGEXP, message= WRONG_PASSWORD_CREATION_MESSAGE)
 	String password,
 	
-	@NotNull (message= MISSING_STATUS_MESSAGE)
+//	@NotNull (message= MISSING_STATUS_MESSAGE)
     Status online,
 	
-	@NotEmpty (message= MISSING_IMAGE_URL_MESSAGE)
+//	@NotEmpty (message= MISSING_IMAGE_URL_MESSAGE)
 	String imageUrl,
 	
-	@NotNull (message= MISSING_ROLE_MESSAGE)
+//	@NotNull (message= MISSING_ROLE_MESSAGE)
 	Roles role)
 {
 

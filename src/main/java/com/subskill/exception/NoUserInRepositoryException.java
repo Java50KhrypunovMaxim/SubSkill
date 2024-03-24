@@ -7,6 +7,6 @@ import org.springframework.transaction.TransactionSystemException;
 @SuppressWarnings("serial")
 public class NoUserInRepositoryException extends DataAccessException {
     public NoUserInRepositoryException() {
-        super(ServiceExceptionMessages.DATA_ACCESS_NOT_FOUND);
+        super(ServiceExceptionMessages.USER_NOT_FOUND);
     }
 }

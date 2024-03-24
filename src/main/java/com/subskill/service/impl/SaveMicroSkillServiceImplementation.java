@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @AllArgsConstructor
 public class SaveMicroSkillServiceImplementation implements SavedMicroskillService {
+
     private final MicroSkillRepository microSkillRepository;
     private final UserRepository userRepository;
     private final SaveMicroskillRepository saveMicroskillRepository;
@@ -40,7 +41,7 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
                 microSkillRepository.findById(microskillId).orElseThrow(MicroSkillNotFoundException::new)
         );
         if (alreadySaved) {
-            throw new MicroSkillAlreadySavedException("MicroSkill is already saved for the user");
+            throw new MicroSkillAlreadySavedException();
         }
         MicroSkill microSkill = microSkillRepository.findById(microskillId)
                 .orElseThrow(MicroSkillNotFoundException::new);

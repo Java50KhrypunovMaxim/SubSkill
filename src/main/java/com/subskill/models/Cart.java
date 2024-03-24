@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -25,12 +25,12 @@ public class Cart {
     @Column(name = "cart_id", nullable = false)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
 
     @Column(name = "total")
     private BigDecimal total;
-
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
@@ -41,11 +41,12 @@ public class Cart {
     private Set<MicroSkill> listOfMicroSkills;
 
     public CartDto build() {
-        List<MicroSkillDto> listOfMicroSkillDtos = listOfMicroSkills.stream()
+        Set<MicroSkillDto> listOfMicroSkillDtos = listOfMicroSkills.stream()
                 .map(MicroSkill::build)
-                .toList();
+                .collect(Collectors.toSet());
 
-        return new CartDto(id, userId,total, listOfMicroSkillDtos);
+        return new CartDto(id, user.getId(), total, listOfMicroSkillDtos);
     }
+
 }
 

@@ -1,7 +1,7 @@
 package com.subskill.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.subskill.dto.ArticleDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.subskill.dto.EditMicroSkillDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.enums.Level;
@@ -10,10 +10,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -79,6 +77,9 @@ public class MicroSkill {
     @Column(name = "about_skill")
     private String aboutSkill;
 
+    @Column(name = "what_in_this_skill")
+    private String whatInThisSkill;
+
     @UpdateTimestamp
     @Column(name = "last_update_time")
     private LocalDateTime lastUpdateTime;
@@ -115,10 +116,16 @@ public class MicroSkill {
         return microSkill;
     }
 
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public Integer getLessonCount() {
+        return articles.size();
+    }
+
     public MicroSkillDto build() {
         return new MicroSkillDto(id,name, description, photo, learningTime,
                 tags, price, lastUpdateTime, rating,creationDate,
-                aboutSkill, level,views, technology.getId());
+                aboutSkill, level,views,getLessonCount(),whatInThisSkill, technology.getId());
     }
 
     public void updateMicroSkillFromDto(MicroSkill microSkill, EditMicroSkillDto dto) {

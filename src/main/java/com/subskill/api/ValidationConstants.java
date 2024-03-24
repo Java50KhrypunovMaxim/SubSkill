@@ -52,5 +52,8 @@ public interface ValidationConstants {
     String INTEREST_ID_MISSING = "Profile Interest id is missing";
     String INTEREST_NAME_NOT_FOUND = "Profile Interest name is missing";
     String MISSING_MICROSKILL_RATING_MESSAGE_TIME = "Missing rating from MicroSkill" ;
+    String MISSING_MICROSKILL_LESSON_COUNT_MESSAGE = "Missing lesson count from MicroSkill" ;
+    String MISSING_MICROSKILL_WHAT_IN_THIS_SKILL_MESSAGE = "Missing what in this skill from MicroSkill" ;
+    String UNAUTHORIZED_USER = "User not authorized ";
 }
 

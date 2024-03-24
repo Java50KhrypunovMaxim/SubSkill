@@ -175,6 +175,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
         Page<MicroSkill> microSkillsPageForPopular = microSkillRepository.findAll(paging);
         List<MicroSkillDto> listOfPopularMicroSkillDto = microSkillsPageForPopular.getContent()
                 .stream()
+                .filter(microSkill -> microSkill.getPopularity() != null)
                 .sorted(comparing.reversed())
                 .map(MicroSkill::build)
                 .toList();

@@ -1,0 +1,18 @@
+###
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "12345"
+}
+
+
+###
+POST http://localhost:8080/api/v1/cart/add/10/24
+Content-Type: application/json
+
+{
+  "microSkillId": 24,
+  "cardId": 10
+}

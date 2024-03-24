@@ -3,6 +3,7 @@ package com.subskill.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.subskill.exception.IllegalUsersStateException;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.service.ReviewService;
 import org.modelmapper.ModelMapper;
@@ -29,15 +30,12 @@ public class ReviewServiceImplementation implements ReviewService {
     @Transactional
     public ReviewDto addReview(ReviewDto reviewDto) {
         Review review = Review.of(reviewDto);
-        if (review.getRating() != null) {
-            reviewRepo.save(review);
-            log.debug("Review {} has been saved", reviewDto);
-            updateMicroSkillAverageRating(review.getMicroSkill());
-        }
+        reviewRepo.save(review);
+        log.debug("Review {} has been saved", reviewDto);
+        updateMicroSkillAverageRating(review.getMicroSkill());
 
         return reviewDto;
     }
-
     @Override
     @Transactional
     public void deleteReview(Long reviewId) {

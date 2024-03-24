@@ -4,27 +4,24 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigDecimal;
-
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "Payment_Info")
 @Entity
+@Table(name = "payment_infos")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentInfo {
     @Id
+    @Column(name = "payment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "total")
-    private BigDecimal total;
 
-    @ManyToOne
+    @Column(name = "payment_details")
+    private String paymentDetails;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-
-    public PaymentInfo(BigDecimal totalPrice) {
-        this.total = totalPrice;
-    }
 }
