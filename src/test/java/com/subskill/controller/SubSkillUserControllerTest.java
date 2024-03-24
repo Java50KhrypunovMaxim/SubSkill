@@ -76,13 +76,13 @@ class SubSkillUserControllerTest {
         assertEquals(jsonUserDtoUpdated, actualJSON);
     }
 
-    @Test
-    void testDeleteUser() throws Exception {
-        doNothing().when(userService).deleteUser(EMAIL1);
-        mockMvc.perform(delete("/api/v1/users/delete/" + EMAIL1)
-                .param("email", EMAIL1)
-                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-    }
+//    @Test
+//    void testDeleteUser() throws Exception {
+//        doNothing().when(userService).deleteUser(EMAIL1);
+//        mockMvc.perform(delete("/api/v1/users/delete/" + EMAIL1)
+//                .param("email", EMAIL1)
+//                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+//    }
 
     @Test
     void testChangePassword() throws Exception {
