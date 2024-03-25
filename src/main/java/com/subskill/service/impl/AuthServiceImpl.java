@@ -7,6 +7,7 @@ import com.subskill.enums.Roles;
 import com.subskill.enums.Status;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.jwt.JwtTokenUtils;
+import com.subskill.models.Cart;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.AuthService;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
                 new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
-        var jwt = jwtTokenUtils.generateToken(userDetails, user.getId());
+        String jwt = jwtTokenUtils.generateToken(userDetails, user.getId());
         return JwtResponse.builder()
                 .token(jwt)
                 .build();
@@ -52,6 +53,7 @@ public class AuthServiceImpl implements AuthService {
                 .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
                 .online(Status.ONLINE)
+                .cart(new Cart())
                 .build();
         userRepository.save(user);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));

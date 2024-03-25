@@ -55,5 +55,6 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_LESSON_COUNT_MESSAGE = "Missing lesson count from MicroSkill" ;
     String MISSING_MICROSKILL_WHAT_IN_THIS_SKILL_MESSAGE = "Missing what in this skill from MicroSkill" ;
     String UNAUTHORIZED_USER = "User not authorized ";
+    String SAME_PASSWORD = "same password ";
 }
 

@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +30,9 @@ public class UsersController {
 
     @Operation(summary = "Update our User")
     @PutMapping("/update")
-    UserDto updateUser(@RequestBody UserDto userDto, @RequestHeader("Authorization") JwtResponse jwtResponse) {
+    UserDto updateUser(@RequestBody UserDto userDto) {
         log.debug("update user: received new information about user: {}", userDto);
-        return userService.updateUser(userDto,jwtResponse);
+        return userService.updateUser(userDto);
     }
     @GetMapping("/name")
     public String getNameUserByToken() {
@@ -40,11 +41,11 @@ public class UsersController {
 
     @Operation(summary = "Change password for User")
     @PutMapping("/password")
-    UserDto changeUserPassword(@RequestBody  UserDtoPassword userDtoPassword) {
-        log.debug("The password has been changed ");
-        return userService.changePassword(userDtoPassword);
+    @Transactional
+    public void changeUserPassword( @RequestBody UserDtoPassword newPassword) {
+        log.warn("Changing password for user : {}", newPassword);
+        userService.changePassword(newPassword);
     }
-
     @Operation(summary = "Delete our User based on email")
     @DeleteMapping("/delete")
     void deleteUser() {
@@ -54,7 +55,7 @@ public class UsersController {
     @Operation(summary = "List of Users")
     @GetMapping("/all")
     List<UserDto> listOfUsers() {
-        log.debug("List of users have been received");
+        log.warn("List of users have been received : {}" , userService.getAuthenticatedUser().getPassword());
         return userService.allUsers();
     }
 

@@ -23,10 +23,10 @@ public class CartController {
     private final CartService cartService;
 
     @Operation(summary = "Add new MicroSkills to cart")
-    @PostMapping("/add/{cardId}/{microSkillId}")
-    CartDto addMicroSkillToCart(@PathVariable Long microSkillId, @PathVariable Long cardId) {
-        log.debug("Add MicroSkill to cart: received MicroSkill ID: {}, from user : {}", microSkillId,cardId);
-        return cartService.addMicroSkillToCart( cardId,microSkillId);
+    @PostMapping("/add/{microSkillId}")
+    CartDto addMicroSkillToCart(@PathVariable Long microSkillId) {
+        log.debug("Add MicroSkill to cart: received MicroSkill ID: {}, ", microSkillId);
+        return cartService.addMicroSkillToCart( microSkillId);
     }
     @Operation(summary = "Remove MicroSkills from cart")
     @DeleteMapping("/delete/{cartId}")
