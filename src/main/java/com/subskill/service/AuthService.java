@@ -7,9 +7,5 @@ import com.subskill.dto.AuthDto.RegisteredUserDto;
 public interface AuthService {
     JwtResponse login(LoginDto request);
 
-
     JwtResponse register(RegisteredUserDto registeredUserDto);
-
-
-
 }

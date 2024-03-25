@@ -26,7 +26,6 @@ public class PaymentController {
 
     private final OrderedMicroSkillService orderedMicroSkillService;
 
-
     @GetMapping("/{userId}")
     public BigDecimal totalPaymentByUserId(@PathVariable Long userId) {
         return paymentService.getTotalPaymentByUserId(userId);

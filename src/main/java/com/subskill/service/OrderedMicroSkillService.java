@@ -9,6 +9,8 @@ import java.util.Set;
 
 public interface OrderedMicroSkillService {
     void moveFromCartToOrderedMicroSKill(long userId);
+
     List<OrderedMicroskill> allOrderedMicroskill();
+
     void processPayment(User user, Set<MicroSkill> microskills);
 }
