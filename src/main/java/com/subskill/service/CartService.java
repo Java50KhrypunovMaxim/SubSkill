@@ -14,5 +14,5 @@ public interface CartService {
 
     void deleteMicroSkillFromCart(Long microskillId);
 
-    Set<MicroSkillDto> allMicroSkillsInCart(Long cartId);
+    Set<MicroSkillDto> allMicroSkillsInCart();
 }

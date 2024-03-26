@@ -3,6 +3,7 @@ package com.subskill.controller;
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.service.CartService;
+import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import java.util.Set;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class CartController {
     private final CartService cartService;
+    private final UserService userService;
 
     @Operation(summary = "Add new MicroSkills to cart")
     @PostMapping("/add/{microSkillId}")
@@ -35,10 +37,10 @@ public class CartController {
         cartService.deleteMicroSkillFromCart(cartId);
     }
     @Operation(summary = "List of MicroSkills in Cart")
-    @GetMapping("/all/{cartId}")
-    Set<MicroSkillDto> listOMicroSkillInCart(@PathVariable Long cartId) {
-        log.debug("List of users have been received");
-        return cartService.allMicroSkillsInCart(cartId);
+    @GetMapping("/all")
+    Set<MicroSkillDto> listOMicroSkillInCart() {
+        log.warn("List of users have been received :{}" , userService.getAuthenticatedUser().getCart().getTotal());
+        return cartService.allMicroSkillsInCart();
     }
 
 }

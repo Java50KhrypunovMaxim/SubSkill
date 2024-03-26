@@ -33,7 +33,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
 
         User user = getAuthenticatedUser();
-        if (user == null || !user.getEmail().equals(userDto.email())) {
+        if (user == null || userDto == null || user.getEmail() == null ) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
         user.setUsername(userDto.username());
