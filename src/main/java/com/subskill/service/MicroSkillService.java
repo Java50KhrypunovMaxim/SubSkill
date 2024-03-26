@@ -16,7 +16,7 @@ public interface MicroSkillService {
 
     List<MicroSkillDto> findAllMicroSkills();
 
-    void updateMicroSkill(EditMicroSkillDto editMicroSkillDto,Long id);
+    void updateMicroSkill(EditMicroSkillDto editMicroSkillDto, Long id);
 
     void updatePriceMicroSkill(long microSkill_id, Double price);
 
@@ -37,8 +37,11 @@ public interface MicroSkillService {
     long getViewsCount(long microskillId);
 
     MicroSkillDto findMicroSkillPopularity(long microskillId);
+
     Page<MicroSkillDto> freshMicroSkills(Pageable paging);
+
     Page<MicroSkillDto> mostVisitedMicroSkills(Pageable paging);
+
     Page<MicroSkillDto> findMostPopularMicroSkills(Pageable paging);
 
     MicroSkillDto findMicroSkillById(long microskillId);

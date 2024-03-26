@@ -8,12 +8,17 @@ import com.subskill.models.User;
 import java.util.List;
 
 public interface UserService {
-    UserDto updateUser(UserDto userDto, JwtResponse jwtResponse);
-    UserDto changePassword(UserDtoPassword newPassword);
+    UserDto updateUser(UserDto userDto);
+
+    //    UserDto changePassword(UserDtoPassword newPassword);
+    void changePassword(UserDtoPassword newPassword);
 
     void deleteUser();
+
     List<UserDto> allUsers();
+
     String nameUserByToken();
+
     User getAuthenticatedUser();
 }
 

@@ -32,6 +32,8 @@ public class Cart {
     @Column(name = "total")
     private BigDecimal total;
 
+
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "cart_microskill",

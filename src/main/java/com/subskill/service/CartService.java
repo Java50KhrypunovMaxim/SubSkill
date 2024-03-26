@@ -10,9 +10,9 @@ import java.util.Set;
 @Service
 public interface CartService {
 
-    CartDto addMicroSkillToCart(Long microskillId, Long userId);
+    CartDto addMicroSkillToCart(Long microskillId);
 
     void deleteMicroSkillFromCart(Long microskillId);
 
-    Set<MicroSkillDto> allMicroSkillsInCart(Long cartId);
+    Set<MicroSkillDto> allMicroSkillsInCart();
 }

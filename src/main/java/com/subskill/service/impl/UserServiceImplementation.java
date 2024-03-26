@@ -4,9 +4,7 @@ import com.subskill.api.ValidationConstants;
 import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
-import com.subskill.exception.NoUserInRepositoryException;
-import com.subskill.exception.NotFoundException;
-import com.subskill.exception.UnauthorizedAccessException;
+import com.subskill.exception.*;
 import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
@@ -28,46 +26,47 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenUtils jwtTokenUtils;
 
     @Override
     @Transactional
-    public UserDto updateUser(UserDto userDto, JwtResponse jwtResponse) throws NotFoundException {
-        String usernameFromToken = jwtTokenUtils.getUsernameFromToken(jwtResponse.token());
+    public UserDto updateUser(UserDto userDto) {
 
-        if (!userDto.username().equals(usernameFromToken)) {
-            throw new UnauthorizedAccessException();
-        }
 
         User user = getAuthenticatedUser();
-
-        if (user == null || !user.getEmail().equals(userDto.email())) {
+        if (user == null || userDto == null || user.getEmail() == null ) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
-
         user.setUsername(userDto.username());
-        user.setPassword(passwordEncoder.encode(userDto.password()));
-        user.setOnline(userDto.online());
         user.setImageUrl(userDto.imageUrl());
-        user.setRole(userDto.role());
+
 
         userRepository.save(user);
         log.debug("User with email {} has been updated", user.getEmail());
         return user.build();
     }
-
+//
+//    @Override
+//    @Transactional
+//    public UserDto changePassword(UserDtoPassword newPassword) {
+//        User user = getAuthenticatedUser();
+//        if (user == null) {
+//            throw new IllegalArgumentException(INVALID_INPUT_DATA);
+//        }
+//
+//        user.setPassword(passwordEncoder.encode(newPassword.password()));
+//        userRepository.save(user);
+//        log.debug("Password for user with email {} has been changed", user.getEmail());
+//        return user.build();
+//    }
+//
     @Override
     @Transactional
-    public UserDto changePassword(UserDtoPassword newPassword) {
+    public void changePassword(UserDtoPassword newPassword) {
         User user = getAuthenticatedUser();
-        if (user == null) {
-            throw new IllegalArgumentException(INVALID_INPUT_DATA);
-        }
-
         user.setPassword(passwordEncoder.encode(newPassword.password()));
         userRepository.save(user);
         log.debug("Password for user with email {} has been changed", user.getEmail());
-        return user.build();
+
     }
 
     @Override
