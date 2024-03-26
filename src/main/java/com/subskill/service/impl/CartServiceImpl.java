@@ -65,18 +65,5 @@ public class CartServiceImpl implements CartService {
         return user.getCart().build().listOfMicroSkills();
     }
 
-//        if (user.getId() == (userId)) {
-//            return user.getCart().build().listOfMicroSkills();
-//        } else {
-//            return Collections.emptySet();
-//        }
 }
-//        Cart cart = cartRepository.findById(userId)
-//                .orElseThrow(CartIsEmptyException::new);
-//        if (cart.getListOfMicroSkills().isEmpty()) {
-//            throw new MicroSkillNotFoundException();
-//        }
-//        return cart.build().listOfMicroSkills();
-//    }
-
 
