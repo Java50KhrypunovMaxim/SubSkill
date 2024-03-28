@@ -29,7 +29,6 @@ public class Article {
     @Column(name = "text", nullable = false)
     private String textOfArticle;
 
-    @NotNull(message = MISSING_ID_OF_SKILLS)
     @Column(name = "microskill_id")
     private Long microSkill;
 
