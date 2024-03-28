@@ -1,22 +1,19 @@
 package com.subskill.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.subskill.exception.IllegalUsersStateException;
-import com.subskill.exception.MicroSkillNotFoundException;
-import com.subskill.service.ReviewService;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 import com.subskill.dto.ReviewDto;
+import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.exception.ReviewNotFoundException;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.Review;
 import com.subskill.repository.MicroSkillRepository;
 import com.subskill.repository.ReviewRepository;
+import com.subskill.service.ReviewService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -32,17 +29,21 @@ public class ReviewServiceImplementation implements ReviewService {
         Review review = Review.of(reviewDto);
         reviewRepo.save(review);
         log.debug("Review {} has been saved", reviewDto);
-        updateMicroSkillAverageRating(review.getMicroSkill());
+
+        if (review.getMicroSkill() != null) {
+            updateMicroSkillAverageRating(review.getMicroSkill());
+        }
 
         return reviewDto;
     }
+
     @Override
     @Transactional
     public void deleteReview(Long reviewId) {
         Review review = reviewRepo.findByid(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewRepo.deleteById(review.getId());
         log.debug("Review with id {} has been deleted", review.getId());
-        updateMicroSkillAverageRating(review.getMicroSkill());
+
     }
 
     @Override
@@ -58,6 +59,7 @@ public class ReviewServiceImplementation implements ReviewService {
                 .map(Review::build)
                 .toList();
     }
+
     @Transactional
     public void updateMicroSkillAverageRating(MicroSkill microSkill) {
         double averageRating = microSkill.calculateAverageRating();

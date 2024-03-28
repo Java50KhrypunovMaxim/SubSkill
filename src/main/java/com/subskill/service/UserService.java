@@ -10,7 +10,6 @@ import java.util.List;
 public interface UserService {
     UserDto updateUser(UserDto userDto);
 
-    //    UserDto changePassword(UserDtoPassword newPassword);
     void changePassword(UserDtoPassword newPassword);
 
     void deleteUser();

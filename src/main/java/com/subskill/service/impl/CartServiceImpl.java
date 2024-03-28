@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService {
         if (userCart.getTotal() == null) {
             userCart.setTotal(BigDecimal.ZERO);
         }
-        userCart.getListOfMicroSkills().add(microSkill.get());
+        userCart.getSetOfMicroSkills().add(microSkill.get());
         userCart.setTotal(userCart.getTotal().add(microSkill.get().getPrice()));
         user.setCart(userCart);
         cartRepository.save(userCart);
@@ -49,10 +49,35 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void deleteMicroSkillFromCart(Long cart) {
-        Cart cartOptional = cartRepository.getReferenceById(cart);
-        cartOptional.getListOfMicroSkills().clear();
-        cartRepository.save(cartOptional);
+    public void deleteMicroSkillFromCart(Long microskillId) {
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartRepository.findById(user.getCart().getId()).orElseThrow(CartNotFoundException::new);
+        Set<MicroSkill> microSkills = cart.getSetOfMicroSkills();
+        Optional<MicroSkill> microSkillToRemove = microSkills.stream()
+                .filter(microSkill -> microSkill.getId().equals(microskillId))
+                .findFirst();
+        microSkillToRemove.ifPresent(microSkills::remove);
+        BigDecimal newTotal = BigDecimal.ZERO;
+        for (MicroSkill microSkill : microSkills) {
+            newTotal = newTotal.add(microSkill.getPrice());
+        }
+        cart.setTotal(newTotal);
+        cartRepository.save(cart);
+    }
+@Override
+@Transactional
+public void deleteAllMicroSKillFromCart( ) {
+        User user = userService.getAuthenticatedUser();
+    Cart cartOptional = cartRepository.findById(user.getCart().getId()).orElseThrow(CartNotFoundException::new);
+    cartOptional.getSetOfMicroSkills().clear();
+    cartOptional.setTotal(BigDecimal.ZERO);
+    cartRepository.save(cartOptional);
+}
+
+    @Override
+    public BigDecimal totalMoneyForMicroSkill() {
+        User user = userService.getAuthenticatedUser();
+        return user.getCart().getTotal();
     }
 
     @Transactional(readOnly = true)
@@ -65,18 +90,5 @@ public class CartServiceImpl implements CartService {
         return user.getCart().build().listOfMicroSkills();
     }
 
-//        if (user.getId() == (userId)) {
-//            return user.getCart().build().listOfMicroSkills();
-//        } else {
-//            return Collections.emptySet();
-//        }
 }
-//        Cart cart = cartRepository.findById(userId)
-//                .orElseThrow(CartIsEmptyException::new);
-//        if (cart.getListOfMicroSkills().isEmpty()) {
-//            throw new MicroSkillNotFoundException();
-//        }
-//        return cart.build().listOfMicroSkills();
-//    }
-
 

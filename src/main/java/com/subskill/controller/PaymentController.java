@@ -26,24 +26,23 @@ public class PaymentController {
 
     private final OrderedMicroSkillService orderedMicroSkillService;
 
-    @GetMapping("/{userId}")
-    public BigDecimal totalPaymentByUserId(@PathVariable Long userId) {
-        return paymentService.getTotalPaymentByUserId(userId);
+    @GetMapping("/total")
+    public BigDecimal totalPaymentByUserId() {
+        return paymentService.getTotalPaymentByUserId();
     }
 
-    @PostMapping("/ordered/{userId}")
-    public void fromCartToOrderedMicroSkill(@PathVariable Long userId) {
+    @PostMapping("/ordered")
+    public void fromCartToOrderedMicroSkill() {
 
-        orderedMicroSkillService.moveFromCartToOrderedMicroSKill(userId);
+        orderedMicroSkillService.moveFromCartToOrderedMicroSKill();
     }
 
     @GetMapping("/all")
-    public List<OrderedMicroskill> allOrderedMicroskill() {
+    public Set<MicroSkill> allOrderedMicroskill() {
         return orderedMicroSkillService.allOrderedMicroskill();
     }
 
     @PostMapping("/pay")
     void processPayment(@RequestBody User user, @RequestBody Set<MicroSkill> microskills) {
-        orderedMicroSkillService.processPayment(user, microskills);
     }
 }
