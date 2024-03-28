@@ -30,7 +30,7 @@ public class SaveMicroSkillController {
 	private final SavedMicroskillService savedMicroskillService;
 
     @Operation(summary = "Save MicroSkills to User")
-    @PostMapping("/add/microskill/{microskillId}")
+    @PostMapping("/add/{microskillId}")
   public SaveMicroSkillDto addMicroSkillToUser(@PathVariable long microskillId) {
         log.debug("Add MicroSkill ID: {} to User ID: ", microskillId);
         return savedMicroskillService.addMicroSkillToUser(microskillId);
@@ -45,8 +45,8 @@ public class SaveMicroSkillController {
     
     @Operation(summary = "List of MicroSkills of User")
     @GetMapping("/all")
-    Set<MicroSkillDto> allMicroSkillsOfUser(  ) {
-        log.debug("List of microslills of user id{}");
+    Set<MicroSkillDto> allMicroSkillsOfUser() {
+        log.debug("List of microskills of user id");
         return savedMicroskillService.allMicroSkillsOfUser();
     }
 }

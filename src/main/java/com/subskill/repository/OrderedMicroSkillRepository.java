@@ -6,12 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Repository
 public interface OrderedMicroSkillRepository extends JpaRepository<OrderedMicroskill, Long> {
     @Query("SELECT om.user.id FROM OrderedMicroskill om WHERE om.orderedMicroSkillId  = :orderedMicroskillId")
     Long findUserIdByOrderedMicroskillId(@Param("orderedMicroskillId") Long orderedMicroskillId);
+
 
 }

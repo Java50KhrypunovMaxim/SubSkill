@@ -33,7 +33,7 @@ public class ProfileInterestServiceImplementation implements ProfileInterestServ
     @Override
     public InterestDto  showAllProfileInterest() {
         User user = userService.getAuthenticatedUser();
-        Set<MicroSkill> microSkills = user.getCart().getListOfMicroSkills();
+        Set<MicroSkill> microSkills = user.getCart().getSetOfMicroSkills();
 
         List<Tags> allTags = microSkills.stream()
                 .flatMap(microSkill -> microSkill.getTags().stream())

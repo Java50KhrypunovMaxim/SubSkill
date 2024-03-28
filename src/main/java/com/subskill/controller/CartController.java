@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +23,6 @@ import java.util.Set;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class CartController {
     private final CartService cartService;
-    private final UserService userService;
 
     @Operation(summary = "Add new MicroSkills to cart")
     @PostMapping("/add/{microSkillId}")
@@ -32,16 +32,26 @@ public class CartController {
     }
 
     @Operation(summary = "Remove MicroSkills from cart")
-    @DeleteMapping("/delete/{cartId}")
-    void deleteMicroSkillFromCart(@PathVariable Long cartId) {
-        log.debug("remove microSkill: remove cart microskill {} from data", cartId);
-        cartService.deleteMicroSkillFromCart(cartId);
+    @DeleteMapping("/delete/all")
+    void deleteMicroSkillFromCart() {
+        log.debug(" remove all microskill from cart");
+        cartService.deleteAllMicroSKillFromCart();
     }
-
+    @Operation(summary = "Remove MicroSkills from cart")
+    @DeleteMapping("/delete/{microskillId}")
+    void deleteMicroSkillFromCart(@PathVariable Long microskillId) {
+        log.debug(" remove  microskill with id : {} from cart", microskillId);
+        cartService.deleteMicroSkillFromCart(microskillId);
+    }
+    @Operation(summary = "Total money in Cart")
+    @GetMapping("/total")
+    public BigDecimal totalPaymentByUserId() {
+        return cartService.totalMoneyForMicroSkill();
+    }
     @Operation(summary = "List of MicroSkills in Cart")
     @GetMapping("/all")
     Set<MicroSkillDto> listOMicroSkillInCart() {
-        log.warn("List of users have been received :{}" , userService.getAuthenticatedUser().getCart().getTotal());
+        log.warn("List of users have been received ");
         return cartService.allMicroSkillsInCart();
     }
 
