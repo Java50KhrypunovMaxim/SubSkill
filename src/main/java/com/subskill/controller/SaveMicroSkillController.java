@@ -37,7 +37,7 @@ public class SaveMicroSkillController {
     }
 
     @Operation(summary = "Remove MicroSkills from User")
-    @DeleteMapping("/delete/microskill{microskillId}")
+    @DeleteMapping("/delete/{microskillId}")
     void deleteMicroSkillFromCart(@PathVariable long microskillId) {
         log.debug("remove microSkill: remove cart microskill {} from user ID ", microskillId);
         savedMicroskillService.deleteMicroSkillFromUser(microskillId);

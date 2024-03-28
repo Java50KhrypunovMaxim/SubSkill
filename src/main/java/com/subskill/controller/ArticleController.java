@@ -26,18 +26,18 @@ public class ArticleController {
     private final ArticleService articlesService;
 
     @Operation(summary = "Adding new Article for MicroSkill")
-    @PostMapping()
+    @PostMapping("/add")
     ArticleDto addArticle(@RequestBody ArticleDto articleDto) {
         log.debug("register article: received article data: {}", articleDto);
         return articlesService.addArticle(articleDto);
     }
 
     @Operation(summary = "update an Article for MicroSkill")
-    @PutMapping("update/{nameArticle}")
-    ArticleDto updateArticle(@RequestBody ArticleDto articleDto
+    @PutMapping("/update/{articleName}")
+    ArticleDto updateArticle(@RequestBody ArticleDto articleDto,@PathVariable String articleName
     ) {
-        log.debug("update article: received new information about article: {}", articleDto);
-        return articlesService.updateArticle(articleDto);
+        log.debug("update article: received new information about article: " );
+        return articlesService.updateArticle(articleDto,articleName);
     }
 
     @Operation(summary = "delete an Article for MicroSkill")
