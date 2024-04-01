@@ -37,10 +37,7 @@ public class Interest {
     public String name;
 
     public InterestDto build() {
-        List<UserDto> listOfUserDto = user.stream()
-                .map(User::build)
-                .toList();
-        return new InterestDto(id,listOfUserDto,name );
+        return new InterestDto(id, name);
     }
 
 

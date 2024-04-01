@@ -55,7 +55,6 @@ public class UsersController {
     @Operation(summary = "List of Users")
     @GetMapping("/all")
     List<UserDto> listOfUsers() {
-        log.warn("List of users have been received : {}" , userService.getAuthenticatedUser().getPassword());
         return userService.allUsers();
     }
 
