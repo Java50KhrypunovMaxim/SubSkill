@@ -10,6 +10,6 @@ import com.subskill.models.Article;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findById(Long id);
-    Optional<Article> findByArticleName(String articleName);
+    Optional<Article> findByarticleName(String name);
     boolean existsByArticleName(String articleName);
 }

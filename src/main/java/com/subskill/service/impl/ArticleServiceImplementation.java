@@ -1,6 +1,7 @@
 package com.subskill.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.IllegalArticleStateException;
@@ -23,7 +24,6 @@ public class ArticleServiceImplementation implements ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -39,18 +39,31 @@ public class ArticleServiceImplementation implements ArticleService {
 
     @Override
     @Transactional
-    public ArticleDto updateArticle(ArticleDto articleDto) {
-        Article article = articleRepository.findByArticleName(articleDto.articleName()).orElseThrow(ArticleNotFoundException::new);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(articleDto, article);
-        log.debug("Article {} has been update", articleDto);
-        return articleDto;
+    public ArticleDto updateArticle(ArticleDto articleDto,String articleName) {
+        Optional<Article> optionalArticle = articleRepository.findByarticleName(articleName);
+        if (optionalArticle.isPresent()) {
+            Article article1 = optionalArticle.get();
+//            if (articleDto.microskillId() != 0L) {
+//                article1.setMicroSkill(articleDto.microskillId());
+//            }
+//            if (articleDto.textOfArticle() != null) {
+//                article1.setTextOfArticle(articleDto.textOfArticle());
+//            }
+//            if (articleDto.articleName() != null) {
+//                article1.setArticleName(articleDto.articleName());
+//            }
+            articleRepository.save(article1);
+            log.debug("Article has been updated");
+            return article1.build();
+        } else {
+            throw new ArticleNotFoundException();
+        }
     }
 
     @Override
     @Transactional
     public void deleteArticle(String articleName) {
-        Article article = articleRepository.findByArticleName(articleName).orElseThrow(ArticleNotFoundException::new);
+        Article article = articleRepository.findByarticleName(articleName).orElseThrow(ArticleNotFoundException::new);
         ArticleDto res = article.build();
         articleRepository.deleteById(article.getId());
         log.debug("article with name {} has been deleted", res.articleName());

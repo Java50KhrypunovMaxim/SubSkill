@@ -24,7 +24,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @Operation(summary = "Register a new review")
-    @PostMapping()
+    @PostMapping("/add")
     ReviewDto addReview(@RequestBody  ReviewDto reviewDto) {
         log.debug("registerReview: received review data: {}", reviewDto);
         return reviewService.addReview(reviewDto);

@@ -3,6 +3,7 @@ package com.subskill.controller;
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.service.CartService;
+import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -30,17 +32,27 @@ public class CartController {
     }
 
     @Operation(summary = "Remove MicroSkills from cart")
-    @DeleteMapping("/delete/{cartId}")
-    void deleteMicroSkillFromCart(@PathVariable Long cartId) {
-        log.debug("remove microSkill: remove cart microskill {} from data", cartId);
-        cartService.deleteMicroSkillFromCart(cartId);
+    @DeleteMapping("/delete/all")
+    void deleteMicroSkillFromCart() {
+        log.debug(" remove all microskill from cart");
+        cartService.deleteAllMicroSKillFromCart();
     }
-
+    @Operation(summary = "Remove MicroSkills from cart")
+    @DeleteMapping("/delete/{microskillId}")
+    void deleteMicroSkillFromCart(@PathVariable Long microskillId) {
+        log.debug(" remove  microskill with id : {} from cart", microskillId);
+        cartService.deleteMicroSkillFromCart(microskillId);
+    }
+    @Operation(summary = "Total money in Cart")
+    @GetMapping("/total")
+    public BigDecimal totalPaymentByUserId() {
+        return cartService.totalMoneyForMicroSkill();
+    }
     @Operation(summary = "List of MicroSkills in Cart")
-    @GetMapping("/all/{cartId}")
-    Set<MicroSkillDto> listOMicroSkillInCart(@PathVariable Long cartId) {
-        log.debug("List of users have been received");
-        return cartService.allMicroSkillsInCart(cartId);
+    @GetMapping("/all")
+    Set<MicroSkillDto> listOMicroSkillInCart() {
+        log.warn("List of users have been received ");
+        return cartService.allMicroSkillsInCart();
     }
 
 }

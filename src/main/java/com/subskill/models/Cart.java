@@ -40,10 +40,10 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "microskill_id")
     )
-    private Set<MicroSkill> listOfMicroSkills;
+    private Set<MicroSkill> setOfMicroSkills;
 
     public CartDto build() {
-        Set<MicroSkillDto> listOfMicroSkillDtos = listOfMicroSkills.stream()
+        Set<MicroSkillDto> listOfMicroSkillDtos = setOfMicroSkills.stream()
                 .map(MicroSkill::build)
                 .collect(Collectors.toSet());
 

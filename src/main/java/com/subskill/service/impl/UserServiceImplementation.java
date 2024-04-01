@@ -33,7 +33,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
 
         User user = getAuthenticatedUser();
-        if (user == null || !user.getEmail().equals(userDto.email())) {
+        if (user == null || userDto == null || user.getEmail() == null ) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
         user.setUsername(userDto.username());
@@ -44,21 +44,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         log.debug("User with email {} has been updated", user.getEmail());
         return user.build();
     }
-//
-//    @Override
-//    @Transactional
-//    public UserDto changePassword(UserDtoPassword newPassword) {
-//        User user = getAuthenticatedUser();
-//        if (user == null) {
-//            throw new IllegalArgumentException(INVALID_INPUT_DATA);
-//        }
-//
-//        user.setPassword(passwordEncoder.encode(newPassword.password()));
-//        userRepository.save(user);
-//        log.debug("Password for user with email {} has been changed", user.getEmail());
-//        return user.build();
-//    }
-//
+
     @Override
     @Transactional
     public void changePassword(UserDtoPassword newPassword) {
@@ -73,7 +59,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public void deleteUser() {
         User authenticatedUser = getAuthenticatedUser();
-        userRepository.getReferenceById(authenticatedUser.getId());
+        userRepository.findById(authenticatedUser.getId());
         log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
     }
 

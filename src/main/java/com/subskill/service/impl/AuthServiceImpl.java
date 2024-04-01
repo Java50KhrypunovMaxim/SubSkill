@@ -9,8 +9,10 @@ import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.Cart;
 import com.subskill.models.User;
+import com.subskill.repository.CartRepository;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.AuthService;
+import com.subskill.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final CartRepository cartRepository;
+
 
     @Override
     public JwtResponse login(LoginDto request) {
@@ -46,6 +50,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponse register(RegisteredUserDto registeredUserDto) {
+
         var user = User.builder()
                 .username(registeredUserDto.username())
                 .email(registeredUserDto.email())
@@ -53,9 +58,11 @@ public class AuthServiceImpl implements AuthService {
                 .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
                 .online(Status.ONLINE)
-                .cart(new Cart())
                 .build();
+        Cart cart = new Cart();
+        cart.setUser(user);
         userRepository.save(user);
+        cartRepository.save(cart);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.email());
         String token = jwtTokenUtils.generateToken(userDetails, user.getId());

@@ -5,14 +5,16 @@ import com.subskill.dto.MicroSkillDto;
 import com.subskill.models.Cart;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
-@Service
+
 public interface CartService {
 
     CartDto addMicroSkillToCart(Long microskillId);
 
     void deleteMicroSkillFromCart(Long microskillId);
-
-    Set<MicroSkillDto> allMicroSkillsInCart(Long cartId);
+    void deleteAllMicroSKillFromCart();
+    BigDecimal totalMoneyForMicroSkill();
+    Set<MicroSkillDto> allMicroSkillsInCart();
 }
