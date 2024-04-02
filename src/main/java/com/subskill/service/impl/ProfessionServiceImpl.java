@@ -18,7 +18,7 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ProfessionDto> findAll() {
+    public List<ProfessionDto> findAllProfession() {
         List<Profession> professions = professionRepository.findAll();
         return professions.stream()
                 .map(Profession::build)
