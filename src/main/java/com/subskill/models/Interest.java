@@ -1,13 +1,15 @@
 package com.subskill.models;
 
 import com.subskill.dto.InterestDto;
-import com.subskill.enums.Tags;
+import com.subskill.dto.MicroSkillDto;
+import com.subskill.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -23,16 +25,19 @@ public class Interest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @ElementCollection(targetClass = Tags.class)
-    @CollectionTable(name = "Interest_tags",
-            joinColumns = @JoinColumn(name = "interest_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tag")
-    private List<Tags> tags;
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "interest",
+            joinColumns = @JoinColumn(name = "interest_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    public List<User> user;
+
+    @Column(name = "name")
+    public String name;
 
     public InterestDto build() {
-
-        return new InterestDto(id, tags);
+        return new InterestDto(id, name);
     }
 
 

@@ -15,6 +15,7 @@ import com.subskill.models.MicroSkill;
 import com.subskill.models.Profession;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,6 +35,7 @@ import com.subskill.service.TechnologyService;
 @AutoConfigureMockMvc(addFilters = false)
 @Import(ObjectMapperConfig.class)
 @SpringBootTest(classes = {TechnologyController.class})
+@AutoConfigureJsonTesters
 public class SubSkillTechnologyControllerTest {
 
     @MockBean
@@ -55,7 +57,6 @@ public class SubSkillTechnologyControllerTest {
 
     private static final String TECHNOLOGY_NAME_1 = "About Java";
     private static final String TECHNOLOGY_NAME_2 = "About C++";
-
     private static final long TECHNOLOGY_ID_1 = 123124L;
     private static final long TECHNOLOGY_ID_2 = 876512L;
 
@@ -64,14 +65,12 @@ public class SubSkillTechnologyControllerTest {
     void testGetAllTechnologies() throws Exception {
         List<TechnologyDto> expectedTechnologyList = List.of(new TechnologyDto(1L,TECHNOLOGY_NAME_1));
         when(technologyService.getAllTechnology()).thenReturn(expectedTechnologyList);
-
         String actualJSON = mockMvc.perform(get("/api/v1/technology/all")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-
         List<Technology> actualTechnologyList = Arrays.asList(mapper.readValue(actualJSON, Technology[].class));
         assertEquals(expectedTechnologyList, actualTechnologyList);
     }
@@ -81,9 +80,9 @@ public class SubSkillTechnologyControllerTest {
     void testGetTechnologyById() throws Exception {
         Technology expectedTechnology = new Technology(TECHNOLOGY_ID_1, TECHNOLOGY_NAME_1,
                 new Profession(), List.of(), 10L);
-        String jsonExpected = mapper.writeValueAsString(expectedTechnology);
-        when(technologyService.getByID(TECHNOLOGY_ID_1)).thenReturn(expectedTechnology);
-        String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1)
+         when(technologyService.getByID(TECHNOLOGY_ID_1)).thenReturn(expectedTechnology);
+         String jsonExpected = mapper.writeValueAsString(expectedTechnology);
+         String actualJSON = mockMvc.perform(get("/api/v1/technology/id/" + TECHNOLOGY_ID_1)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

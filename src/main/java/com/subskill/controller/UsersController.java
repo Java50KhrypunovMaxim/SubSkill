@@ -43,7 +43,7 @@ public class UsersController {
     @PutMapping("/password")
     @Transactional
     public void changeUserPassword( @RequestBody UserDtoPassword newPassword) {
-        log.debug("Changing password for user ");
+        log.warn("Changing password for user : {}", newPassword);
         userService.changePassword(newPassword);
     }
     @Operation(summary = "Delete our User based on email")
@@ -55,7 +55,6 @@ public class UsersController {
     @Operation(summary = "List of Users")
     @GetMapping("/all")
     List<UserDto> listOfUsers() {
-        log.debug("List of users have been received "  );
         return userService.allUsers();
     }
 

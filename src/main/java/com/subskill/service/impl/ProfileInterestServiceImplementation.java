@@ -44,6 +44,7 @@ public class ProfileInterestServiceImplementation implements ProfileInterestServ
         return interest.build();
     }
 
+
     @Override
     public void  deleteProfileInterest(Long id) {
         Interest interest = profileInterestRepository.findById(id)

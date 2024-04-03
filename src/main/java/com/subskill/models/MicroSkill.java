@@ -15,7 +15,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @AllArgsConstructor
@@ -93,6 +95,9 @@ public class MicroSkill {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+
     @JsonIgnore
     @OneToMany(mappedBy = "microSkill", cascade = CascadeType.ALL)
     private List<Article> articles;
@@ -129,15 +134,15 @@ public class MicroSkill {
     }
 
     public void updateMicroSkillFromDto(MicroSkill microSkill, EditMicroSkillDto dto) {
-        microSkill.setName(dto.name());
-        microSkill.setDescription(dto.description());
-        microSkill.setPhoto(dto.photo());
-        microSkill.setLearningTime(dto.learningTime());
-        microSkill.setAboutSkill(dto.aboutSkill());
-        microSkill.setLessonCount(dto.lessonCount());
-        microSkill.setTags(dto.tags());
-        microSkill.setLevel(dto.level());
-        microSkill.setPrice(BigDecimal.valueOf(dto.price()));
+        Optional.ofNullable(dto.name()).ifPresent(microSkill::setName);
+        Optional.ofNullable(dto.description()).ifPresent(microSkill::setDescription);
+        Optional.ofNullable(dto.photo()).ifPresent(microSkill::setPhoto);
+        Optional.ofNullable(dto.learningTime()).ifPresent(microSkill::setLearningTime);
+        Optional.ofNullable(dto.aboutSkill()).ifPresent(microSkill::setAboutSkill);
+        Optional.ofNullable(dto.lessonCount()).ifPresent(microSkill::setLessonCount);
+        Optional.ofNullable(dto.tags()).ifPresent(microSkill::setTags);
+        Optional.ofNullable(dto.level()).ifPresent(microSkill::setLevel);
+        Optional.ofNullable(dto.price()).map(BigDecimal::valueOf).ifPresent(microSkill::setPrice);
     }
 
     public Double calculateAverageRating() {

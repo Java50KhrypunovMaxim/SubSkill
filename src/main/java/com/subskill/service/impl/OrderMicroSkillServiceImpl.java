@@ -19,7 +19,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @Service
-public class OrderedMicroSkillImplementation implements OrderedMicroSkillService {
+public class OrderMicroSkillServiceImpl implements OrderedMicroSkillService {
 
     private final OrderedMicroSkillRepository orderedMicroSkillRepository;
     private final UserService userService;

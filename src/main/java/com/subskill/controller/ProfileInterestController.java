@@ -16,15 +16,14 @@ import java.util.List;
 @Slf4j
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class ProfileInterestController {
-
-   private final ProfileInterestService profileInterestService;
+    private final ProfileInterestService profileInterestService;
 
     @Operation(summary = "Show all interest")
     @GetMapping("/all")
-    @Parameter(name = "interestDto", description = "We add tags into profile as interest")
-    public InterestDto showAllInterest() {
+    public List<InterestDto> showAllInterest() {
         return profileInterestService.showAllProfileInterest();
     }
+
 
     @Operation(summary = "Delete interest by id")
     @DeleteMapping("/{id}")

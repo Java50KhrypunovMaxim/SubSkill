@@ -36,9 +36,9 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status online;
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "status")
+//    private Status online;
 
     @Column(name = "image")
     private String imageUrl;
@@ -51,8 +51,18 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MicroSkill> microSkill;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
+    // TODO: Job title string
+    // TODO: UserProfileDto(username,title,email,interests)
+    // TODO: TEst
+    // TODO: Order based microskill entity
+    // TODO: update user based on optional fields
+    // TODO: fix get /api/v1/interest/all using responseEntity/dto
+    // TODO: Add post mapping for adding interests to user
 
     public static User of(UserDto userDto) {
         User user = new User();
