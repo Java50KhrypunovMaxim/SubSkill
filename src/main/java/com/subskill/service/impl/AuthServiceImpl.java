@@ -27,7 +27,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
@@ -55,9 +54,8 @@ public class AuthServiceImpl implements AuthService {
                 .username(registeredUserDto.username())
                 .email(registeredUserDto.email())
                 .password(passwordEncoder.encode(registeredUserDto.password()))
-                .imageUrl(registeredUserDto.imageUrl())
+                .jobTitle(registeredUserDto.jobTitle())
                 .role(Roles.USER)
-                .online(Status.ONLINE)
                 .build();
         Cart cart = new Cart();
         cart.setUser(user);

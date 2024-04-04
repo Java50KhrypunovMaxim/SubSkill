@@ -3,6 +3,7 @@ package com.subskill.controller;
 import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
+import com.subskill.exception.IllegalUsersStateException;
 import com.subskill.exception.RegistrationUserNotFoundException;
 import com.subskill.service.AuthService;
 import com.subskill.jwt.JwtTokenUtils;
@@ -27,14 +28,15 @@ public class AuthController {
 
     @Operation(description = "authenticate our user")
     @PostMapping("/register")
-    public ResponseEntity<?> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
+    public ResponseEntity<JwtResponse> createAuthToken(@RequestBody RegisteredUserDto registeredUserDto) {
         try {
             JwtResponse response = authService.register(registeredUserDto);
             log.debug("User {} has been successfully registered", registeredUserDto.username());
             return ResponseEntity.ok(response);
-        } catch (RegistrationUserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
+        } catch (IllegalUsersStateException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+
     }
 
     @Operation(description = "login for user")

@@ -142,7 +142,7 @@ public class MicroSkill {
         Optional.ofNullable(dto.lessonCount()).ifPresent(microSkill::setLessonCount);
         Optional.ofNullable(dto.tags()).ifPresent(microSkill::setTags);
         Optional.ofNullable(dto.level()).ifPresent(microSkill::setLevel);
-        Optional.ofNullable(dto.price()).map(BigDecimal::valueOf).ifPresent(microSkill::setPrice);
+        Optional.ofNullable(dto.price()).ifPresent(microSkill::setPrice);
     }
 
     public Double calculateAverageRating() {

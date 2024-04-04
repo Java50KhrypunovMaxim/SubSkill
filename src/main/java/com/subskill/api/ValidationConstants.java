@@ -2,7 +2,7 @@ package com.subskill.api;
 
 public interface ValidationConstants {
     String PASSWORD_REGEXP = "^(?=.*[0-9])(?=.*[A-Z]).{6,15}$";
-    String EMAIL_REGEXP = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+    String EMAIL_REGEXP = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     String MISSING_PERSON_EMAIL = "Missing email address";
     String WRONG_EMAIL_FORMAT = "Wrong email format";
     String MISSING_PERSON_USERNAME_MESSAGE = "Missing person user name";
@@ -56,5 +56,6 @@ public interface ValidationConstants {
     String MISSING_MICROSKILL_WHAT_IN_THIS_SKILL_MESSAGE = "Missing what in this skill from MicroSkill" ;
     String UNAUTHORIZED_USER = "User not authorized ";
     String SAME_PASSWORD = "same password ";
+    String WRONG_EMAIL = "wrong email  ";
 }
 

@@ -1,11 +1,10 @@
 package com.subskill.service.impl;
 
-import com.subskill.models.Cart;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.OrderedMicroskill;
 import com.subskill.models.User;
-import com.subskill.repository.CartRepository;
 import com.subskill.repository.OrderedMicroSkillRepository;
+import com.subskill.repository.UserRepository;
 import com.subskill.service.OrderedMicroSkillService;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,7 @@ public class OrderMicroSkillServiceImpl implements OrderedMicroSkillService {
 
     private final OrderedMicroSkillRepository orderedMicroSkillRepository;
     private final UserService userService;
-    private final CartRepository cartRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -31,17 +30,13 @@ public class OrderMicroSkillServiceImpl implements OrderedMicroSkillService {
     public void moveFromCartToOrderedMicroSKill() {
 
         User user = userService.getAuthenticatedUser();
-        Cart cart = user.getCart();
-        Set<MicroSkill> microSkillsFromCart = new HashSet<>(cart.getSetOfMicroSkills());
-
+        Set<MicroSkill> microSkillsFromCart = new HashSet<>(user.getCart().getSetOfMicroSkills());
         OrderedMicroskill orderedMicroskill = new OrderedMicroskill();
-        orderedMicroskill.setUser(user);
         orderedMicroskill.setSetOfMicroSkill(microSkillsFromCart);
-        orderedMicroskill.setPurchased(true);
         orderedMicroSkillRepository.save(orderedMicroskill);
+        user.getCart().getSetOfMicroSkills().clear();
+        userRepository.save(user);
 
-        cart.getSetOfMicroSkills().clear();
-        cartRepository.save(cart);
     }
 
 

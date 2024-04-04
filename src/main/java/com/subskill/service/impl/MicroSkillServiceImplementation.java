@@ -15,6 +15,7 @@ import com.subskill.repository.TechnologyRepository;
 import com.subskill.service.MicroSkillService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +44,7 @@ import java.util.stream.Collectors;
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final TechnologyRepository technologyRepository;
-
+    private final ModelMapper modelMapper;
     @Override
     @Transactional
     public MicroSkillDto addMicroSkill(MicroSkillDto microSkillDto) {
@@ -76,6 +77,7 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
                 .orElseThrow(MicroSkillNotFoundException::new);
         existingMicroSkill.setLastUpdateTime(LocalDateTime.now());
         existingMicroSkill.updateMicroSkillFromDto(existingMicroSkill, editMicroSkillDto);
+        microSkillRepository.save(existingMicroSkill);
         microSkillRepository.save(existingMicroSkill);
     }
 
