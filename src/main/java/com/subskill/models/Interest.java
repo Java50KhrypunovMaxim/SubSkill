@@ -44,7 +44,7 @@ public class Interest {
     @Column(name = "name")
     public String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_interest",
             joinColumns = @JoinColumn(name = "interest_id"),
@@ -59,7 +59,7 @@ public class Interest {
     }
     public InterestDto build() {
 
-        return new InterestDto(id, name);
+        return new InterestDto(name,userInterest);
     }
 
 

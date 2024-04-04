@@ -1,7 +1,6 @@
 package com.subskill.service.impl;
 
 import com.subskill.dto.InterestDto;
-import com.subskill.enums.Tags;
 import com.subskill.exception.InterestNotFoundException;
 import com.subskill.models.Interest;
 import com.subskill.models.User;
@@ -13,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,23 +38,23 @@ public class ProfileInterestServiceImplementation implements ProfileInterestServ
     }
 
     @Override
-    public List<Interest> addInterestToUser(String tags) {
-        List<Interest> userInterests = profileInterestRepository.findAll();
+    public List<InterestDto> addInterestToUser(String tags) {
+        List<Interest> userInterests = profileInterestRepository.findByNameContaining(tags);
         User user = userService.getAuthenticatedUser();
 
-//            List<InterestDto> newInterestDto  = new ArrayList<>();
-//            for(Interest interest : userInterests) {
-//                newInterestDto.add(interest.build());
-//
-//            }
-        boolean interestExists = userInterests.stream().anyMatch(interest -> interest.getName().equals(tags));
+        boolean interestExists = userInterests.stream().anyMatch(interest1 -> interest1.getName().equals(tags));
         if (!interestExists) {
-            Interest newInterest = new Interest(tags);
-            newInterest = profileInterestRepository.save(newInterest);
-            user.getInterests().add(newInterest);
+            Interest interest =  new Interest(tags);
+            interest.getUserInterest().add(user);
+            user.getInterests().add(interest);
+            profileInterestRepository.save(interest);
             userRepository.save(user);
         }
-        return userInterests;
+        List<InterestDto> interestDto = new ArrayList<>();
+        for(Interest interest : userInterests) {
+            interestDto.add(interest.build());
+        }
+        return interestDto;
 
     }
 

@@ -47,11 +47,11 @@ VALUES (10, 10, 'Java'),
        (13, 12, 'Data Science');
 
 
-INSERT INTO users (user_id, username, password, email, status, image, role)
-VALUES (10, 'test_user', '$2a$12$X7yEccnTctNxzrsLI46Wn.U6zT7YZN9QaNheqpVHuYC9JXo2uL14a',
-        'user1@example.com', 'ONLINE', 'user.jpg', 'USER'),
-       (11, 'admin_user', '$2a$12$X7yEccnTctNxzrsLI46Wn.U6zT7YZN9QaNheqpVHuYC9JXo2uL14a',
-        'admin@example.com', 'ONLINE', 'admin.jpg', 'ADMIN');
+INSERT INTO users (user_id, username, job_title, password, email, status, image, role)
+VALUES (5, 'test_user4', 'programmer', '$2a$12$X7yEccnTctNxzrsLI46Wn.U6zT7YZN9QaNheqpVHuYC9JXo2uL14a',
+        'user1@example4.com', 'ONLINE', 'user4.jpg', 'USER'),
+       (6, 'admin_user4', 'notProgrammer', '$2a$12$X7yEccnTctNxzrsLI46Wn.U6zT7YZN9QaNheqpVHuYC9JXo2uL14a',
+        'admin@example4.com', 'ONLINE', 'admin4.jpg', 'ADMIN');
 
 INSERT INTO micro_skills (microskill_id, name, photo, creation_date, description, learning_time, level, rating,
                           popularity, views, price, lesson_count, about_skill, last_update_time, technology_id)

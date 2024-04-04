@@ -26,29 +26,26 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false, unique = true)
+    @Column(name = "user_id")
     private long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username" )
     private String username;
 
+    @Column(name = "job_title")
+    private String jobTitle;
+
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
-
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "status")
-//    private Status online;
-
-    @Column(name = "image")
-    private String imageUrl;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'USER'")
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private Roles role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -60,7 +57,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
 
-    @ManyToMany(mappedBy = "userInterest",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "userInterest",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Interest> interests;
     // TODO: Job title string
     // TODO: UserProfileDto(username,title,email,interests)
@@ -76,13 +73,13 @@ public class User {
         user.password = userDto.password();
         user.email = userDto.email();
 //        user.online = userDto.online();
-        user.imageUrl = userDto.imageUrl();
+//        user.imageUrl = userDto.imageUrl();
         user.role = userDto.role();
         return user;
     }
 
     public UserDto build() {
-        return new UserDto(username, email,password, imageUrl, role);
+        return new UserDto(username,jobTitle,  email,password, role);
     }
 }
 

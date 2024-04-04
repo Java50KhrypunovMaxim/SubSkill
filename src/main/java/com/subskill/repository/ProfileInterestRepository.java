@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ProfileInterestRepository extends JpaRepository<Interest, Long> {
     Optional<Interest> findById(Long id);
-    List<Interest> findInterestByName(String name);
+    List<Interest> findByNameContaining(String name);
 
 
 }

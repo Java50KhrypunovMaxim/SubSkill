@@ -38,8 +38,10 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         if (user == null || userDto == null || user.getEmail() == null) {
             throw new IllegalArgumentException(INVALID_INPUT_DATA);
         }
+        user.setEmail(userDto.email());
+        user.setJobTitle(userDto.jobTitle());
         user.setUsername(userDto.username());
-        user.setImageUrl(userDto.imageUrl());
+//        user.setImageUrl(userDto.imageUrl());
 
         userRepository.save(user);
         log.debug("User with email {} has been updated", user.getEmail());

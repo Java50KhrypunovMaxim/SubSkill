@@ -10,7 +10,7 @@ import java.util.List;
 public interface ProfileInterestService {
     List<String> showAllProfileInterest();
 
-    List<Interest> addInterestToUser(String tags);
+    List<InterestDto> addInterestToUser(String tags);
 
     void deleteProfileInterest(Long id);
 }

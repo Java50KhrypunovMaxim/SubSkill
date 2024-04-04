@@ -15,10 +15,11 @@ public record UserDto(
 //	@NotEmpty (message= MISSING_PERSON_USERNAME_MESSAGE)
 		String username,
 
-		@NotEmpty(message = MISSING_PERSON_EMAIL)
+		String jobTitle,
+//		@NotEmpty(message = MISSING_PERSON_EMAIL)
 		@Pattern(regexp = EMAIL_REGEXP, message = WRONG_EMAIL_FORMAT)
 		String email,
-		@NotEmpty(message = MISSING_PASSWORD_MESSAGE)
+//		@NotEmpty(message = MISSING_PASSWORD_MESSAGE)
 		@Pattern(regexp = PASSWORD_REGEXP, message = WRONG_PASSWORD_CREATION_MESSAGE)
 		String password,
 
@@ -26,7 +27,7 @@ public record UserDto(
 //		Status online,
 
 //	@NotEmpty (message= MISSING_IMAGE_URL_MESSAGE)
-		String imageUrl,
+//		String imageUrl,
 
 //	@NotNull (message= MISSING_ROLE_MESSAGE)
 		Roles role) {

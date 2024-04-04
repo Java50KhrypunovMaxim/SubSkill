@@ -24,6 +24,8 @@ public class OrderedMicroskill {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "total")
+    private Integer total;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ordered_microskill_id")
@@ -31,4 +33,5 @@ public class OrderedMicroskill {
 
     @Column(name = "is_purchased")
     private boolean isPurchased;
+
 }

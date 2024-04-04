@@ -1,10 +1,12 @@
 package com.subskill.dto;
 
 
+import com.subskill.models.User;
+
+import java.util.List;
+
 public record InterestDto(
-         Long id,
-
-         String name
-
+         String name,
+         List<User> userList
 ){
 }

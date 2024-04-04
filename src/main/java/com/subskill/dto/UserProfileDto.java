@@ -1,9 +1,9 @@
 package com.subskill.dto;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
-import static com.subskill.api.ValidationConstants.*;
+import static com.subskill.api.ValidationConstants.EMAIL_REGEXP;
+import static com.subskill.api.ValidationConstants.WRONG_EMAIL_FORMAT;
 
 public record UserProfileDto(
         //	@NotEmpty (message= MISSING_PERSON_USERNAME_MESSAGE)
