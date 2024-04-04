@@ -5,5 +5,5 @@ import com.subskill.dto.ProfessionDto;
 import java.util.List;
 
 public interface ProfessionService {
-    List<ProfessionDto> findAll();
+    List<ProfessionDto> findAllProfession();
 }

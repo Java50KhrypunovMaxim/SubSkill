@@ -25,6 +25,6 @@ public class ProfessionController {
     @GetMapping("/all")
     List<ProfessionDto> getAllProfessions() {
         log.debug("get all professions");
-        return professionService.findAll();
+        return professionService.findAllProfession();
     }
 }
