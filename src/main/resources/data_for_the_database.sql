@@ -18,8 +18,8 @@ DELETE
 FROM cart;
 DELETE
 FROM users;
-
-
+DELETE
+FROM interest;
 
 CREATE SEQUENCE IF NOT EXISTS profession_id_seq START 10;
 CREATE SEQUENCE IF NOT EXISTS technology_id_seq START 10;
@@ -30,6 +30,7 @@ CREATE SEQUENCE IF NOT EXISTS article_id_seq START 10;
 CREATE SEQUENCE IF NOT EXISTS review_id_seq START 10;
 CREATE SEQUENCE IF NOT EXISTS saved_microskill_id_seq START 10;
 CREATE SEQUENCE IF NOT EXISTS save_microskill_id_seq START 10;
+CREATE SEQUENCE IF NOT EXISTS interest START 10;
 
 
 
@@ -137,4 +138,13 @@ VALUES (10, 11),
        (13, 13);
 
 
-
+CREATE TABLE IF NOT EXISTS interest (
+                                        interest_id SERIAL PRIMARY KEY,
+                                        name VARCHAR(255) NOT NULL,
+                                        user_id BIGINT REFERENCES users(user_id)
+);
+INSERT INTO interest (interest_id,name,user_id) VALUES
+                               (1,'DEVELOPMENT',60),
+                                (2,'BUSINESS',60),
+                                (3,'IT_SOFTWARE',60),
+                                (4,'DESIGN',60);

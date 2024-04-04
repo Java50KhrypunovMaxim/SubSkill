@@ -50,8 +50,8 @@ class SubSkillUserServiceTest {
 	private static final String IMAGEURL1 = "https://example.com/image1.jpg";
 	private static final String IMAGEURL2 = "https://example.com/image2.jpg";
 
-    UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, IMAGEURL1, Roles.USER);
-    UserDto userDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD2, Status.ONLINE, IMAGEURL2, Roles.USER);
+    UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, IMAGEURL1, Roles.USER);
+    UserDto userDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD2,  IMAGEURL2, Roles.USER);
 
 	public static final List<String> ALL_USERS_NICKNAMES = Arrays.asList(USERNAME1, USERNAME2
 		);

@@ -11,7 +11,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -56,6 +59,9 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
+
+    @ManyToMany(mappedBy = "userInterest",cascade = CascadeType.ALL)
+    private List<Interest> interests;
     // TODO: Job title string
     // TODO: UserProfileDto(username,title,email,interests)
     // TODO: TEst
@@ -69,15 +75,14 @@ public class User {
         user.username = userDto.username();
         user.password = userDto.password();
         user.email = userDto.email();
-        user.online = userDto.online();
+//        user.online = userDto.online();
         user.imageUrl = userDto.imageUrl();
         user.role = userDto.role();
         return user;
     }
 
     public UserDto build() {
-        return new UserDto(username, email,password,
-                online,  imageUrl, role);
+        return new UserDto(username, email,password, imageUrl, role);
     }
 }
 

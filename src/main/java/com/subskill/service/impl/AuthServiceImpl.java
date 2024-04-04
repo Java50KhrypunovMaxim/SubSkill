@@ -57,7 +57,6 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(registeredUserDto.password()))
                 .imageUrl(registeredUserDto.imageUrl())
                 .role(Roles.USER)
-                .online(Status.ONLINE)
                 .build();
         Cart cart = new Cart();
         cart.setUser(user);

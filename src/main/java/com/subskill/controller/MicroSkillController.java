@@ -78,9 +78,8 @@ public class MicroSkillController {
 
         return microSkillService.mostVisitedMicroSkills(paging);
     }
-    @Operation(summary = "Get most popular MicroSkills")
 
-//
+    @Operation(summary = "Get most popular MicroSkills")
     @GetMapping("/mostPopular")
     public Page<MicroSkillDto> mostPopularMicroSkills(
             @RequestParam(defaultValue = "0") int page,
@@ -175,6 +174,14 @@ public class MicroSkillController {
         microSkillService.updatePriceMicroSkill(microSkill_id, price);
     }
 
+
+    @Operation(summary = "UpdateMicroSkill")
+    @PutMapping("/update/{id}")
+    void updateMicroSkill(@RequestBody EditMicroSkillDto editMicroSkillDto, @PathVariable Long id) {
+        log.debug("update microskill ");
+        microSkillService.updateMicroSkill(editMicroSkillDto,id);
+    }
+
     @Operation(summary = "Find MicroSkill by level")
     @GetMapping("/find-by-level")
     public Page<MicroSkillDto> findMicroSkillByLevel(@RequestParam Level level,
@@ -200,7 +207,7 @@ public class MicroSkillController {
         log.debug("finding tags {} of MicroSkill", tags);
         return microSkillService.findMicroSkillByTag(tags, paging);
     }
-//
+
     @Operation(summary = "Get top MicroSkill deals")
     @GetMapping("/get-today-deals")
     public Page<MicroSkillDto> getTodayBestDeals(@RequestParam(defaultValue = "0") int page,

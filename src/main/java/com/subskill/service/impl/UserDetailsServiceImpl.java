@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
 
-    @Transactional()
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String email)  {
         User user = userRepository.findByEmail(email)

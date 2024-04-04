@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface UserService {
     UserDto updateUser(UserDto userDto);
-
-    void changePassword(UserDtoPassword newPassword);
+    String passwordRecovery(String email);
+    void changePassword(UserDtoPassword newPassword,String email);
 
     void deleteUser();
 

@@ -60,9 +60,9 @@ class SubSkillUserControllerTest {
     private static final String IMAGEURLl = "https://example.com/image1.jpg";
     private static final String IMAGEURL2 = "https://example.com/image2.jpg";
 
-    UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, "", Roles.USER);
-    UserDto userDtoUpdated = new UserDto(USERNAME1, EMAIL1, PASSWORD1, Status.ONLINE, "", Roles.USER);
-    UserDto changePasswordUserDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD3, Status.ONLINE, "", Roles.USER);
+    UserDto userDto1 = new UserDto(USERNAME1, EMAIL1, PASSWORD1,  "", Roles.USER);
+    UserDto userDtoUpdated = new UserDto(USERNAME1, EMAIL1, PASSWORD1, "", Roles.USER);
+    UserDto changePasswordUserDto2 = new UserDto(USERNAME2, EMAIL2, PASSWORD3, "", Roles.USER);
 
 
 

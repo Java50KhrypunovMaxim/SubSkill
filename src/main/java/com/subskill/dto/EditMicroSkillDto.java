@@ -5,6 +5,7 @@ import com.subskill.enums.Tags;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public record EditMicroSkillDto(@NotNull(message = MISSING_ID_OF_SKILLS)
                                 LocalDateTime lastUpdateTime,
                                 String aboutSkill,
                                 Integer lessonCount,
-                                Double price,
+                                BigDecimal price,
                                 List<Tags> tags,
                                 Level level,
                                 List<ArticleDto> articles,
