@@ -3,7 +3,6 @@ package com.subskill.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.subskill.dto.UserDto;
 import com.subskill.enums.Roles;
-import com.subskill.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -72,8 +68,6 @@ public class User {
         user.username = userDto.username();
         user.password = userDto.password();
         user.email = userDto.email();
-//        user.online = userDto.online();
-//        user.imageUrl = userDto.imageUrl();
         user.role = userDto.role();
         return user;
     }

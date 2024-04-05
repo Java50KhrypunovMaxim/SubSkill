@@ -1,6 +1,7 @@
 package com.subskill.models;
 
 import com.subskill.dto.InterestDto;
+import com.subskill.enums.Tags;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -19,32 +18,17 @@ import java.util.Set;
 @Entity
 @Table(name = "interest")
 public class Interest {
-//
-//    @Id
-//    @Column(name = "interest_id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    public Long id;
-//
-//    @OneToMany(mappedBy = "interest")
-//    private List<UserProfile> userInterests = new ArrayList<>();
-//
-//    @Column(name = "name")
-//    public String name;
-//
-//    public InterestDto build() {
-//
-//        return new InterestDto(id,userInterests, name);
-//    }
 
     @Id
     @Column(name = "interest_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    public String name;
+    public Tags name;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_interest",
             joinColumns = @JoinColumn(name = "interest_id"),
@@ -53,13 +37,10 @@ public class Interest {
     )
     private List<User> userInterest = new ArrayList<>();
 
-    public Interest(String name) {
-        this.name = name;
-        this.userInterest = new ArrayList<>();
-    }
+
     public InterestDto build() {
 
-        return new InterestDto(name,userInterest);
+        return new InterestDto(id,name);
     }
 
 
