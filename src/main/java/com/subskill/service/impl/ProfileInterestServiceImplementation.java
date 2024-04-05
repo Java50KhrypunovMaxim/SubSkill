@@ -1,7 +1,7 @@
 package com.subskill.service.impl;
 
 import com.subskill.dto.InterestDto;
-import com.subskill.exception.InterestNotFoundException;
+import com.subskill.enums.Tags;
 import com.subskill.models.Interest;
 import com.subskill.models.User;
 import com.subskill.repository.ProfileInterestRepository;
@@ -12,9 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,42 +26,60 @@ public class ProfileInterestServiceImplementation implements ProfileInterestServ
 
     @Transactional(readOnly = true)
     @Override
-    public List<String> showAllProfileInterest() {
-        List<String> interestNames = new ArrayList<>();
-        List<Interest> profileInterests = profileInterestRepository.findAll();
-        for (Interest interest : profileInterests) {
-            interestNames.add(interest.getName());
-        }
-        return interestNames;
+    public List<InterestDto> showAllProfileInterest() {
+        List<Interest> interests = profileInterestRepository.findAll();
+        return interests
+                .stream()
+                .map(Interest::build)
+                .toList();
     }
 
     @Override
-    public List<InterestDto> addInterestToUser(String tags) {
-        List<Interest> userInterests = profileInterestRepository.findByNameContaining(tags);
+    public void setInterests(List<Tags> interests) {
         User user = userService.getAuthenticatedUser();
-
-        boolean interestExists = userInterests.stream().anyMatch(interest1 -> interest1.getName().equals(tags));
-        if (!interestExists) {
-            Interest interest =  new Interest(tags);
-            interest.getUserInterest().add(user);
-            user.getInterests().add(interest);
-            profileInterestRepository.save(interest);
-            userRepository.save(user);
+        List<Interest> allInterests = profileInterestRepository.findAll();
+        List<Interest> userInterests = user.getInterests();
+        List<Tags> existingTags = userInterests.stream()
+                .map(Interest::getName)
+                .toList();
+        for (Tags tag : interests) {
+            if (existingTags.contains(tag)) {
+                Interest interest = findInterestByName(allInterests, tag);
+                if (interest != null) {
+                    userInterests.add(interest);
+                    profileInterestRepository.save(interest);
+                } else {
+                    log.error("Interest with name {} not found", tag);
+                }
+            } else {
+                Interest newInterest = new Interest();
+                newInterest.setName(tag);
+                newInterest.getUserInterest().add(user);
+                userInterests.add(newInterest);
+                profileInterestRepository.save(newInterest);
+            }
         }
-        List<InterestDto> interestDto = new ArrayList<>();
-        for(Interest interest : userInterests) {
-            interestDto.add(interest.build());
-        }
-        return interestDto;
-
+        userRepository.save(user);
     }
 
+
+    private Interest findInterestByName(List<Interest> interests, Tags tagName) {
+        for (Interest interest : interests) {
+            if (interest.getName().equals(tagName)) {
+                return interest;
+            }
+        }
+        return null;
+    }
+
+    @Transactional
     @Override
-    public void deleteProfileInterest(Long id) {
-        Interest interest = profileInterestRepository.findById(id)
-                .orElseThrow(InterestNotFoundException::new);
-        profileInterestRepository.delete(interest);
-        log.debug("Microskill with ID {} has been deleted", interest);
+    public void deleteProfileInterest(Tags tags) {
+        List<Interest> interests = profileInterestRepository.findAll();
+        boolean hasInterestWithTag = interests.stream().anyMatch(tag -> tag.getName().equals(tags));
+        if (hasInterestWithTag) {
+            profileInterestRepository.deleteByName(tags);
+        }
 
     }
 }

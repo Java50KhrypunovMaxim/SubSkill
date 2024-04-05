@@ -22,8 +22,8 @@ import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 @Slf4j
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class AuthController {
-    private final AuthService authService;
 
+    private final AuthService authService;
     private final JwtTokenUtils jwtTokenUtils;
 
     @Operation(description = "authenticate our user")
@@ -33,7 +33,7 @@ public class AuthController {
             JwtResponse response = authService.register(registeredUserDto);
             log.debug("User {} has been successfully registered", registeredUserDto.username());
             return ResponseEntity.ok(response);
-        } catch (IllegalUsersStateException e){
+        } catch (IllegalUsersStateException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 

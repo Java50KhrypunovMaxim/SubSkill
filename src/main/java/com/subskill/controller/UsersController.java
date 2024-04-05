@@ -1,12 +1,9 @@
 package com.subskill.controller;
 
-import com.subskill.dto.AuthDto.JwtResponse;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.subskill.api.ValidationConstants.*;
 
 @Validated
 @RestController

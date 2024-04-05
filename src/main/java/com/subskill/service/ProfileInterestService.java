@@ -8,9 +8,8 @@ import com.subskill.models.User;
 import java.util.List;
 
 public interface ProfileInterestService {
-    List<String> showAllProfileInterest();
+    List<InterestDto>  showAllProfileInterest();
 
-    List<InterestDto> addInterestToUser(String tags);
-
-    void deleteProfileInterest(Long id);
+     void setInterests( List<Tags> interests);
+     void deleteProfileInterest( Tags tags);
 }

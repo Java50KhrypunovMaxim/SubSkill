@@ -40,7 +40,7 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     @Transactional
     public void deleteReview(Long reviewId) {
-        Review review = reviewRepo.findByid(reviewId).orElseThrow(ReviewNotFoundException::new);
+        Review review = reviewRepo.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewRepo.deleteById(review.getId());
         log.debug("Review with id {} has been deleted", review.getId());
 
