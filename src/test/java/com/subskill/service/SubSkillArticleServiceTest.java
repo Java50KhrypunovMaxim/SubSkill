@@ -2,20 +2,16 @@ package com.subskill.service;
 
 import com.subskill.dto.ArticleDto;
 import com.subskill.exception.ArticleNotFoundException;
-import com.subskill.models.Article;
 import com.subskill.models.MicroSkill;
 import com.subskill.repository.ArticleRepository;
 import com.subskill.repository.MicroSkillRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
@@ -23,7 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest

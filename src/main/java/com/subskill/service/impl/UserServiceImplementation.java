@@ -7,27 +7,26 @@ import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.UserNotFoundException;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
+import com.subskill.service.SendMailService;
 import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.security.SecureRandom;
-import java.util.Base64;
+
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UserServiceImplementation implements UserService, ValidationConstants {
+public class UserServiceImplementation implements UserService, ValidationConstants  {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SendMailService sendMailService;
 
     @Override
     @Transactional
@@ -41,7 +40,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         user.setEmail(userDto.email());
         user.setJobTitle(userDto.jobTitle());
         user.setUsername(userDto.username());
-//        user.setImageUrl(userDto.imageUrl());
 
         userRepository.save(user);
         log.debug("User with email {} has been updated", user.getEmail());
@@ -95,9 +93,35 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     }
 
     @Override
+    public String passwordRecoveryByEmail(String email) {
+        String token = generateRandomPassword();
+
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        user.setToken(token);
+        userRepository.save(user);
+        sendMailService.sendToken(email,token);
+        return "Email was sent";
+    }
+
+    @Override
+    public void resetPasswordWithToken(String mail, String token,String password) {
+        User user = userRepository.findByEmail(mail).orElseThrow(UserNotFoundException::new);
+        if (user.getToken() != null && user.getToken().equals(token)) {
+            String hashedPassword = passwordEncoder.encode(password);
+            user.setPassword(hashedPassword);
+            user.setToken(null);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException();
+        }
+
+    }
+
+    @Override
     public String nameUserByToken() {
         return getAuthenticatedUser().getUsername();
     }
+
 
     @Override
     public User getAuthenticatedUser() {
@@ -111,4 +135,6 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         random.nextBytes(bytes);
         return Base64.getEncoder().encodeToString(bytes);
     }
+
+
 }

@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -44,6 +45,12 @@ public class User {
     @Column(name = "role")
     private Roles role;
 
+    @Column(name = "token")
+    private String token;
+
+    @Column(name = "tokenCreationDate", columnDefinition = "TIMESTAMP")
+    private LocalDateTime tokenCreationDate;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
@@ -71,6 +78,7 @@ public class User {
         user.role = userDto.role();
         return user;
     }
+
 
     public UserDto build() {
         return new UserDto(username,jobTitle,  email,password, role);
