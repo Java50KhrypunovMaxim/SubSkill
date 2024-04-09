@@ -2,15 +2,24 @@ package com.subskill.controller;
 
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
+import com.subskill.exception.UserNotFoundException;
+import com.subskill.repository.UserRepository;
+import com.subskill.service.SendMailService;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+
+import static com.subskill.api.ValidationConstants.AN_ERROR_OCCURRED;
+import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
+
 
 @Validated
 @RestController
@@ -21,6 +30,8 @@ import java.util.List;
 public class UsersController {
 
     private final UserService userService;
+
+
 
 
     @Operation(summary = "Update our User")
@@ -59,4 +70,27 @@ public class UsersController {
         log.debug("guess who lost a password? Yes, you! email : " + email);
             return userService.passwordRecovery(email);
     }
+
+
+    @Operation(summary = "Mail password recovery")
+    @PostMapping("/password-email")
+    public ResponseEntity<String> passwordRecovery(@RequestParam String mail) {
+        try {
+            String result = userService.passwordRecoveryByEmail(mail);
+            return ResponseEntity.ok(result);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AN_ERROR_OCCURRED);
+        }
+    }
+
+    @PutMapping("/mailReset")
+    public void passwordReset(@RequestParam String token,String mail, String password){
+        userService.resetPasswordWithToken(mail,token,password);
+    }
+
+
+
+
 }

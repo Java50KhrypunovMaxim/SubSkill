@@ -1,14 +1,11 @@
 package com.subskill.dto;
 
+import com.subskill.enums.Roles;
+import jakarta.validation.constraints.Pattern;
+
 import java.util.Objects;
 
 import static com.subskill.api.ValidationConstants.*;
-
-import com.subskill.enums.Roles;
-import com.subskill.enums.Status;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 
 public record UserDto(

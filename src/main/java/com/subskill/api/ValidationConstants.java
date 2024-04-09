@@ -5,6 +5,7 @@ public interface ValidationConstants {
     String EMAIL_REGEXP = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     String MISSING_PERSON_EMAIL = "Missing email address";
     String WRONG_EMAIL_FORMAT = "Wrong email format";
+    String AN_ERROR_OCCURRED = "An error occurred";
     String MISSING_PERSON_USERNAME_MESSAGE = "Missing person user name";
     String REGISTRATION_USER_NOT_FOUND = "Missing registration user ";
     String MISSING_PASSWORD_MESSAGE = "Missing password";
@@ -57,5 +58,6 @@ public interface ValidationConstants {
     String UNAUTHORIZED_USER = "User not authorized ";
     String SAME_PASSWORD = "same password ";
     String WRONG_EMAIL = "wrong email  ";
+    long EXPIRE_TOKEN = 30;
 }
 
