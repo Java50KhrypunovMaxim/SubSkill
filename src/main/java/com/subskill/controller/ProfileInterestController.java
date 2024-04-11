@@ -21,7 +21,6 @@ import java.util.List;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class ProfileInterestController {
     private final ProfileInterestService profileInterestService;
-    private final ProfileInterestRepository profileInterestRepository;
 
     @Operation(summary = "Show all interest")
     @GetMapping("/all")

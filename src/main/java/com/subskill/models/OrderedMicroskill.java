@@ -34,4 +34,8 @@ public class OrderedMicroskill {
     @Column(name = "is_purchased")
     private boolean isPurchased;
 
+    @JoinColumn(name = "guest_id", referencedColumnName = "guest_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Guest guest;
+
 }

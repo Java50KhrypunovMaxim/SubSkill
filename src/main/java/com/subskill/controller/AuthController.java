@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.function.Predicate;
+
 import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 
 @RestController

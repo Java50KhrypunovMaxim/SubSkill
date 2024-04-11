@@ -35,6 +35,9 @@ public class Cart {
     @Column(name = "microskillCount")
     private Integer microskillCount;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id", referencedColumnName = "guest_id")
+    private Guest guest;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(

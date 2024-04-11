@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,6 +48,7 @@ public class User {
 
     @Column(name = "token")
     private String token;
+
 
     @Column(name = "tokenCreationDate", columnDefinition = "TIMESTAMP")
     private LocalDateTime tokenCreationDate;

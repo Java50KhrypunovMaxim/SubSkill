@@ -16,9 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
-import static com.subskill.api.ValidationConstants.AN_ERROR_OCCURRED;
-import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
+import static com.subskill.api.ValidationConstants.*;
 
 
 @Validated
@@ -84,12 +82,18 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AN_ERROR_OCCURRED);
         }
     }
-
+    @Operation(summary = "new password with token from mail")
     @PutMapping("/mailReset")
-    public void passwordReset(@RequestParam String token,String mail, String password){
-        userService.resetPasswordWithToken(mail,token,password);
+    public ResponseEntity<String> passwordReset(@RequestParam String token, @RequestParam String mail, @RequestParam String password) {
+        try {
+            userService.resetPasswordWithToken(mail, token, password);
+            return ResponseEntity.ok(PASSWORD_RESET_SC);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FAILED_RESET_PASSWORD);
+        }
     }
-
 
 
 
