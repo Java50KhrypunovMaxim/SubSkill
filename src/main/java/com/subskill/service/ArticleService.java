@@ -1,8 +1,8 @@
 package com.subskill.service;
 
-import java.util.List;
-
 import com.subskill.dto.ArticleDto;
+
+import java.util.List;
 
 public interface ArticleService {
 	ArticleDto addArticle(ArticleDto articleDto);

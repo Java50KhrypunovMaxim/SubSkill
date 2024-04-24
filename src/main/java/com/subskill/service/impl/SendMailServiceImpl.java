@@ -4,10 +4,11 @@ import com.subskill.models.User;
 import com.subskill.service.SendMailService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.core.env.Environment;
+
 import java.util.Locale;
 
 @Service

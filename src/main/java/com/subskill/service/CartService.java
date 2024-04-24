@@ -2,8 +2,6 @@ package com.subskill.service;
 
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.models.Cart;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Set;

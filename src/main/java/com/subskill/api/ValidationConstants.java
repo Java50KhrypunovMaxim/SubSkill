@@ -17,6 +17,7 @@ public interface ValidationConstants {
     String INVALID_INPUT_DATA = "Invalid input data";
     String USER_NOT_FOUND = "User not found";
     String PASSWORD_NOT_FOUND = "password not found";
+    String FAILED_RESET_PASSWORD = "Failed to reset password\"";
     String CONFIRMED_PASSWORD_NOT_FOUND = "confirmed password not found";
     String TOKEN_NOT_FOUND = "token not found";
     String MISSING_ARTICLE_NAME_MESSAGE = "Missing name of article";
@@ -58,6 +59,7 @@ public interface ValidationConstants {
     String UNAUTHORIZED_USER = "User not authorized ";
     String SAME_PASSWORD = "same password ";
     String WRONG_EMAIL = "wrong email  ";
+    String PASSWORD_RESET_SC = "Password reset successfully";
     long EXPIRE_TOKEN = 30;
 }
 

@@ -1,15 +1,10 @@
 package com.subskill.models;
 
 import com.subskill.dto.ArticleDto;
-import com.subskill.repository.ArticleRepository;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import static com.subskill.api.ValidationConstants.MISSING_ID_OF_SKILLS;
 
 @Data
 @AllArgsConstructor

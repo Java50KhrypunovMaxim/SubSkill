@@ -29,7 +29,7 @@ public class ExceptionsController {
 		return returnResponse(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
-	private ResponseEntity<String> returnResponse(String message, HttpStatus status) {
+	 ResponseEntity<String> returnResponse(String message, HttpStatus status) {
 		log.error(message);
 		return ResponseEntity.status(status).body(message);
 	}

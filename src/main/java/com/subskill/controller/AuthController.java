@@ -5,16 +5,14 @@ import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.exception.IllegalUsersStateException;
 import com.subskill.exception.RegistrationUserNotFoundException;
-import com.subskill.service.AuthService;
 import com.subskill.jwt.JwtTokenUtils;
+import com.subskill.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static com.subskill.api.ValidationConstants.USER_NOT_FOUND;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -36,13 +34,11 @@ public class AuthController {
         } catch (IllegalUsersStateException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-
     }
 
     @Operation(description = "login for user")
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginDto loginDto) {
-
         try {
             JwtResponse response = authService.login(loginDto);
             String username = jwtTokenUtils.getUsernameFromToken(response.token());

@@ -1,12 +1,9 @@
 package com.subskill.dto;
 
 
-import static com.subskill.api.ValidationConstants.*;
-
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+
+import static com.subskill.api.ValidationConstants.MISSING_TEXT_REVIEW_MESSAGE;
 
 public record ReviewDto(
 //		@NotEmpty(message = MISSING_ID_OF_REVIEW)

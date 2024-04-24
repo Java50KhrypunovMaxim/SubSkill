@@ -1,20 +1,18 @@
 package com.subskill.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.subskill.dto.ArticleDto;
 import com.subskill.exception.ArticleNotFoundException;
 import com.subskill.exception.IllegalArticleStateException;
 import com.subskill.models.Article;
 import com.subskill.repository.ArticleRepository;
 import com.subskill.service.ArticleService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.extern.slf4j.Slf4j;
-import com.subskill.dto.ArticleDto;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service

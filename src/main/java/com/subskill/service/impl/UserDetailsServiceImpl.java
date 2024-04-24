@@ -3,18 +3,14 @@ package com.subskill.service.impl;
 import com.subskill.exception.UserNotFoundException;
 import com.subskill.models.User;
 import com.subskill.repository.UserRepository;
-import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-
-import static com.subskill.api.ServiceExceptionMessages.USER_NOT_FOUND;
 
 @Service
 @AllArgsConstructor

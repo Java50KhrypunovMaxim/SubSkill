@@ -1,33 +1,19 @@
 package com.subskill.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import com.subskill.dto.ArticleDto;
-import com.subskill.enums.Status;
-import com.subskill.exception.ArticleNotFoundException;
-import com.subskill.exception.NoUserInRepositoryException;
-import com.subskill.exception.RegistrationUserNotFoundException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.subskill.dto.UserDto;
+import com.subskill.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.subskill.dto.UserDto;
-import com.subskill.enums.Roles;
-import com.subskill.models.User;
-import com.subskill.repository.UserRepository;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("test")

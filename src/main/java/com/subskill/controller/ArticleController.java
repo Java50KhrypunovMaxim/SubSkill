@@ -1,19 +1,17 @@
 package com.subskill.controller;
 
-import java.util.List;
-
+import com.subskill.dto.ArticleDto;
+import com.subskill.service.ArticleService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.subskill.dto.ArticleDto;
-import com.subskill.service.ArticleService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import static com.subskill.api.ValidationConstants.*;
+import java.util.List;
+
+import static com.subskill.api.ValidationConstants.MISSING_NAME_OF_ARTICLE;
 
 @Validated
 @RestController

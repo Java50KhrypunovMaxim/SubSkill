@@ -16,8 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -76,6 +80,9 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public void deleteUser() {
         User authenticatedUser = getAuthenticatedUser();
+        userRepository.findById(authenticatedUser.getId()).ifPresent( user ->{
+            throw new UserNotFoundException();
+        });
         userRepository.deleteById(authenticatedUser.getId());
         log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
     }
@@ -98,15 +105,16 @@ public class UserServiceImplementation implements UserService, ValidationConstan
 
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         user.setToken(token);
+        user.setTokenCreationDate(LocalDateTime.now()); 
         userRepository.save(user);
         sendMailService.sendToken(email,token);
         return "Email was sent";
     }
 
     @Override
-    public void resetPasswordWithToken(String mail, String token,String password) {
+    public void resetPasswordWithToken(String mail, String token, String password) {
         User user = userRepository.findByEmail(mail).orElseThrow(UserNotFoundException::new);
-        if (user.getToken() != null && user.getToken().equals(token)) {
+        if (isTokenValid(user, token)) {
             String hashedPassword = passwordEncoder.encode(password);
             user.setPassword(hashedPassword);
             user.setToken(null);
@@ -114,7 +122,13 @@ public class UserServiceImplementation implements UserService, ValidationConstan
         } else {
             throw new UserNotFoundException();
         }
-
+    }
+    private boolean isTokenValid(User user, String token) {
+        LocalDateTime tokenCreationDate = user.getTokenCreationDate();
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(tokenCreationDate, now);
+        long hoursPassed = duration.toHours();
+        return user.getToken() != null && user.getToken().equals(token) && hoursPassed <= 24;
     }
 
     @Override
