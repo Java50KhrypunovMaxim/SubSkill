@@ -1,24 +1,14 @@
 package com.subskill.controller;
 
-import java.util.Set;
-
-import com.subskill.dto.SaveMicroSkillDto;
-import lombok.NonNull;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.models.MicroSkill;
-import com.subskill.models.SaveMicroskill;
+import com.subskill.dto.SaveMicroSkillDto;
 import com.subskill.service.SavedMicroskillService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/savemicroSkill")

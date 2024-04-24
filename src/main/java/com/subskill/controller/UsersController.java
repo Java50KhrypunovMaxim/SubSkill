@@ -3,8 +3,6 @@ package com.subskill.controller;
 import com.subskill.dto.UserDto;
 import com.subskill.dto.UserDtoPassword;
 import com.subskill.exception.UserNotFoundException;
-import com.subskill.repository.UserRepository;
-import com.subskill.service.SendMailService;
 import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 import static com.subskill.api.ValidationConstants.*;
@@ -85,6 +84,7 @@ public class UsersController {
     @Operation(summary = "new password with token from mail")
     @PutMapping("/mailReset")
     public ResponseEntity<String> passwordReset(@RequestParam String token, @RequestParam String mail, @RequestParam String password) {
+
         try {
             userService.resetPasswordWithToken(mail, token, password);
             return ResponseEntity.ok(PASSWORD_RESET_SC);
@@ -94,7 +94,6 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FAILED_RESET_PASSWORD);
         }
     }
-
 
 
 }

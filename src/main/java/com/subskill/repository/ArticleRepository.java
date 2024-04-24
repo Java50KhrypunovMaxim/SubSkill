@@ -1,11 +1,10 @@
 package com.subskill.repository;
 
-import java.util.Optional;
-
+import com.subskill.models.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.subskill.models.Article;
+import java.util.Optional;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {

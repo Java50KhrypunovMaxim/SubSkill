@@ -1,29 +1,26 @@
 package com.subskill.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.subskill.dto.SaveMicroSkillDto;
-import com.subskill.service.UserService;
-import org.springframework.stereotype.Service;
-
 import com.subskill.dto.MicroSkillDto;
-import com.subskill.exception.MicroSkillAlreadySavedException;
+import com.subskill.dto.SaveMicroSkillDto;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.models.MicroSkill;
 import com.subskill.models.SaveMicroskill;
 import com.subskill.models.User;
 import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.UserRepository;
 import com.subskill.repository.SaveMicroskillRepository;
+import com.subskill.repository.UserRepository;
 import com.subskill.service.SavedMicroskillService;
-
+import com.subskill.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

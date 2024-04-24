@@ -1,5 +1,6 @@
 package com.subskill.models;
 
+import com.subskill.dto.TechnologyDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
-import com.subskill.dto.ArticleDto;
-import com.subskill.dto.TechnologyDto;
 
 @Data
 @Getter

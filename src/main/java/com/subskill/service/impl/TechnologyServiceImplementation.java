@@ -1,19 +1,17 @@
 package com.subskill.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.subskill.service.TechnologyService;
-import org.springframework.stereotype.Service;
-
 import com.subskill.dto.TechnologyDto;
 import com.subskill.exception.TechnologyNotFoundException;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
-
+import com.subskill.service.TechnologyService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +25,7 @@ public class TechnologyServiceImplementation implements TechnologyService {
     public List<TechnologyDto> getAllTechnology() {
         log.debug("All technologies");
         return technologyRepository.findAll().stream().map(Technology::build)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)

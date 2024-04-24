@@ -1,17 +1,14 @@
 package com.subskill.controller;
 
-import java.util.List;
-
-import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.web.bind.annotation.*;
-
 import com.subskill.dto.TechnologyDto;
 import com.subskill.models.Technology;
 import com.subskill.service.TechnologyService;
-
-
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController

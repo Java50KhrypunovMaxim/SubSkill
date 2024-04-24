@@ -1,7 +1,6 @@
 package com.subskill.exception;
 
 import com.subskill.api.ServiceExceptionMessages;
-import org.springframework.transaction.TransactionSystemException;
 
 @SuppressWarnings("serial")
 public class ReviewNotFoundException extends NotFoundException {

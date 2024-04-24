@@ -1,9 +1,9 @@
 package com.subskill.service;
 
-import java.util.List;
-
 import com.subskill.dto.TechnologyDto;
 import com.subskill.models.Technology;
+
+import java.util.List;
 
 public interface TechnologyService {
     List<TechnologyDto> getAllTechnology();

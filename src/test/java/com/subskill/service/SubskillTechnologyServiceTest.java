@@ -1,26 +1,22 @@
 package com.subskill.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.subskill.dto.TechnologyDto;
+import com.subskill.models.Technology;
+import com.subskill.repository.TechnologyRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.subskill.dto.ProfessionDto;
-import com.subskill.dto.TechnologyDto;
-import com.subskill.models.Technology;
-import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.ProfessionRepository;
-import com.subskill.repository.TechnologyRepository;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest

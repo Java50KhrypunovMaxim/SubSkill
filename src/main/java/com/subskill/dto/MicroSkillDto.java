@@ -2,7 +2,6 @@ package com.subskill.dto;
 
 import com.subskill.enums.Level;
 import com.subskill.enums.Tags;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -16,10 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -78,6 +80,9 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public void deleteUser() {
         User authenticatedUser = getAuthenticatedUser();
+        userRepository.findById(authenticatedUser.getId()).ifPresent( user ->{
+            throw new UserNotFoundException();
+        });
         userRepository.deleteById(authenticatedUser.getId());
         log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
     }

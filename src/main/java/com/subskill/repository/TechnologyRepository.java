@@ -1,12 +1,11 @@
 package com.subskill.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.subskill.models.Technology;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.subskill.models.Technology;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TechnologyRepository extends JpaRepository<Technology, Long> {

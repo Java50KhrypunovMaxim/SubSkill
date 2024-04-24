@@ -1,7 +1,6 @@
 package com.subskill.exception;
 
 import com.subskill.api.ValidationConstants;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.AuthenticationException;
 
 import java.util.Date;

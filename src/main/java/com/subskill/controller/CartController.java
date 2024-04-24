@@ -3,17 +3,12 @@ package com.subskill.controller;
 import com.subskill.dto.CartDto;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.service.CartService;
-import com.subskill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 
 @RestController

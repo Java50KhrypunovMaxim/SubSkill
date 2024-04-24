@@ -34,7 +34,6 @@ public class CartServiceImpl implements CartService {
             throw new MicroSkillNotFoundException();
         }
         User user = userService.getAuthenticatedUser();
-
         Optional<Cart> cart = cartRepository.findById(user.getCart().getId());
         Cart userCart = cart.orElseThrow(CartNotFoundException::new);
         if (userCart.getTotal() == null) {

@@ -6,13 +6,7 @@ import com.subskill.models.Review;
 import com.subskill.models.User;
 import com.subskill.repository.ReviewRepository;
 import com.subskill.repository.UserRepository;
-
-import static org.junit.Assert.assertEquals;
-
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest

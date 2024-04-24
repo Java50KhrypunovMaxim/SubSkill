@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +26,7 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
-    @Column(name = "username" )
+    @Column(name = "username")
     private String username;
 
     @Column(name = "job_title")
@@ -49,7 +48,6 @@ public class User {
     @Column(name = "token")
     private String token;
 
-
     @Column(name = "tokenCreationDate", columnDefinition = "TIMESTAMP")
     private LocalDateTime tokenCreationDate;
 
@@ -61,16 +59,9 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
-
-    @ManyToMany(mappedBy = "userInterest",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "userInterest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Interest> interests;
-    // TODO: Job title string
-    // TODO: UserProfileDto(username,title,email,interests)
-    // TODO: TEst
-    // TODO: Order based microskill entity
-    // TODO: update user based on optional fields
-    // TODO: fix get /api/v1/interest/all using responseEntity/dto
-    // TODO: Add post mapping for adding interests to user
+
 
     public static User of(UserDto userDto) {
         User user = new User();
@@ -83,7 +74,7 @@ public class User {
 
 
     public UserDto build() {
-        return new UserDto(username,jobTitle,  email,password, role);
+        return new UserDto(username, jobTitle, email, password, role);
     }
 }
 
