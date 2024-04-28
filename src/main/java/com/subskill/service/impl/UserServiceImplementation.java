@@ -80,11 +80,10 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public void deleteUser() {
         User authenticatedUser = getAuthenticatedUser();
-        userRepository.findById(authenticatedUser.getId()).ifPresent( user ->{
-            throw new UserNotFoundException();
-        });
-        userRepository.deleteById(authenticatedUser.getId());
-        log.debug("user with email {} has been deleted", authenticatedUser.getEmail());
+        User user = userRepository.findById(authenticatedUser.getId())
+                .orElseThrow(UserNotFoundException::new);
+        userRepository.delete(user);
+        log.debug("User with email {} has been deleted", authenticatedUser.getEmail());
     }
 
     @Transactional(readOnly = true)
