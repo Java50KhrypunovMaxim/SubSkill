@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,5 +40,6 @@ public class Article {
     public ArticleDto build() {
         return new ArticleDto(id,articleName, textOfArticle, microSkill);
     }
+
 
 }

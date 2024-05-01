@@ -35,13 +35,6 @@ public class SaveMicroSkillServiceImplementation implements SavedMicroskillServi
     @Transactional
     public SaveMicroSkillDto addMicroSkillToUser(long microskillId) {
       User user = userService.getAuthenticatedUser();
-//        boolean alreadySaved = saveMicroskillRepository.existsByUserAndMicroSkills(
-//                userRepository.findById(user.getId()).orElseThrow(NoUserInRepositoryException::new),
-//                microSkillRepository.findById(microskillId).orElseThrow(MicroSkillNotFoundException::new)
-//        );
-//        if (alreadySaved) {
-//            throw new MicroSkillAlreadySavedException();
-//        }
         MicroSkill microSkill = microSkillRepository.findById(microskillId)
                 .orElseThrow(MicroSkillNotFoundException::new);
         SaveMicroskill saveMicroskill = new SaveMicroskill();
