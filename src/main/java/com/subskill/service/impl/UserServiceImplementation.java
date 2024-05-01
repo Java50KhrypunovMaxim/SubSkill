@@ -6,6 +6,7 @@ import com.subskill.dto.UserDtoPassword;
 import com.subskill.exception.NoUserInRepositoryException;
 import com.subskill.exception.UserNotFoundException;
 import com.subskill.models.User;
+import com.subskill.repository.SaveMicroskillRepository;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.SendMailService;
 import com.subskill.service.UserService;
@@ -31,6 +32,7 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final SendMailService sendMailService;
+    private final SaveMicroskillRepository saveMicroskillRepository;
 
     @Override
     @Transactional
@@ -80,9 +82,12 @@ public class UserServiceImplementation implements UserService, ValidationConstan
     @Transactional
     public void deleteUser() {
         User authenticatedUser = getAuthenticatedUser();
+
         User user = userRepository.findById(authenticatedUser.getId())
                 .orElseThrow(UserNotFoundException::new);
+        saveMicroskillRepository.deleteById(user.getId());
         userRepository.delete(user);
+
         log.debug("User with email {} has been deleted", authenticatedUser.getEmail());
     }
 

@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -31,7 +32,6 @@ public class User {
 
     @Column(name = "job_title")
     private String jobTitle;
-
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
@@ -56,6 +56,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MicroSkill> microSkill;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<SaveMicroskill> savedMicroskills;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
