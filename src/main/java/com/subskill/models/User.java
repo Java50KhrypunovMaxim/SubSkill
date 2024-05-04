@@ -62,6 +62,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
+
     @ManyToMany(mappedBy = "userInterest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Interest> interests;
 
