@@ -5,6 +5,7 @@ import com.subskill.dto.AuthDto.LoginDto;
 import com.subskill.dto.AuthDto.RegisteredUserDto;
 import com.subskill.enums.Roles;
 import com.subskill.exception.NoUserInRepositoryException;
+import com.subskill.exception.UserExistingEmailException;
 import com.subskill.jwt.JwtTokenUtils;
 import com.subskill.models.Cart;
 import com.subskill.models.User;
@@ -47,7 +48,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponse register(RegisteredUserDto registeredUserDto) {
-
+        if (userRepository.findByEmail(registeredUserDto.email()).isPresent()) {
+            throw new UserExistingEmailException();
+        }
         var user = User.builder()
                 .username(registeredUserDto.username())
                 .email(registeredUserDto.email())
@@ -55,9 +58,9 @@ public class AuthServiceImpl implements AuthService {
                 .jobTitle(registeredUserDto.jobTitle())
                 .role(Roles.USER)
                 .build();
+        userRepository.save(user);
         Cart cart = new Cart();
         cart.setUser(user);
-        userRepository.save(user);
         cartRepository.save(cart);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(registeredUserDto.email(), registeredUserDto.password()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(registeredUserDto.email());
