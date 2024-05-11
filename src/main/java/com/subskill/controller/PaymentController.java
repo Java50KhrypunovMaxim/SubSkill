@@ -40,7 +40,7 @@ public class PaymentController {
         return orderedMicroSkillService.allOrderedMicroskill();
     }
 
-    @PostMapping("/{microskillId}")
+    @GetMapping("/{microskillId}")
     public MicroSkillDto singleBuy(@PathVariable long microskillId) {
         return orderedMicroSkillService.singleMicroSkillBuy(microskillId);
     }
