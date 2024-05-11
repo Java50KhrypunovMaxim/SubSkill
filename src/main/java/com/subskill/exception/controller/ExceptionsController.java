@@ -1,6 +1,7 @@
 package com.subskill.exception.controller;
 
 import com.subskill.exception.NotFoundException;
+import com.subskill.exception.UserExistingEmailException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -78,6 +79,10 @@ public class ExceptionsController {
 
 	@ExceptionHandler(DataAccessException.class)
 	ResponseEntity<String> dataAccessSystemExceptionHandler(DataAccessException e) {
+		return returnResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(UserExistingEmailException.class)
+	ResponseEntity<String> dataAccessSystemExceptionHandler(UserExistingEmailException e) {
 		return returnResponse(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
 }

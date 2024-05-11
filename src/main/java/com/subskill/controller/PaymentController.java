@@ -1,7 +1,8 @@
 package com.subskill.controller;
 
+import com.subskill.dto.MicroSkillDto;
 import com.subskill.models.MicroSkill;
-import com.subskill.models.User;
+
 import com.subskill.service.OrderedMicroSkillService;
 import com.subskill.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,8 @@ public class PaymentController {
         return orderedMicroSkillService.allOrderedMicroskill();
     }
 
-    @PostMapping("/pay")
-    void processPayment(@RequestBody User user, @RequestBody Set<MicroSkill> microskills) {
+    @PostMapping("/{microskillId}")
+    public MicroSkillDto singleBuy(@PathVariable long microskillId) {
+        return orderedMicroSkillService.singleMicroSkillBuy(microskillId);
     }
 }

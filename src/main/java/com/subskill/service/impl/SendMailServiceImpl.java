@@ -3,6 +3,10 @@ package com.subskill.service.impl;
 import com.subskill.models.User;
 import com.subskill.service.SendMailService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,10 +17,19 @@ import java.util.Locale;
 
 @Service
 @AllArgsConstructor
+
 public class SendMailServiceImpl implements SendMailService {
     private final JavaMailSender javaMailSender;
     private final MessageSource messageSource;
-     private final Environment env;
+
+    @Value("${spring.mail.username}")
+    private String mailAddress;
+
+    @Autowired
+    public SendMailServiceImpl(JavaMailSender javaMailSender, MessageSource messageSource) {
+        this.javaMailSender = javaMailSender;
+        this.messageSource = messageSource;
+    }
 
 
     @Override
@@ -46,13 +59,14 @@ public class SendMailServiceImpl implements SendMailService {
         constructEmail("Reset Password", message + " \r\n" + url, user);
     }
 
-    public SimpleMailMessage constructEmail(String subject, String body, User user) {
+     public void constructEmail(String subject, String body, User user) {
         final SimpleMailMessage email = new SimpleMailMessage();
+
         email.setSubject(subject);
         email.setText(body);
         email.setTo(user.getEmail());
-        email.setFrom(env.getProperty("support.email"));
-        return email;
+        email.setFrom(mailAddress);
+         javaMailSender.send(email);
     }
 
 }

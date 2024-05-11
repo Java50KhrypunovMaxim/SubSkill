@@ -38,7 +38,6 @@ import java.util.stream.Collectors;
 public class MicroSkillServiceImplementation implements MicroSkillService {
     private final MicroSkillRepository microSkillRepository;
     private final TechnologyRepository technologyRepository;
-    private final ModelMapper modelMapper;
     @Override
     @Transactional
     public MicroSkillDto addMicroSkill(MicroSkillDto microSkillDto) {

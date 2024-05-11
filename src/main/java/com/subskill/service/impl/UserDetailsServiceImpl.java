@@ -18,13 +18,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email)  {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
-
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

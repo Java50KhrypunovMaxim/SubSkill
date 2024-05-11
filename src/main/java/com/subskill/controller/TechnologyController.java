@@ -46,5 +46,4 @@ public class TechnologyController {
         log.debug("List of technologies by profession name {} have been received", name);
         return technologyService.getByProfessionName(name);
     }
-
 }

@@ -37,7 +37,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -62,6 +62,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
+
     @ManyToMany(mappedBy = "userInterest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Interest> interests;
 

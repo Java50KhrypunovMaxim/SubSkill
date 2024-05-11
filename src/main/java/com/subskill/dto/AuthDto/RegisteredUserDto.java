@@ -11,7 +11,6 @@ public record RegisteredUserDto (
         String username,
         String jobTitle,
         @NotNull(message = PASSWORD_NOT_FOUND) String password,
-        @NotEmpty(message= MISSING_PERSON_EMAIL)
         @Pattern(regexp = EMAIL_REGEXP, message= WRONG_EMAIL_FORMAT)
         String email
 
