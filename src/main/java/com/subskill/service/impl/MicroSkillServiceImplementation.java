@@ -275,4 +275,9 @@ public class MicroSkillServiceImplementation implements MicroSkillService {
 
         return new PageImpl<>(pagedMicroSkills, paging, microSkillDtoBestDayDeals.size());
     }
+
+    @Override
+    public MicroSkillDto singleMicroSkillBuy(long microskillId) {
+        return microSkillRepository.findById(microskillId).get().build();
+    }
 }

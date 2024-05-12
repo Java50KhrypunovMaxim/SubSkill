@@ -45,7 +45,10 @@ public class MicroSkillController {
         log.debug("delete microskill : microskill with id {}", id);
         microSkillService.deleteMicroSkill(id);
     }
-
+    @GetMapping("/{microskillId}")
+    public MicroSkillDto singleBuy(@PathVariable long microskillId) {
+        return microSkillService.singleMicroSkillBuy(microskillId);
+    }
     @Operation(summary = "Find number of views of MicroSkill card")
     @GetMapping("/{id}/views")
     long getMicroSkillViews(@PathVariable long id) {
