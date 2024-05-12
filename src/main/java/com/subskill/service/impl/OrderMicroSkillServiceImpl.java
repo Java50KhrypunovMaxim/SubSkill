@@ -3,9 +3,12 @@ package com.subskill.service.impl;
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.exception.MicroSkillNotFoundException;
 import com.subskill.models.MicroSkill;
+import com.subskill.models.MySavedMicroSkills;
 import com.subskill.models.OrderedMicroskill;
 import com.subskill.models.User;
 import com.subskill.repository.MicroSkillRepository;
+
+import com.subskill.repository.MySavedMicroSkillsRepository;
 import com.subskill.repository.OrderedMicroSkillRepository;
 import com.subskill.repository.UserRepository;
 import com.subskill.service.OrderedMicroSkillService;
@@ -16,10 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
@@ -28,6 +28,7 @@ public class OrderMicroSkillServiceImpl implements OrderedMicroSkillService {
 
     private final OrderedMicroSkillRepository orderedMicroSkillRepository;
     private final MicroSkillRepository microSkillRepository;
+    private final MySavedMicroSkillsRepository mySavedMicroSkillsRepository;
     private final UserService userService;
     private final UserRepository userRepository;
     private final SendMailService sendMailService;
@@ -40,6 +41,10 @@ public class OrderMicroSkillServiceImpl implements OrderedMicroSkillService {
         Set<MicroSkill> microSkillsFromCart = new HashSet<>(user.getCart().getSetOfMicroSkills());
         OrderedMicroskill orderedMicroskill = new OrderedMicroskill();
         orderedMicroskill.setSetOfMicroSkill(microSkillsFromCart);
+        MySavedMicroSkills mySavedMicroSkills = new MySavedMicroSkills();
+        mySavedMicroSkills.setMicroSkills(microSkillsFromCart);
+        mySavedMicroSkills.setUserId(user.getId());
+        mySavedMicroSkillsRepository.save(mySavedMicroSkills);
         orderedMicroSkillRepository.save(orderedMicroskill);
         user.getCart().getSetOfMicroSkills().clear();
         userRepository.save(user);
