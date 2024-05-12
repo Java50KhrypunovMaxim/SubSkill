@@ -48,4 +48,6 @@ public interface MicroSkillService {
     MicroSkillDto findMicroSkillById(long microskillId);
 
     Page<MicroSkillDto> getBestDealsByToday(Pageable paging);
+
+    MicroSkillDto singleMicroSkillBuy(long microskillId);
 }
