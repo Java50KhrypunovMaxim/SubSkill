@@ -62,7 +62,6 @@ public class MicroSkillController {
             @RequestParam(defaultValue = "4") int size,
             @RequestParam(defaultValue = "creationDate") String sortBy,
             @RequestParam(defaultValue = "desc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, sortBy);
 
@@ -75,7 +74,6 @@ public class MicroSkillController {
             @RequestParam(defaultValue = "4") int size,
             @RequestParam(defaultValue = "views") String sortBy,
             @RequestParam(defaultValue = "desc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, sortBy);
 
@@ -89,7 +87,6 @@ public class MicroSkillController {
             @RequestParam(defaultValue = "4") int size,
             @RequestParam(defaultValue = "popularity") String sortBy,
             @RequestParam(defaultValue = "desc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable paging = PageRequest.of(page, size, sortDirection, sortBy);
 
@@ -104,7 +101,6 @@ public class MicroSkillController {
             @RequestParam(defaultValue = "6") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, sortBy);
 
@@ -122,7 +118,6 @@ public class MicroSkillController {
                                                    @RequestParam(defaultValue = "5") int size,
                                                    @RequestParam String name,
                                                    @RequestParam(defaultValue = "asc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, "name");
         log.info("We get technology microskill: ");
@@ -135,7 +130,6 @@ public class MicroSkillController {
             @RequestParam(defaultValue = "4") int size,
             @RequestParam Double rating,
             @RequestParam(defaultValue = "asc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, "rating");
 
@@ -149,7 +143,6 @@ public class MicroSkillController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam String name,
             @RequestParam(defaultValue = "asc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, "name");
 
@@ -191,7 +184,6 @@ public class MicroSkillController {
                                                      @RequestParam(defaultValue = "0") int page,
                                                      @RequestParam(defaultValue = "5") int size,
                                                      @RequestParam(defaultValue = "asc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, "level");
         log.debug("finding level {} of MicroSkill", level);
@@ -204,7 +196,6 @@ public class MicroSkillController {
                                                    @RequestParam(defaultValue = "0") int page,
                                                    @RequestParam(defaultValue = "5") int size,
                                                    @RequestParam(defaultValue = "asc") String direction) {
-
         Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable paging = PageRequest.of(page, size, sortDirection, "tags");
         log.debug("finding tags {} of MicroSkill", tags);
@@ -215,7 +206,6 @@ public class MicroSkillController {
     @GetMapping("/get-today-deals")
     public Page<MicroSkillDto> getTodayBestDeals(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "5") int size) {
-
         Pageable paging = PageRequest.of(page, size );
         return microSkillService.getBestDealsByToday(paging);
     }
