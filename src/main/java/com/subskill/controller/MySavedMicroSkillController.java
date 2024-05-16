@@ -1,7 +1,7 @@
 package com.subskill.controller;
 
 
-import com.subskill.models.MySavedMicroSkills;
+import com.subskill.dto.MicroSkillDto;
 import com.subskill.service.MySavedMicroSkillsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/mySavedMicroSkill")
@@ -26,8 +26,8 @@ public class MySavedMicroSkillController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("/all")
-    public ResponseEntity<List<MySavedMicroSkills>> findAll() {
-        List<MySavedMicroSkills> savedMicroSkills = mySavedMicroSkillsService.getAllSavedMicroSkills();
-        return ResponseEntity.ok(savedMicroSkills);
+    public ResponseEntity<Set<MicroSkillDto>> findAll() {
+        Set<MicroSkillDto> saveMicroskills = mySavedMicroSkillsService.allSavedMicroSkillsOfUser();
+        return ResponseEntity.ok(saveMicroskills);
     }
 }

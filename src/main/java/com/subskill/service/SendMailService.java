@@ -1,7 +1,6 @@
 package com.subskill.service;
 
 import com.subskill.models.User;
-import org.springframework.mail.SimpleMailMessage;
 
 public interface SendMailService {
     String send(String mail);

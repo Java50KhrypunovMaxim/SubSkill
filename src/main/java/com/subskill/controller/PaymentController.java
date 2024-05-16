@@ -2,7 +2,6 @@ package com.subskill.controller;
 
 import com.subskill.dto.MicroSkillDto;
 import com.subskill.models.MicroSkill;
-
 import com.subskill.service.OrderedMicroSkillService;
 import com.subskill.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,7 @@ import java.util.Set;
 @Validated
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class PaymentController {
-
     private final PaymentService paymentService;
-
     private final OrderedMicroSkillService orderedMicroSkillService;
 
     @GetMapping("/total")
