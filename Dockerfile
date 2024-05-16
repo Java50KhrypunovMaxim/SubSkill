@@ -8,4 +8,4 @@ COPY /src/main/resources/application.properties /usr/app/
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar", "--spring.config.location=file:/usr/app/application.properties"]
+ENTRYPOINT ["java","-jar","app.jar"]

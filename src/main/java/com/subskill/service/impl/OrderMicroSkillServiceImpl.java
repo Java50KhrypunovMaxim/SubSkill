@@ -7,7 +7,6 @@ import com.subskill.models.MySavedMicroSkills;
 import com.subskill.models.OrderedMicroskill;
 import com.subskill.models.User;
 import com.subskill.repository.MicroSkillRepository;
-
 import com.subskill.repository.MySavedMicroSkillsRepository;
 import com.subskill.repository.OrderedMicroSkillRepository;
 import com.subskill.repository.UserRepository;
@@ -19,7 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -43,7 +45,7 @@ public class OrderMicroSkillServiceImpl implements OrderedMicroSkillService {
         orderedMicroskill.setSetOfMicroSkill(microSkillsFromCart);
         MySavedMicroSkills mySavedMicroSkills = new MySavedMicroSkills();
         mySavedMicroSkills.setMicroSkills(microSkillsFromCart);
-        mySavedMicroSkills.setUserId(user.getId());
+        mySavedMicroSkills.setUser(user);
         mySavedMicroSkillsRepository.save(mySavedMicroSkills);
         orderedMicroSkillRepository.save(orderedMicroskill);
         user.getCart().getSetOfMicroSkills().clear();

@@ -25,6 +25,9 @@ public class MySavedMicroSkills {
     )
     private Set<MicroSkill> microSkills;
 
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
 }

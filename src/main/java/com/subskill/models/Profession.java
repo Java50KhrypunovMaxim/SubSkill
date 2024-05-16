@@ -1,6 +1,7 @@
 package com.subskill.models;
 
 import com.subskill.dto.ProfessionDto;
+import com.subskill.enums.Tags;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +21,8 @@ public class Profession {
     @Column(name = "profession_id")
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Tags name;
 
     @ManyToMany
     @JoinTable(

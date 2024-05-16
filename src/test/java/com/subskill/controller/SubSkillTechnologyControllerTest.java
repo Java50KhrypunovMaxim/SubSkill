@@ -1,18 +1,14 @@
 package com.subskill.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.subskill.config.ObjectMapperConfig;
 import com.subskill.dto.TechnologyDto;
-import com.subskill.enums.Level;
-import com.subskill.models.MicroSkill;
 import com.subskill.models.Profession;
+import com.subskill.models.Technology;
+import com.subskill.repository.MicroSkillRepository;
+import com.subskill.repository.TechnologyRepository;
+import com.subskill.service.MicroSkillService;
+import com.subskill.service.TechnologyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
@@ -24,12 +20,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.subskill.models.Technology;
-import com.subskill.repository.MicroSkillRepository;
-import com.subskill.repository.TechnologyRepository;
-import com.subskill.service.MicroSkillService;
-import com.subskill.service.TechnologyService;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)

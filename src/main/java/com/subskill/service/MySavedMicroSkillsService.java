@@ -1,11 +1,11 @@
 package com.subskill.service;
 
-import com.subskill.models.MySavedMicroSkills;
+import com.subskill.dto.MicroSkillDto;
 
-import java.util.List;
+import java.util.Set;
 
 public interface MySavedMicroSkillsService {
     void addMicroSkill(long microskillId);
 
-    List<MySavedMicroSkills> getAllSavedMicroSkills();
+    Set<MicroSkillDto> allSavedMicroSkillsOfUser();
 }

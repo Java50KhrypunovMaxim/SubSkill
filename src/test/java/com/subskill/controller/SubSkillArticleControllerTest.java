@@ -4,10 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.subskill.config.ObjectMapperConfig;
 import com.subskill.dto.ArticleDto;
-import com.subskill.dto.MicroSkillDto;
-import com.subskill.enums.Level;
-import com.subskill.enums.Tags;
-import com.subskill.models.Technology;
 import com.subskill.service.ArticleService;
 import com.subskill.service.MicroSkillService;
 import org.junit.jupiter.api.Test;
@@ -20,16 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

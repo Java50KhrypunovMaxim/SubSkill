@@ -3,15 +3,9 @@ package com.subskill.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.subskill.config.ObjectMapperConfig;
 import com.subskill.dto.AuthDto.LoginDto;
-import com.subskill.dto.ReviewDto;
-import com.subskill.dto.UserDto;
 import com.subskill.enums.Level;
-import com.subskill.enums.Roles;
-import com.subskill.enums.Status;
 import com.subskill.enums.Tags;
 import com.subskill.models.MicroSkill;
-import com.subskill.models.Review;
-import com.subskill.models.User;
 import com.subskill.service.ReviewService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,15 +25,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")

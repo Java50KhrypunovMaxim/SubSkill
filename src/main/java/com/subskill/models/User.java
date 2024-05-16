@@ -1,5 +1,6 @@
 package com.subskill.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.subskill.dto.UserDto;
 import com.subskill.enums.Roles;
@@ -62,6 +63,10 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<MySavedMicroSkills> mySavedMicroSkills;
 
     @ManyToMany(mappedBy = "userInterest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Interest> interests;
