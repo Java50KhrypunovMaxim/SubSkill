@@ -29,8 +29,6 @@ public class UsersController {
     private final UserService userService;
 
 
-
-
     @Operation(summary = "Update our User")
     @PutMapping("/update")
     UserDto updateUser(@RequestBody UserDto userDto) {

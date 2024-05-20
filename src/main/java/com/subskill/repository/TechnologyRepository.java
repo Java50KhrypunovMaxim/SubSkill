@@ -1,5 +1,6 @@
 package com.subskill.repository;
 
+import com.subskill.enums.Tags;
 import com.subskill.models.Technology;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,5 @@ public interface TechnologyRepository extends JpaRepository<Technology, Long> {
 
     Optional<Technology> findByName(String name);
 
-    List <Technology> findByProfessionName(String name);
+    List <Technology> findByProfessionName(Tags name);
 }

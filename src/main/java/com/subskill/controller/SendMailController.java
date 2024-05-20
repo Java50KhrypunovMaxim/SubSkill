@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(maxAge = 3600, origins = "*")
 @RestController
-@RequestMapping("api/v1/mail/")
+@RequestMapping("api/v1/mail")
 @Slf4j
 @AllArgsConstructor
 public class SendMailController {

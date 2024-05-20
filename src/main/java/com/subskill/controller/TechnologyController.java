@@ -1,6 +1,7 @@
 package com.subskill.controller;
 
 import com.subskill.dto.TechnologyDto;
+import com.subskill.enums.Tags;
 import com.subskill.models.Technology;
 import com.subskill.service.TechnologyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,7 @@ public class TechnologyController {
     }
 
     @GetMapping("/profession/{name}")
-    List<TechnologyDto> getByProfessionName(@PathVariable String name) {
+    List<TechnologyDto> getByProfessionName(@PathVariable Tags name) {
         log.debug("List of technologies by profession name {} have been received", name);
         return technologyService.getByProfessionName(name);
     }

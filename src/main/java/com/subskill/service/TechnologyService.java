@@ -1,6 +1,7 @@
 package com.subskill.service;
 
 import com.subskill.dto.TechnologyDto;
+import com.subskill.enums.Tags;
 import com.subskill.models.Technology;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface TechnologyService {
 
     Technology getByID(long technology_id);
 
-    List<TechnologyDto> getByProfessionName(String name);
+    List<TechnologyDto> getByProfessionName(Tags name);
 }

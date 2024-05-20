@@ -14,7 +14,6 @@ import java.util.Locale;
 
 @Service
 @AllArgsConstructor
-
 public class SendMailServiceImpl implements SendMailService {
     private final JavaMailSender javaMailSender;
     private final MessageSource messageSource;
@@ -58,7 +57,6 @@ public class SendMailServiceImpl implements SendMailService {
 
      public void constructEmail(String subject, String body, User user) {
         final SimpleMailMessage email = new SimpleMailMessage();
-
         email.setSubject(subject);
         email.setText(body);
         email.setTo(user.getEmail());
