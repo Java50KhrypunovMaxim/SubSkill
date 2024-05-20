@@ -1,6 +1,7 @@
 package com.subskill.service.impl;
 
 import com.subskill.dto.TechnologyDto;
+import com.subskill.enums.Tags;
 import com.subskill.exception.TechnologyNotFoundException;
 import com.subskill.models.Technology;
 import com.subskill.repository.TechnologyRepository;
@@ -44,7 +45,7 @@ public class TechnologyServiceImplementation implements TechnologyService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<TechnologyDto> getByProfessionName(String name) {
+    public List<TechnologyDto> getByProfessionName(Tags name) {
         List<Technology> technology = technologyRepository.findByProfessionName(name);
         log.debug("All technology {} for profession", name);
         return technology.stream().map(Technology::build)
